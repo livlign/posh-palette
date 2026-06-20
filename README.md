@@ -168,8 +168,8 @@ engine; one-command-per-layer tweaks (`Set-PoshPaletteScheme` / `Colors` / `Prom
 per-layer composer (incl. opacity / acrylic / font size), both with live preview;
 comment-preserving JSONC writer; palette-aware generated prompts; scheme importer
 (iTerm2 / base16 / Windows Terminal); GitHub catalog fetch; `Test-PoshPaletteSetup`
-doctor; `Install-PoshPaletteFont`; and Gallery publish tooling (`publish.ps1` +
-tag-triggered CI).
+doctor; `Install-PoshPaletteFont`; Gallery publish tooling (`publish.ps1` +
+tag-triggered CI); and **published to the PowerShell Gallery** (`Install-Module
+PoshPalette`).
 
-**Next:** the first Gallery release (`Install-Module PoshPalette`); expand the prompt
-template library; grow the community catalog.
+**Next:** expand the prompt template library; grow the community catalog.
