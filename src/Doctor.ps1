@@ -101,17 +101,23 @@ function Test-PoshPaletteSetup {
     }
 
     if (-not $Quiet) {
-        Write-Host "`n  PoshPalette doctor" -ForegroundColor Cyan
-        Write-Host "  ------------------" -ForegroundColor DarkGray
+        $nameW = (@($checks | ForEach-Object { $_.Name.Length }) + 4 | Measure-Object -Maximum).Maximum
+        Write-Host "`n  Doctor" -ForegroundColor White
+        Write-Host ('  ' + ([string][char]0x2500 * ($nameW + 22))) -ForegroundColor DarkGray
         foreach ($c in $checks) {
             $glyph, $color = switch ($c.Status) {
-                'Ok'   { '[ok]  ', 'Green' }
-                'Warn' { '[warn]', 'Yellow' }
-                'Fail' { '[fail]', 'Red' }
+                'Ok'   { [char]0x2713, 'Green' }   # check
+                'Warn' { '!',          'Yellow' }
+                'Fail' { [char]0x2717, 'Red' }     # cross
             }
-            Write-Host "  $glyph " -ForegroundColor $color -NoNewline
-            Write-Host ("{0,-28} {1}" -f $c.Name, $c.Detail)
-            if ($c.Fix -and $c.Status -ne 'Ok') { Write-Host "         -> $($c.Fix)" -ForegroundColor DarkGray }
+            $word = switch ($c.Status) { 'Ok' { 'ok' } 'Warn' { 'warn' } 'Fail' { 'fail' } }
+            Write-Host ('  ' + $c.Name.PadRight($nameW) + '  ') -NoNewline
+            Write-Host "$glyph " -ForegroundColor $color -NoNewline
+            Write-Host ($word.PadRight(5) + ' ') -ForegroundColor $color -NoNewline
+            Write-Host $c.Detail -ForegroundColor DarkGray
+            if ($c.Fix -and $c.Status -ne 'Ok') {
+                Write-Host ('  ' + (' ' * $nameW) + '    ↳ ' + $c.Fix) -ForegroundColor DarkGray
+            }
         }
         $fail = @($checks | Where-Object Status -eq 'Fail').Count
         $warn = @($checks | Where-Object Status -eq 'Warn').Count

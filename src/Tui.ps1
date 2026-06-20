@@ -10,6 +10,31 @@ function Write-Fg { param([string]$Hex, [string]$Text)
     "$e[38;2;$r;$g;${b}m$Text$e[0m"
 }
 
+# --- shared UI primitives (refined-flat style) --------------------------------
+
+# A dim horizontal rule under section titles.
+function Write-PPRule { param([int] $Width = 54) Write-Host ('  ' + ([string][char]0x2500 * $Width)) -ForegroundColor DarkGray }
+
+# A dim footer of key hints, separated by middots.
+function Write-PPFooter { param([string[]] $Hints) Write-Host ''; Write-Host ('  ' + ($Hints -join '   ·   ')) -ForegroundColor DarkGray }
+
+# Longest .Length among strings, for programmatic column sizing.
+function Get-PPMaxLen { param([string[]] $Strings) (@($Strings | ForEach-Object { ([string]$_).Length }) + 0 | Measure-Object -Maximum).Maximum }
+
+# One selectable row. The selected row gets an inverse-video pill; the leading
+# marker area is a fixed 3 cells (" ❯ " when selected, "   " when not) so the
+# text starts at the same column in both states.
+function Write-PPRow {
+    param([bool] $Selected, [string] $Text, [int] $Width)
+    $pad = ([string]$Text).PadRight($Width)
+    if ($Selected) {
+        Write-Host '  ' -NoNewline
+        Write-Host (" ❯ $pad ") -ForegroundColor Black -BackgroundColor Gray
+    } else {
+        Write-Host ("     $pad ") -ForegroundColor DarkGray
+    }
+}
+
 # Merge a working composition (hashtable) with optional slot overrides and
 # return it as a PSCustomObject ready for Resolve-PoshPaletteTheme.
 function ConvertTo-PPComposition {
@@ -24,7 +49,7 @@ function ConvertTo-PPComposition {
 # block of the theme's BACKGROUND color so the whole thing recolors as you scroll
 # (a foreground-only preview looked static on the host terminal's dark bg).
 function Show-PoshPalettePreview {
-    param($Theme, [int] $Left = 42, [int] $Top = 2)
+    param($Theme, [int] $Left = 42, [int] $Top = 4)
     $sc = $Theme.terminal.scheme
     $pr = $Theme.psReadLine
     $ps = $Theme.psStyle
@@ -66,30 +91,33 @@ function Show-PoshPalettePreview {
 }
 
 # Generic scrollable picker. Items need a .Name; returns the chosen item or $null.
+# A navigable "Back" row sits below the items (Esc is still the shortcut).
 function Show-PoshPaletteList {
     param([string] $Title, [array] $Items, [scriptblock] $PreviewFor)
 
-    $idx = 0
+    $idx   = 0
+    $total = $Items.Count + 1   # +1 for the Back row
+    $width = [Math]::Max((Get-PPMaxLen (@($Items | ForEach-Object { $_.Name }) + '← Back')), 12)
     [Console]::CursorVisible = $false
     try {
         while ($true) {
             Clear-Host
             Write-Host ""
-            Write-Host "  $Title" -ForegroundColor Cyan
-            Write-Host "  ↑/↓ move   Enter select   Esc back" -ForegroundColor DarkGray
+            Write-Host "  $Title" -ForegroundColor White
+            Write-PPRule
             Write-Host ""
             for ($i = 0; $i -lt $Items.Count; $i++) {
-                $marker = if ($i -eq $idx) { '❯' } else { ' ' }
-                $color  = if ($i -eq $idx) { 'White' } else { 'DarkGray' }
-                Write-Host ("  $marker $($Items[$i].Name)") -ForegroundColor $color
+                Write-PPRow ($i -eq $idx) $Items[$i].Name $width
             }
-            if ($PreviewFor) { & $PreviewFor $Items[$idx] }
+            Write-PPRow ($idx -eq $Items.Count) '← Back' $width
+            Write-PPFooter @('↑/↓ move', 'Enter select', 'Esc back')
+            if ($PreviewFor -and $idx -lt $Items.Count) { & $PreviewFor $Items[$idx] }
 
             $key = [Console]::ReadKey($true)
             switch ($key.Key) {
-                'UpArrow'   { $idx = ($idx - 1 + $Items.Count) % $Items.Count }
-                'DownArrow' { $idx = ($idx + 1) % $Items.Count }
-                'Enter'     { return $Items[$idx] }
+                'UpArrow'   { $idx = ($idx - 1 + $total) % $total }
+                'DownArrow' { $idx = ($idx + 1) % $total }
+                'Enter'     { if ($idx -eq $Items.Count) { return $null } else { return $Items[$idx] } }
                 'Escape'    { return $null }
             }
         }
@@ -98,12 +126,37 @@ function Show-PoshPaletteList {
 
 # --- Simple mode: pick a full preset ------------------------------------------
 
+# Shown after a theme is applied: confirms what happened and what to do next.
+# Returns 'quit' if the user chose to quit, otherwise $null (back to menu).
+function Show-PoshPaletteApplied {
+    param($Theme)
+    Write-Host ""
+    Write-Host "  ✓ Applied '$($Theme.name)'" -ForegroundColor Green
+    Write-Host ""
+    Write-Host "  Next steps" -ForegroundColor Cyan
+    Write-Host "    • Terminal colors update instantly in this window." -ForegroundColor Gray
+    Write-Host "    • Open a NEW tab or window to load the prompt + input colors." -ForegroundColor Gray
+    Write-Host "    • Tweak one layer later, e.g.  Set-PoshPalettePrompt <name>" -ForegroundColor Gray
+    Write-Host ""
+    Write-Host "  [Enter] back to menu     [Q] quit" -ForegroundColor DarkGray
+    while ($true) {
+        $k = [Console]::ReadKey($true)
+        if ($k.Key -eq 'Enter' -or $k.Key -eq 'Escape') { return $null }
+        if ([string]$k.KeyChar -in 'q', 'Q')            { return 'quit' }
+    }
+}
+
 function Invoke-PoshPaletteSimpleMode {
     $themes = Get-PoshPaletteThemes
     $chosen = Show-PoshPaletteList -Title 'Simple mode - pick a theme' -Items $themes -PreviewFor {
         param($t) Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme $t.Data)
     }
-    if ($chosen) { Clear-Host; Set-PoshPaletteTheme -Theme (Resolve-PoshPaletteTheme $chosen.Data) }
+    if ($chosen) {
+        Clear-Host
+        $t = Resolve-PoshPaletteTheme $chosen.Data
+        Set-PoshPaletteTheme -Theme $t
+        return (Show-PoshPaletteApplied $t)
+    }
 }
 
 # Adjust a numeric value with the arrow keys. Returns the new value, or $null on Esc.
@@ -129,6 +182,22 @@ function Invoke-PoshPaletteAdjust {
 
 # --- Detail mode: compose each layer independently ----------------------------
 
+# Build a live preview callback for a list picker that swaps one slot of the
+# working composition. We use a plain (non-closure) scriptblock bound to the
+# module session state plus $script: capture vars, because .GetNewClosure()
+# rebinds the block to a fresh dynamic module that can't see module functions
+# like ConvertTo-PPComposition / Resolve-PoshPaletteTheme.
+$script:PPPreviewComp = $null
+$script:PPPreviewSlot = $null
+function New-PoshPalettePreviewFor {
+    param([hashtable] $Comp, [string] $Slot)
+    $script:PPPreviewComp = $Comp
+    $script:PPPreviewSlot = $Slot
+    { param($it)
+        Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $script:PPPreviewComp @{ $script:PPPreviewSlot = $it.Id }))
+    }
+}
+
 function Invoke-PoshPaletteDetailMode {
     $presets = Get-PoshPaletteThemes
     if (-not $presets) { return }
@@ -146,59 +215,99 @@ function Invoke-PoshPaletteDetailMode {
         acrylic  = [bool]($base.acrylic ?? $false)
     }
 
+    # Menu rows: 7 editable fields + Apply + Back. Arrows OR number/letter keys.
+    $rows = @('scheme', 'palette', 'prompt', 'font', 'opacity', 'acrylic', 'fontsize', 'apply', 'back')
+    $idx  = 0
+
+    $invoke = {
+        param([string] $id)
+        switch ($id) {
+            'scheme' {
+                $p = Show-PoshPaletteList -Title 'Color scheme' -Items (Get-PoshPaletteCatalog schemes) -PreviewFor (New-PoshPalettePreviewFor $comp 'scheme')
+                if ($p) { $comp.scheme = $p.Id }
+            }
+            'palette' {
+                $p = Show-PoshPaletteList -Title 'Shell colors (PSReadLine + output)' -Items (Get-PoshPaletteCatalog palettes) -PreviewFor (New-PoshPalettePreviewFor $comp 'palette')
+                if ($p) { $comp.palette = $p.Id }
+            }
+            'prompt' {
+                $p = Show-PoshPaletteList -Title 'Prompt (oh-my-posh)' -Items (Get-PoshPaletteCatalog prompts) -PreviewFor (New-PoshPalettePreviewFor $comp 'prompt')
+                if ($p) { $comp.prompt = $p.Id }
+            }
+            'font' {
+                # Font can't be shown in the ANSI preview; pick from the list.
+                $p = Show-PoshPaletteList -Title 'Font (must be installed)' -Items (Get-PoshPaletteFonts)
+                if ($p) { $comp.font = $p.id }
+            }
+            'opacity' {
+                $v = Invoke-PoshPaletteAdjust 'Opacity' ([int]$comp.opacity) 30 100 5 '%'
+                if ($null -ne $v) { $comp.opacity = $v }
+            }
+            'acrylic'  { $comp.acrylic = -not [bool]$comp.acrylic }
+            'fontsize' {
+                $v = Invoke-PoshPaletteAdjust 'Font size' ([int]$comp.fontSize) 8 24 1
+                if ($null -ne $v) { $comp.fontSize = $v }
+            }
+            'apply' {
+                Clear-Host
+                $t = Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp)
+                Set-PoshPaletteTheme -Theme $t
+                return (Show-PoshPaletteApplied $t)   # 'quit' or $null
+            }
+        }
+        return ''
+    }
+
     [Console]::CursorVisible = $false
     try {
         while ($true) {
             Clear-Host
-            Write-Host "`n  Detail mode - compose your look" -ForegroundColor Cyan
-            Write-Host "  1-7 edit   A apply   Esc back`n" -ForegroundColor DarkGray
-            Write-Host "  [1] Scheme       : $($comp.scheme)"
-            Write-Host "  [2] Shell colors : $($comp.palette)"
-            Write-Host "  [3] Prompt       : $($comp.prompt)"
-            Write-Host "  [4] Font         : $($comp.font)"
-            Write-Host "  [5] Opacity      : $($comp.opacity)%"
-            Write-Host "  [6] Acrylic      : $(if ($comp.acrylic) { 'on' } else { 'off' })"
-            Write-Host "  [7] Font size    : $($comp.fontSize)"
-            Write-Host "`n  [A] Apply   [Esc] Back" -ForegroundColor DarkGray
-            Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp))
+            Write-Host ""
+            Write-Host "  Detail mode - compose your look" -ForegroundColor White
+            Write-PPRule
+            Write-Host ""
+            $tr = { param($s) $v = [string]$s; if ($v.Length -gt 16) { $v.Substring(0, 15) + '…' } else { $v } }
+            $labels = @(
+                "[1] Scheme       : $(& $tr $comp.scheme)"
+                "[2] Shell colors : $(& $tr $comp.palette)"
+                "[3] Prompt       : $(& $tr $comp.prompt)"
+                "[4] Font         : $(& $tr $comp.font)"
+                "[5] Opacity      : $($comp.opacity)%"
+                "[6] Acrylic      : $(if ($comp.acrylic) { 'on' } else { 'off' })"
+                "[7] Font size    : $($comp.fontSize)"
+                "[A] Apply"
+                "[Esc] ← Back"
+            )
+            $lw = Get-PPMaxLen $labels
+            for ($i = 0; $i -lt $labels.Count; $i++) {
+                Write-PPRow ($i -eq $idx) $labels[$i] $lw
+            }
+            Write-PPFooter @('↑/↓ move', 'Enter edit', 'A apply', 'Esc back')
+            # live preview as the right column, top-aligned with the field rows
+            Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp)) -Left ($lw + 9) -Top 4
 
             $key = [Console]::ReadKey($true)
             if ($key.Key -eq 'Escape') { return }
+            $target = $null
+            switch ($key.Key) {
+                'UpArrow'   { $idx = ($idx - 1 + $rows.Count) % $rows.Count }
+                'DownArrow' { $idx = ($idx + 1) % $rows.Count }
+                'Enter'     { $target = $rows[$idx] }
+            }
             switch ($key.KeyChar) {
-                '1' {
-                    $pf = { param($it) Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp @{ scheme = $it.Id })) }.GetNewClosure()
-                    $p = Show-PoshPaletteList -Title 'Color scheme' -Items (Get-PoshPaletteCatalog schemes) -PreviewFor $pf
-                    if ($p) { $comp.scheme = $p.Id }
-                }
-                '2' {
-                    $pf = { param($it) Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp @{ palette = $it.Id })) }.GetNewClosure()
-                    $p = Show-PoshPaletteList -Title 'Shell colors (PSReadLine + output)' -Items (Get-PoshPaletteCatalog palettes) -PreviewFor $pf
-                    if ($p) { $comp.palette = $p.Id }
-                }
-                '3' {
-                    $pf = { param($it) Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp @{ prompt = $it.Id })) }.GetNewClosure()
-                    $p = Show-PoshPaletteList -Title 'Prompt (oh-my-posh)' -Items (Get-PoshPaletteCatalog prompts) -PreviewFor $pf
-                    if ($p) { $comp.prompt = $p.Id }
-                }
-                '4' {
-                    # Font can't be shown in the ANSI preview; pick from the list.
-                    $p = Show-PoshPaletteList -Title 'Font (must be installed)' -Items (Get-PoshPaletteFonts)
-                    if ($p) { $comp.font = $p.id }
-                }
-                '5' {
-                    $v = Invoke-PoshPaletteAdjust 'Opacity' ([int]$comp.opacity) 30 100 5 '%'
-                    if ($null -ne $v) { $comp.opacity = $v }
-                }
-                '6' { $comp.acrylic = -not [bool]$comp.acrylic }
-                '7' {
-                    $v = Invoke-PoshPaletteAdjust 'Font size' ([int]$comp.fontSize) 8 24 1
-                    if ($null -ne $v) { $comp.fontSize = $v }
-                }
-                { $_ -in 'a', 'A' } {
-                    Clear-Host
-                    Set-PoshPaletteTheme -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp))
-                    return
-                }
+                '1' { $target = 'scheme'; $idx = 0 }
+                '2' { $target = 'palette'; $idx = 1 }
+                '3' { $target = 'prompt'; $idx = 2 }
+                '4' { $target = 'font'; $idx = 3 }
+                '5' { $target = 'opacity'; $idx = 4 }
+                '6' { $target = 'acrylic'; $idx = 5 }
+                '7' { $target = 'fontsize'; $idx = 6 }
+                { $_ -in 'a', 'A' } { $target = 'apply'; $idx = 7 }
+            }
+            if ($target -eq 'back') { return }
+            if ($target) {
+                $r = & $invoke $target
+                if ($target -eq 'apply') { return $r }   # 'quit' bubbles to Start
             }
         }
     } finally { [Console]::CursorVisible = $true }
@@ -210,41 +319,42 @@ function Start-PoshPalette {
     [CmdletBinding()]
     param()
     $items = @(
-        @{ Label = 'Simple mode   scroll a list of full themes, pick one';        Run = { Invoke-PoshPaletteSimpleMode } }
-        @{ Label = 'Detail mode   compose each layer (scheme/colors/prompt/font)'; Run = { Invoke-PoshPaletteDetailMode } }
-        @{ Label = 'Doctor        check your setup (fonts, oh-my-posh, terminal)'; Run = { Clear-Host; Test-PoshPaletteSetup | Out-Null; Write-Host "`n  Press any key to return..." -ForegroundColor DarkGray; [Console]::ReadKey($true) | Out-Null } }
+        @{ Key = '1'; Title = 'Simple mode'; Desc = 'Pick a full theme from a scrollable list';   Run = { Invoke-PoshPaletteSimpleMode } }
+        @{ Key = '2'; Title = 'Detail mode'; Desc = 'Compose scheme, colors, prompt, font';        Run = { Invoke-PoshPaletteDetailMode } }
+        @{ Key = '3'; Title = 'Doctor';      Desc = 'Check fonts, oh-my-posh, terminal';           Run = { Clear-Host; Test-PoshPaletteSetup | Out-Null; Write-Host "`n  [Enter] back to menu" -ForegroundColor DarkGray; [Console]::ReadKey($true) | Out-Null } }
+        @{ Key = 'Q'; Title = 'Quit';        Desc = 'Exit Posh Palette';                           Run = { 'quit' } }
     )
+    $titleW = Get-PPMaxLen ($items | ForEach-Object { $_.Title })
+    $texts  = $items | ForEach-Object { "[$($_.Key)] " + $_.Title.PadRight($titleW) + '   ' + $_.Desc }
+    $rowW   = Get-PPMaxLen $texts
     $idx = 0
     [Console]::CursorVisible = $false
     try {
         while ($true) {
             Clear-Host
             Write-Host ""
-            Write-Host "  ██ Posh Palette" -ForegroundColor Magenta
-            Write-Host "  Style your PowerShell + Windows Terminal across all 4 layers." -ForegroundColor DarkGray
-            Write-Host "  ↑/↓ move   Enter select   Q quit`n" -ForegroundColor DarkGray
-            for ($i = 0; $i -lt $items.Count; $i++) {
-                $marker = if ($i -eq $idx) { '❯' } else { ' ' }
-                $color  = if ($i -eq $idx) { 'White' } else { 'DarkGray' }
-                Write-Host ("  $marker [$($i + 1)] $($items[$i].Label)") -ForegroundColor $color
-            }
+            Write-Host "  >_  " -ForegroundColor White -NoNewline
+            Write-Host "Posh Palette" -ForegroundColor White
+            Write-PPRule
+            Write-Host "  Style all 4 layers: scheme · PSReadLine · `$PSStyle · prompt" -ForegroundColor DarkGray
             Write-Host ""
+            for ($i = 0; $i -lt $items.Count; $i++) {
+                Write-PPRow ($i -eq $idx) $texts[$i] $rowW
+            }
+            Write-PPFooter @('↑/↓ move', 'Enter select', 'Q quit')
 
             $key = [Console]::ReadKey($true)
             # arrow navigation
             switch ($key.Key) {
                 'UpArrow'   { $idx = ($idx - 1 + $items.Count) % $items.Count }
                 'DownArrow' { $idx = ($idx + 1) % $items.Count }
-                'Enter'     { & $items[$idx].Run }
+                'Enter'     { if ((& $items[$idx].Run) -eq 'quit') { return } }
                 'Escape'    { return }
             }
-            # number shortcuts + quit (arrow keys have KeyChar 0, so no double-fire)
-            switch ($key.KeyChar) {
-                '1' { & $items[0].Run }
-                '2' { & $items[1].Run }
-                '3' { & $items[2].Run }
-                { $_ -in 'q', 'Q' } { return }
-            }
+            # number/letter shortcuts (arrow keys have KeyChar 0, so no double-fire)
+            $ch  = ([string]$key.KeyChar).ToUpper()
+            $hit = $items | Where-Object { $_.Key -eq $ch } | Select-Object -First 1
+            if ($hit) { if ((& $hit.Run) -eq 'quit') { return } }
         }
     } finally { [Console]::CursorVisible = $true }
 }

@@ -3,6 +3,33 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.2]
+
+### Added
+- **Navigable Back / Quit entries.** Every list and Detail mode now has a `← Back`
+  row, and the main menu has a `Quit` row, so you can move to them with the arrow
+  keys instead of needing to know the Esc/Q shortcut (the shortcuts still work).
+- **Post-apply confirmation screen.** After a theme applies you now get a clear
+  "✓ Applied" panel with next steps (open a new tab, tweak a layer) and a CTA to
+  return to the menu or quit, instead of being dropped back at a bare prompt.
+
+### Changed
+- **Refined-flat TUI styling.** Programmatic column alignment, a dim divider rule
+  under each title, an inverse-highlight on the selected row, a two-column Detail
+  mode (fields left, live preview right), and an aligned Doctor table. The main
+  menu shows the `>_` brand mark instead of an unrelated pink block.
+
+### Fixed
+- **Detail mode no longer errors when you pick a layer.** Choosing a scheme,
+  shell colors, or prompt threw `ConvertTo-PPComposition is not recognized`,
+  because the live-preview callback was built with `.GetNewClosure()`, which
+  rebinds the block to a throwaway module that can't see the module's own
+  functions. The preview now uses a module-bound callback that resolves
+  correctly.
+- **Detail mode is arrow-navigable.** Move with up/down and press Enter to edit
+  a layer (number keys 1-7 and A still work as shortcuts); it no longer forces
+  you to type a number.
+
 ## [0.3.1]
 
 ### Changed
