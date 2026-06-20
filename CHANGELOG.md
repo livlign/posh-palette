@@ -3,6 +3,15 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.5]
+
+### Fixed
+- **Preview glyphs no longer show as `?`.** The preview writes via
+  `[Console]::Write`, which encodes through `[Console]::OutputEncoding` - a legacy
+  code page on Windows, so `❯ ✓ ✗` collapsed to `?` (while `█`, which is in the
+  code page, survived). The picker now switches the console to UTF-8 for the
+  session and restores it on exit.
+
 ## [0.3.4]
 
 ### Fixed

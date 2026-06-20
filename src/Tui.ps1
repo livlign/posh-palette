@@ -442,6 +442,11 @@ function Start-PoshPalette {
     $texts  = $items | ForEach-Object { "[$($_.Key)] " + $_.Title.PadRight($titleW) + '   ' + $_.Desc }
     $rowW   = Get-PPMaxLen $texts
     $idx = 0
+    # The preview writes via [Console]::Write, which encodes through
+    # [Console]::OutputEncoding - a legacy code page on Windows, so glyphs like
+    # ❯ ✓ ✗ collapse to '?'. Switch to UTF-8 for the session, restored on exit.
+    $prevEnc = [Console]::OutputEncoding
+    try { [Console]::OutputEncoding = [System.Text.UTF8Encoding]::new($false) } catch { }
     [Console]::CursorVisible = $false
     try {
         while ($true) {
@@ -470,5 +475,8 @@ function Start-PoshPalette {
             $hit = $items | Where-Object { $_.Key -eq $ch } | Select-Object -First 1
             if ($hit) { if ((& $hit.Run) -eq 'quit') { return } }
         }
-    } finally { [Console]::CursorVisible = $true }
+    } finally {
+        [Console]::CursorVisible = $true
+        try { [Console]::OutputEncoding = $prevEnc } catch { }
+    }
 }
