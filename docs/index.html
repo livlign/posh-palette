@@ -105,13 +105,13 @@
   .chip-add{color:var(--ink-faint);border-style:dashed}
 
   /* sections */
-  section{position:relative;z-index:2;padding:84px 0}
-  .sec-head{margin-bottom:46px;max-width:52ch}
+  section{position:relative;z-index:2;padding:80px 0}
+  .sec{border-top:1px solid var(--hair)}
+  .sec-head{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:end;margin-bottom:52px}
   .kicker{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
     color:var(--accent);transition:var(--themed-tr)}
-  h2{font-size:clamp(27px,3.5vw,40px);letter-spacing:-.022em;font-weight:700;margin:14px 0 14px}
-  .sec-head p{color:var(--ink-dim);font-size:17px;margin:0}
-  .divider{height:1px;background:var(--hair);border:0;margin:0;position:relative;z-index:2}
+  h2{font-size:clamp(27px,3.5vw,40px);letter-spacing:-.022em;font-weight:700;margin:14px 0 0}
+  .sec-head-r{color:var(--ink-dim);font-size:17px;margin:0 0 4px;max-width:42ch}
 
   /* layers */
   .layers{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -144,7 +144,7 @@
   .jk,.js{transition:var(--themed-tr)}
 
   /* footer cta */
-  .foot{position:relative;z-index:2;padding:80px 0 56px;text-align:center}
+  .foot{position:relative;z-index:2;padding:80px 0 56px;text-align:center;border-top:1px solid var(--hair)}
   .foot h2{margin-bottom:24px}
   .foot .cmd{margin:0 auto 28px}
   .foot-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;color:var(--ink-faint);font-size:14px;margin-top:40px}
@@ -158,6 +158,8 @@
     .hero{grid-template-columns:1fr;gap:38px}
     .layers{grid-template-columns:1fr 1fr}
     .modes,.open{grid-template-columns:1fr;gap:26px}
+    .sec-head{grid-template-columns:1fr;gap:14px;align-items:start}
+    .sec-head-l{max-width:none}
     .nav-links .hide-sm{display:none}
   }
   @media (max-width:560px){
@@ -225,13 +227,13 @@
   </div>
 </header>
 
-<hr class="divider">
-
-<section id="layers" class="wrap">
+<section id="layers" class="wrap sec">
   <div class="sec-head">
-    <div class="kicker">The difference</div>
-    <h2>One theme, four layers.</h2>
-    <p>Most tools stop at the prompt. Posh Palette coordinates every layer that decides how your shell looks — from a single palette, applied at once.</p>
+    <div class="sec-head-l">
+      <div class="kicker">The difference</div>
+      <h2>One theme, four layers.</h2>
+    </div>
+    <p class="sec-head-r">Most tools stop at the prompt. Posh Palette coordinates every layer that decides how your shell looks — from a single palette, applied at once.</p>
   </div>
   <div class="layers">
     <div class="layer">
@@ -261,10 +263,13 @@
   </div>
 </section>
 
-<section class="wrap">
+<section class="wrap sec">
   <div class="sec-head">
-    <div class="kicker">Two ways in</div>
-    <h2>Browse a look, or build one.</h2>
+    <div class="sec-head-l">
+      <div class="kicker">Two ways in</div>
+      <h2>Browse a look, or build one.</h2>
+    </div>
+    <p class="sec-head-r">Start from a finished theme, or assemble one from the catalogs — both show a live preview before anything touches your config.</p>
   </div>
   <div class="modes">
     <div class="mode">
@@ -280,7 +285,7 @@
   </div>
 </section>
 
-<section id="open" class="wrap">
+<section id="open" class="wrap sec">
   <div class="open">
     <div>
       <div class="kicker">Open by design</div>
@@ -306,8 +311,6 @@
     </div>
   </div>
 </section>
-
-<hr class="divider">
 
 <div class="foot wrap">
   <div class="kicker">Get started</div>
