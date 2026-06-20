@@ -1,0 +1,7 @@
+{
+  "id": "nord",
+  "name": "Nord",
+  "ohMyPoshTheme": "nord",
+  "fixedColor": true,
+  "note": "Ships its own palette; pairs best with the matching scheme."
+}

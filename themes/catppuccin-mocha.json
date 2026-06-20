@@ -1,0 +1,12 @@
+{
+  "id": "catppuccin-mocha",
+  "name": "Catppuccin Mocha",
+  "description": "Soothing pastel dark theme. The crowd favorite.",
+  "scheme": "catppuccin-mocha",
+  "palette": "catppuccin-mocha",
+  "prompt": "catppuccin-mocha",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 95,
+  "acrylic": true
+}

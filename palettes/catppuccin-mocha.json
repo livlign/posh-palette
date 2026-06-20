@@ -1,0 +1,21 @@
+{
+  "id": "catppuccin-mocha",
+  "name": "Catppuccin Mocha",
+  "psReadLine": {
+    "Command": "#89B4FA",
+    "Parameter": "#94E2D5",
+    "String": "#A6E3A1",
+    "Operator": "#F5C2E7",
+    "Variable": "#F9E2AF",
+    "Number": "#FAB387",
+    "Comment": "#6C7086",
+    "Error": "#F38BA8",
+    "Default": "#CDD6F4",
+    "InlinePrediction": "#585B70"
+  },
+  "psStyle": {
+    "Directory": "#89B4FA",
+    "Error": "#F38BA8",
+    "TableHeader": "#F5C2E7"
+  }
+}

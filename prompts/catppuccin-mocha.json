@@ -1,0 +1,7 @@
+{
+  "id": "catppuccin-mocha",
+  "name": "Catppuccin Mocha",
+  "ohMyPoshTheme": "catppuccin_mocha",
+  "fixedColor": true,
+  "note": "Ships its own palette; pairs best with the matching scheme."
+}

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Posh Palette — theme your whole shell</title>
+<meta name="description" content="Posh Palette restyles your Windows Terminal color scheme, the commands you type, your output, and your oh-my-posh prompt together — with live preview, right in the terminal.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0B12; --surface:#13131D; --raised:#1A1A27;
+    --ink:#E8E8F2; --ink-dim:#9494AC; --ink-faint:#5E5E76;
+    --hair:rgba(255,255,255,.08); --hair-strong:rgba(255,255,255,.14);
+    /* themed (overwritten by JS) — seeded with Catppuccin Mocha */
+    --term-bg:#1E1E2E; --term-fg:#CDD6F4; --cursor:#F5E0DC;
+    --t-cmd:#89B4FA; --t-param:#94E2D5; --t-str:#A6E3A1; --t-op:#F5C2E7;
+    --t-var:#F9E2AF; --t-num:#FAB387; --t-com:#6C7086; --t-err:#F38BA8; --t-dir:#89B4FA;
+    --accent:#89B4FA; --glow:rgba(137,180,250,.20);
+    --themed-tr:color .45s ease, background-color .45s ease, border-color .45s ease, box-shadow .45s ease;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Space Grotesk",system-ui,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+
+  /* ambient glow that shifts with the theme */
+  .aura{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:radial-gradient(60% 50% at 78% 8%, var(--glow), transparent 70%);
+    transition:var(--themed-tr);}
+
+  /* nav */
+  nav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;
+    padding:22px 0;}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.01em}
+  .brand .glyph{width:22px;height:22px;border-radius:6px;
+    background:linear-gradient(135deg,var(--t-cmd),var(--t-op));transition:var(--themed-tr)}
+  .nav-links{display:flex;gap:26px;align-items:center;font-size:14px}
+  .nav-links a{color:var(--ink-dim);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-faint);
+    border:1px solid var(--hair);border-radius:999px;padding:4px 10px}
+
+  /* hero */
+  header{position:relative;z-index:2;padding:46px 0 30px}
+  .hero{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--accent);margin-bottom:20px;transition:var(--themed-tr)}
+  h1{font-size:clamp(36px,5.2vw,60px);line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+  h1 .em{color:var(--accent);transition:var(--themed-tr)}
+  .lede{font-size:18px;color:var(--ink-dim);max-width:34ch;margin:0 0 30px}
+  .cmd{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--hair);
+    border-radius:11px;padding:13px 15px;max-width:380px;margin-bottom:22px}
+  .cmd code{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--ink)}
+  .cmd .pmt{color:var(--accent);transition:var(--themed-tr)}
+  .cmd button{margin-left:auto;background:var(--raised);border:1px solid var(--hair-strong);color:var(--ink-dim);
+    font-family:"JetBrains Mono",monospace;font-size:11px;border-radius:7px;padding:6px 9px;cursor:pointer;transition:.2s}
+  .cmd button:hover{color:var(--ink);border-color:var(--accent)}
+  .ctas{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:15px;
+    border-radius:10px;padding:13px 22px;transition:.2s,var(--themed-tr)}
+  .btn-primary{background:var(--accent);color:#0B0B12;}
+  .btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--hair-strong)}
+  .btn-ghost:hover{border-color:var(--accent)}
+
+  /* terminal window */
+  .term{border-radius:13px;overflow:hidden;border:1px solid var(--hair-strong);
+    box-shadow:0 30px 80px -30px var(--glow),0 18px 40px -22px rgba(0,0,0,.7);
+    background:var(--term-bg);transition:var(--themed-tr)}
+  .term-bar{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(0,0,0,.22);
+    border-bottom:1px solid rgba(255,255,255,.06)}
+  .term-tab{display:flex;align-items:center;gap:8px;background:var(--term-bg);transition:var(--themed-tr);
+    border-radius:6px 6px 0 0;padding:6px 13px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--term-fg)}
+  .term-tab .dot{width:9px;height:9px;border-radius:3px;background:var(--t-cmd);transition:var(--themed-tr)}
+  .term-ctl{margin-left:auto;display:flex;gap:16px;color:var(--term-fg);opacity:.5;font-size:12px}
+  .term-body{padding:20px 20px 26px;font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.85;
+    color:var(--term-fg);overflow-x:auto;transition:var(--themed-tr)}
+  .term-body .ln{white-space:pre}
+  .c-cmd{color:var(--t-cmd)} .c-param{color:var(--t-param)} .c-str{color:var(--t-str)}
+  .c-op{color:var(--t-op)} .c-var{color:var(--t-var)} .c-num{color:var(--t-num)}
+  .c-com{color:var(--t-com)} .c-err{color:var(--t-err)} .c-dir{color:var(--t-dir)}
+  .c-cmd,.c-param,.c-str,.c-op,.c-var,.c-num,.c-com,.c-err,.c-dir{transition:var(--themed-tr)}
+  .cur{display:inline-block;width:8px;height:16px;background:var(--cursor);vertical-align:-3px;
+    margin-left:2px;transition:var(--themed-tr);animation:blink 1.1s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  /* theme switcher */
+  .switcher{margin-top:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .switcher .label{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-faint);
+    text-transform:uppercase;letter-spacing:.12em;margin-right:4px}
+  .chip{display:inline-flex;align-items:center;gap:8px;cursor:pointer;background:var(--surface);
+    border:1px solid var(--hair);border-radius:999px;padding:7px 14px;font-size:13px;color:var(--ink-dim);
+    font-family:"JetBrains Mono",monospace;transition:.2s}
+  .chip:hover{color:var(--ink)}
+  .chip[aria-pressed="true"]{color:var(--ink);border-color:var(--accent);background:var(--raised)}
+  .chip .sw{width:11px;height:11px;border-radius:3px}
+  .chip-add{color:var(--ink-faint);border-style:dashed}
+
+  /* sections */
+  section{position:relative;z-index:2;padding:84px 0}
+  .sec-head{margin-bottom:46px;max-width:52ch}
+  .kicker{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);transition:var(--themed-tr)}
+  h2{font-size:clamp(27px,3.5vw,40px);letter-spacing:-.022em;font-weight:700;margin:14px 0 14px}
+  .sec-head p{color:var(--ink-dim);font-size:17px;margin:0}
+  .divider{height:1px;background:var(--hair);border:0;margin:0;position:relative;z-index:2}
+
+  /* layers */
+  .layers{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .layer{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:22px;
+    display:flex;flex-direction:column;gap:14px}
+  .layer .idx{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .layer .swatches{display:flex;gap:6px}
+  .layer .swatches span{width:18px;height:18px;border-radius:5px;transition:var(--themed-tr)}
+  .layer h3{font-size:17px;margin:0;letter-spacing:-.01em}
+  .layer .src{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--accent);transition:var(--themed-tr)}
+  .layer p{margin:0;color:var(--ink-dim);font-size:14px;line-height:1.55}
+
+  /* modes */
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .mode{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:30px}
+  .mode .num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent);transition:var(--themed-tr)}
+  .mode h3{font-size:22px;margin:10px 0 10px;letter-spacing:-.015em}
+  .mode p{color:var(--ink-dim);margin:0;font-size:15px}
+
+  /* open / composition */
+  .open{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
+  .open ul{list-style:none;padding:0;margin:22px 0 0}
+  .open li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--hair);font-size:15px;color:var(--ink-dim)}
+  .open li b{color:var(--ink);font-weight:600}
+  .open li .k{font-family:"JetBrains Mono",monospace;color:var(--accent);font-size:13px;min-width:78px;transition:var(--themed-tr)}
+  .code{background:var(--term-bg);border:1px solid var(--hair-strong);border-radius:13px;padding:22px 24px;
+    font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.9;overflow-x:auto;transition:var(--themed-tr)}
+  .code .file{color:var(--t-com);font-size:11.5px;display:block;margin-bottom:10px;transition:var(--themed-tr)}
+  .jk{color:var(--t-cmd)} .js{color:var(--t-str)} .jp{color:var(--ink-faint)}
+  .jk,.js{transition:var(--themed-tr)}
+
+  /* footer cta */
+  .foot{position:relative;z-index:2;padding:80px 0 56px;text-align:center}
+  .foot h2{margin-bottom:24px}
+  .foot .cmd{margin:0 auto 28px}
+  .foot-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;color:var(--ink-faint);font-size:14px;margin-top:40px}
+  .foot-links a{color:var(--ink-dim);text-decoration:none}
+  .foot-links a:hover{color:var(--ink)}
+  .meta{margin-top:18px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-faint)}
+
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+  @media (max-width:880px){
+    .hero{grid-template-columns:1fr;gap:38px}
+    .layers{grid-template-columns:1fr 1fr}
+    .modes,.open{grid-template-columns:1fr;gap:26px}
+    .nav-links .hide-sm{display:none}
+  }
+  @media (max-width:560px){
+    .layers{grid-template-columns:1fr}
+    .wrap{padding:0 20px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+  }
+</style>
+</head>
+<body>
+<div class="aura" aria-hidden="true"></div>
+
+<div class="wrap">
+  <nav>
+    <div class="brand"><span class="glyph" aria-hidden="true"></span>posh palette</div>
+    <div class="nav-links">
+      <a class="hide-sm" href="#layers">Layers</a>
+      <a class="hide-sm" href="#open">Contribute</a>
+      <span class="tag">phase&nbsp;1 · open source</span>
+      <a href="https://github.com/livlign/posh-palette">GitHub</a>
+    </div>
+  </nav>
+</div>
+
+<header class="wrap">
+  <div class="hero">
+    <div class="hero-copy">
+      <div class="eyebrow">PowerShell · Windows Terminal</div>
+      <h1>Theme the whole shell — <span class="em">not just the prompt.</span></h1>
+      <p class="lede">Posh Palette restyles your color scheme, the commands you type, your command output, and your oh-my-posh prompt together. Pick a look, preview it live — right in the terminal.</p>
+      <div class="cmd mono"><code><span class="pmt">PS&gt;</span> Install-Module PoshPalette</code>
+        <button id="copyBtn" type="button" aria-label="Copy install command">copy</button></div>
+      <div class="ctas">
+        <a class="btn btn-primary" href="https://github.com/livlign/posh-palette">View on GitHub</a>
+        <a class="btn btn-ghost" href="#layers">How it works</a>
+      </div>
+    </div>
+
+    <div class="hero-demo">
+      <div class="term" id="term">
+        <div class="term-bar">
+          <div class="term-tab"><span class="dot" aria-hidden="true"></span>PowerShell</div>
+          <div class="term-ctl mono" aria-hidden="true"><span>─</span><span>▢</span><span>✕</span></div>
+        </div>
+        <div class="term-body">
+          <div class="ln"><span class="c-com">— preview · </span><span class="c-op" id="t-name">Catppuccin Mocha</span></div>
+          <div class="ln">&nbsp;</div>
+          <div class="ln"><span class="c-cmd">user</span><span class="c-com"> in </span><span class="c-dir">~/projects</span> <span class="c-op">❯</span> <span class="c-cmd">git</span> <span class="c-param">commit</span> <span class="c-param">-m</span> <span class="c-str">"feat: theme"</span></div>
+          <div class="ln"><span class="c-var">$count</span> <span class="c-op">=</span> <span class="c-num">42</span>  <span class="c-com"># files restyled</span></div>
+          <div class="ln"><span class="c-dir">Documents/</span>  <span>README.md</span>  <span class="c-dir">src/</span></div>
+          <div class="ln"><span class="c-err">Error:</span> <span>could not find a reason to keep the old theme</span></div>
+          <div class="ln"><span class="c-cmd">user</span><span class="c-com"> in </span><span class="c-dir">~/projects</span> <span class="c-op">❯</span> <span class="cur" aria-hidden="true"></span></div>
+        </div>
+      </div>
+      <div class="switcher" role="group" aria-label="Preview a theme">
+        <span class="label">try a theme</span>
+        <button class="chip" data-theme="catppuccin-mocha" aria-pressed="true"><span class="sw" style="background:#89B4FA"></span>Catppuccin</button>
+        <button class="chip" data-theme="tokyo-night" aria-pressed="false"><span class="sw" style="background:#7AA2F7"></span>Tokyo Night</button>
+        <button class="chip" data-theme="nord" aria-pressed="false"><span class="sw" style="background:#88C0D0"></span>Nord</button>
+        <span class="chip chip-add" aria-hidden="true">+ add your own</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<hr class="divider">
+
+<section id="layers" class="wrap">
+  <div class="sec-head">
+    <div class="kicker">The difference</div>
+    <h2>One theme, four layers.</h2>
+    <p>Most tools stop at the prompt. Posh Palette coordinates every layer that decides how your shell looks — from a single palette, applied at once.</p>
+  </div>
+  <div class="layers">
+    <div class="layer">
+      <span class="idx">layer 01</span>
+      <div class="swatches"><span style="background:var(--term-bg);border:1px solid var(--hair-strong)"></span><span style="background:var(--t-cmd)"></span><span style="background:var(--t-str)"></span><span style="background:var(--t-err)"></span></div>
+      <h3>Color scheme</h3><span class="src">Windows Terminal</span>
+      <p>Background, foreground, and the 16 ANSI colors. Hot-reloads the instant it's applied.</p>
+    </div>
+    <div class="layer">
+      <span class="idx">layer 02</span>
+      <div class="swatches"><span style="background:var(--t-cmd)"></span><span style="background:var(--t-param)"></span><span style="background:var(--t-str)"></span><span style="background:var(--t-var)"></span></div>
+      <h3>Typed commands</h3><span class="src">PSReadLine</span>
+      <p>Commands, parameters, strings, and errors colored as you type them.</p>
+    </div>
+    <div class="layer">
+      <span class="idx">layer 03</span>
+      <div class="swatches"><span style="background:var(--t-dir)"></span><span style="background:var(--t-err)"></span><span style="background:var(--t-op)"></span></div>
+      <h3>Command output</h3><span class="src">$PSStyle</span>
+      <p>Directory listings, error text, and table headers in the output stream.</p>
+    </div>
+    <div class="layer">
+      <span class="idx">layer 04</span>
+      <div class="swatches"><span style="background:var(--t-op)"></span><span style="background:var(--t-cmd)"></span><span style="background:var(--t-num)"></span></div>
+      <h3>Prompt</h3><span class="src">oh-my-posh</span>
+      <p>Your prompt theme, kept in step with everything around it.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="sec-head">
+    <div class="kicker">Two ways in</div>
+    <h2>Browse a look, or build one.</h2>
+  </div>
+  <div class="modes">
+    <div class="mode">
+      <span class="num">simple mode</span>
+      <h3>Scroll and pick</h3>
+      <p>Arrow through a list of complete themes with a live preview beside it. Press Enter — the terminal, your prompt, and your colors all change at once.</p>
+    </div>
+    <div class="mode">
+      <span class="num">detail mode</span>
+      <h3>Compose layer by layer</h3>
+      <p>Keep your prompt, swap just the color scheme. Mix a scheme, a palette, a prompt, and a font from the catalogs — and watch each change in the preview before you commit.</p>
+    </div>
+  </div>
+</section>
+
+<section id="open" class="wrap">
+  <div class="open">
+    <div>
+      <div class="kicker">Open by design</div>
+      <h2>A theme is one small file.</h2>
+      <p style="color:var(--ink-dim);font-size:17px;margin:14px 0 0">It doesn't hold colors — it points at entries in per-layer catalogs. That's what lets you swap a single layer, and what makes every layer its own contribution.</p>
+      <ul>
+        <li><span class="k">schemes/</span><span>16 ANSI colors + background, foreground, cursor</span></li>
+        <li><span class="k">palettes/</span><span>PSReadLine input + <b>$PSStyle</b> output colors</span></li>
+        <li><span class="k">prompts/</span><span>an oh-my-posh theme reference</span></li>
+        <li><span class="k">fonts.json</span><span>the nerd fonts you can pick from</span></li>
+      </ul>
+      <p style="color:var(--ink-dim);margin:22px 0 0">Add your own — one JSON file, one pull request.</p>
+    </div>
+    <div class="code" aria-label="Example theme file">
+      <span class="file">themes/tokyo-night.json</span>
+<span class="jp">{</span>
+  <span class="jk">"name"</span><span class="jp">:</span> <span class="js">"Tokyo Night"</span><span class="jp">,</span>
+  <span class="jk">"scheme"</span><span class="jp">:</span> <span class="js">"tokyo-night"</span><span class="jp">,</span>
+  <span class="jk">"palette"</span><span class="jp">:</span> <span class="js">"tokyo-night"</span><span class="jp">,</span>
+  <span class="jk">"prompt"</span><span class="jp">:</span> <span class="js">"tokyonight-storm"</span><span class="jp">,</span>
+  <span class="jk">"font"</span><span class="jp">:</span> <span class="js">"jetbrains"</span>
+<span class="jp">}</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<div class="foot wrap">
+  <div class="kicker">Get started</div>
+  <h2>Restyle your terminal in one line.</h2>
+  <div class="cmd mono"><code><span class="pmt">PS&gt;</span> Install-Module PoshPalette; palette</code>
+    <button id="copyBtn2" type="button" aria-label="Copy install command">copy</button></div>
+  <div class="ctas" style="justify-content:center">
+    <a class="btn btn-primary" href="https://github.com/livlign/posh-palette">View on GitHub</a>
+    <a class="btn btn-ghost" href="https://github.com/livlign/posh-palette#readme">Read the docs</a>
+  </div>
+  <div class="foot-links">
+    <a href="https://github.com/livlign/posh-palette">Source</a>
+    <a href="https://github.com/livlign/posh-palette/tree/main/themes">Themes</a>
+    <a href="https://github.com/livlign/posh-palette#contribute">Contribute</a>
+    <a href="https://ohmyposh.dev">oh-my-posh</a>
+    <a href="https://www.nerdfonts.com">Nerd Fonts</a>
+  </div>
+  <div class="meta">built for the terminal · phase 1 · MIT</div>
+</div>
+
+<script>
+  const THEMES = {
+    "catppuccin-mocha":{name:"Catppuccin Mocha",
+      "--term-bg":"#1E1E2E","--term-fg":"#CDD6F4","--cursor":"#F5E0DC",
+      "--t-cmd":"#89B4FA","--t-param":"#94E2D5","--t-str":"#A6E3A1","--t-op":"#F5C2E7",
+      "--t-var":"#F9E2AF","--t-num":"#FAB387","--t-com":"#6C7086","--t-err":"#F38BA8","--t-dir":"#89B4FA",
+      "--accent":"#89B4FA","--glow":"rgba(137,180,250,.20)"},
+    "tokyo-night":{name:"Tokyo Night",
+      "--term-bg":"#1A1B26","--term-fg":"#C0CAF5","--cursor":"#C0CAF5",
+      "--t-cmd":"#7AA2F7","--t-param":"#7DCFFF","--t-str":"#9ECE6A","--t-op":"#BB9AF7",
+      "--t-var":"#E0AF68","--t-num":"#FF9E64","--t-com":"#565F89","--t-err":"#F7768E","--t-dir":"#7AA2F7",
+      "--accent":"#7AA2F7","--glow":"rgba(122,162,247,.22)"},
+    "nord":{name:"Nord",
+      "--term-bg":"#2E3440","--term-fg":"#D8DEE9","--cursor":"#D8DEE9",
+      "--t-cmd":"#81A1C1","--t-param":"#88C0D0","--t-str":"#A3BE8C","--t-op":"#B48EAD",
+      "--t-var":"#EBCB8B","--t-num":"#D08770","--t-com":"#616E88","--t-err":"#BF616A","--t-dir":"#88C0D0",
+      "--accent":"#88C0D0","--glow":"rgba(136,192,208,.22)"}
+  };
+  const root=document.documentElement, nameEl=document.getElementById("t-name");
+  function setTheme(id){
+    const t=THEMES[id]; if(!t) return;
+    for(const k in t){ if(k.startsWith("--")) root.style.setProperty(k,t[k]); }
+    nameEl.textContent=t.name;
+    document.querySelectorAll(".chip[data-theme]").forEach(c=>
+      c.setAttribute("aria-pressed", String(c.dataset.theme===id)));
+  }
+  document.querySelectorAll(".chip[data-theme]").forEach(c=>
+    c.addEventListener("click",()=>setTheme(c.dataset.theme)));
+
+  function copy(btn,text){
+    btn.addEventListener("click",async()=>{
+      try{ await navigator.clipboard.writeText(text);
+        const o=btn.textContent; btn.textContent="copied"; setTimeout(()=>btn.textContent=o,1400);
+      }catch(e){}
+    });
+  }
+  copy(document.getElementById("copyBtn"),"Install-Module PoshPalette");
+  copy(document.getElementById("copyBtn2"),"Install-Module PoshPalette; palette");
+</script>
+</body>
+</html>

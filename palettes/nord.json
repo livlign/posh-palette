@@ -1,0 +1,21 @@
+{
+  "id": "nord",
+  "name": "Nord",
+  "psReadLine": {
+    "Command": "#81A1C1",
+    "Parameter": "#88C0D0",
+    "String": "#A3BE8C",
+    "Operator": "#B48EAD",
+    "Variable": "#EBCB8B",
+    "Number": "#D08770",
+    "Comment": "#616E88",
+    "Error": "#BF616A",
+    "Default": "#D8DEE9",
+    "InlinePrediction": "#4C566A"
+  },
+  "psStyle": {
+    "Directory": "#81A1C1",
+    "Error": "#BF616A",
+    "TableHeader": "#B48EAD"
+  }
+}

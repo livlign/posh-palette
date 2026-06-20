@@ -1,0 +1,12 @@
+{
+  "id": "nord",
+  "name": "Nord",
+  "description": "Arctic, north-bluish muted palette.",
+  "scheme": "nord",
+  "palette": "nord",
+  "prompt": "nord",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 96,
+  "acrylic": false
+}

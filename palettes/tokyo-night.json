@@ -1,0 +1,21 @@
+{
+  "id": "tokyo-night",
+  "name": "Tokyo Night",
+  "psReadLine": {
+    "Command": "#7AA2F7",
+    "Parameter": "#7DCFFF",
+    "String": "#9ECE6A",
+    "Operator": "#BB9AF7",
+    "Variable": "#E0AF68",
+    "Number": "#FF9E64",
+    "Comment": "#565F89",
+    "Error": "#F7768E",
+    "Default": "#C0CAF5",
+    "InlinePrediction": "#414868"
+  },
+  "psStyle": {
+    "Directory": "#7AA2F7",
+    "Error": "#F7768E",
+    "TableHeader": "#BB9AF7"
+  }
+}
