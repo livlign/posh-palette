@@ -3,6 +3,26 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.3.3]
+
+### Added
+- **Type a name in the prompt and font pickers.** Both now have a "Type a
+  name..." row, so you can enter any oh-my-posh theme (e.g. `atomic`) or font
+  face directly, the same as passing a name to a command. The
+  `Set-PoshPalettePrompt` / `Set-PoshPaletteFont` commands accept those names
+  too, not just bundled catalog ids.
+
+### Changed
+- **The live preview now renders your real prompt.** When oh-my-posh is
+  available it prints the actual prompt for the selected config (generated
+  `auto` prompt or a referenced theme) instead of a generic stand-in, so Simple
+  and Detail mode previews reflect the oh-my-posh prompt you'll get.
+- **Bigger, more representative preview:** a short session with the prompt plus
+  `Get-ChildItem`, `git pull`, and `npm test` output, colored from the theme.
+- **Font picker shows the font name + how to install/apply it.** A font can't be
+  rendered live (the terminal uses one font for the whole window), so instead of
+  an empty preview it explains that and points at `Install-PoshPaletteFont`.
+
 ## [0.3.2]
 
 ### Added

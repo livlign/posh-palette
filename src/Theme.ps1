@@ -67,20 +67,25 @@ function Resolve-PoshPaletteTheme {
 
     $scheme  = Get-PoshPaletteCatalogItem -Kind 'schemes'  -Id $Composition.scheme
     $palette = Get-PoshPaletteCatalogItem -Kind 'palettes' -Id $Composition.palette
-    $prompt  = Get-PoshPaletteCatalogItem -Kind 'prompts'  -Id $Composition.prompt
+    # A prompt may be a catalog id, or a bare oh-my-posh theme name typed directly
+    # (same as you'd pass to a command); an unknown id is treated as that name.
+    $prompt  = Get-PoshPaletteCatalog -Kind 'prompts' | Where-Object { $_.Id -eq $Composition.prompt } | Select-Object -First 1 | ForEach-Object Data
+    # A font may be a fonts.json id or a literal font face name typed directly.
     $font    = Get-PoshPaletteFonts | Where-Object { $_.id -eq $Composition.font } | Select-Object -First 1
-    if (-not $font) { throw "No font with id '$($Composition.font)'." }
+    if (-not $font) { $font = [pscustomobject]@{ id = $Composition.font; name = $Composition.font; face = $Composition.font; nerd = $Composition.font } }
 
     $schemeBlock = ConvertTo-PoshPaletteHashtable $scheme.colors
     $schemeBlock['name'] = $scheme.name   # WT scheme is named after the scheme, not the composition
 
     # A prompt is either a reference to a fixed-color oh-my-posh theme, or 'auto',
     # which generates a config from this scheme's colors so the prompt matches.
-    $promptBlock = if ($prompt.generate) {
+    $promptBlock = if ($prompt -and $prompt.generate) {
         $style = if ($prompt.style) { $prompt.style } else { 'classic' }
         @{ generated = $true; name = "pp-$($prompt.id)"; config = (New-PoshPaletteOmpConfig $scheme.colors -Style $style) }
-    } else {
+    } elseif ($prompt) {
         @{ ohMyPoshTheme = $prompt.ohMyPoshTheme }
+    } else {
+        @{ ohMyPoshTheme = $Composition.prompt }   # typed-in oh-my-posh theme name
     }
 
     $resolved = @{

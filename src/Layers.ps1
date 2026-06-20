@@ -42,11 +42,10 @@ function Set-PoshPaletteLayer {
 
     if ($Scheme)  { $null = Get-PoshPaletteCatalogItem -Kind 'schemes'  -Id $Scheme;  $comp['scheme']  = $Scheme }
     if ($Palette) { $null = Get-PoshPaletteCatalogItem -Kind 'palettes' -Id $Palette; $comp['palette'] = $Palette }
-    if ($Prompt)  { $null = Get-PoshPaletteCatalogItem -Kind 'prompts'  -Id $Prompt;  $comp['prompt']  = $Prompt }
-    if ($Font) {
-        if (-not (Get-PoshPaletteFonts | Where-Object { $_.id -eq $Font })) { throw "No font with id '$Font'. See fonts.json." }
-        $comp['font'] = $Font
-    }
+    # Prompt and font accept a catalog id OR a name typed directly (an oh-my-posh
+    # theme name / a font face), so the command matches what the picker allows.
+    if ($Prompt)  { $comp['prompt'] = $Prompt }
+    if ($Font)    { $comp['font']   = $Font }
     if ($PSBoundParameters.ContainsKey('Opacity'))  { $comp['opacity']  = $Opacity }
     if ($PSBoundParameters.ContainsKey('FontSize')) { $comp['fontSize'] = $FontSize }
     if ($PSBoundParameters.ContainsKey('Acrylic'))  { $comp['acrylic']  = $Acrylic }

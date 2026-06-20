@@ -45,19 +45,65 @@ function ConvertTo-PPComposition {
     [pscustomobject]$h
 }
 
-# A mini terminal drawn from the theme's own hex values, rendered on a filled
-# block of the theme's BACKGROUND color so the whole thing recolors as you scroll
-# (a foreground-only preview looked static on the host terminal's dark bg).
+# "#rrggbb" -> "r;g;b" for truecolor ANSI.
+function ConvertTo-PPRgb { param([string] $h) '{0};{1};{2}' -f [convert]::ToInt32($h.Substring(1,2),16), [convert]::ToInt32($h.Substring(3,2),16), [convert]::ToInt32($h.Substring(5,2),16) }
+
+# Visible width of a string, ignoring SGR color escapes.
+function Get-PPVisibleLength { param([string] $s) ($s -replace "$e\[[0-9;]*m", '').Length }
+
+# Render the actual prompt for a resolved theme. If oh-my-posh is available we ask
+# it to print the real prompt for this exact config (generated 'auto' prompt, or a
+# referenced theme under POSH_THEMES_PATH); otherwise we fall back to a simple
+# scheme-colored prompt. Cached per prompt config so scrolling stays responsive.
+$script:PPPromptCache = @{}
+function Get-PoshPalettePromptAnsi {
+    param($Theme)
+    $key = ($Theme.prompt | ConvertTo-Json -Depth 32 -Compress)
+    if ($script:PPPromptCache.ContainsKey($key)) { return $script:PPPromptCache[$key] }
+
+    $ansi = $null
+    $omp  = Get-Command oh-my-posh -ErrorAction SilentlyContinue
+    if ($omp) {
+        $cfg = $null
+        if ($Theme.prompt.generated) {
+            try { $cfg = Save-PoshPalettePrompt -Config $Theme.prompt.config -Name 'pp-preview' } catch { }
+        } elseif ($Theme.prompt.ohMyPoshTheme -and $env:POSH_THEMES_PATH) {
+            $maybe = Join-Path $env:POSH_THEMES_PATH ('{0}.omp.json' -f $Theme.prompt.ohMyPoshTheme)
+            if (Test-Path $maybe) { $cfg = $maybe }
+        }
+        if ($cfg) {
+            try {
+                $out  = & $omp.Source print primary --config $cfg --shell pwsh --pwd 'C:\Users\you\posh-palette' 2>$null
+                $ansi = ($out -join "`n")
+            } catch { }
+        }
+    }
+    if ([string]::IsNullOrWhiteSpace($ansi)) {
+        $sc   = $Theme.terminal.scheme
+        $name = if ($Theme.prompt.ohMyPoshTheme) { $Theme.prompt.ohMyPoshTheme } else { 'posh-palette' }
+        $ansi = "$e[38;2;$(ConvertTo-PPRgb $sc.blue)m$name $e[38;2;$(ConvertTo-PPRgb $sc.purple)m❯$e[0m"
+    }
+    $ansi = ($ansi -replace "`r", '' -replace "`n", '').TrimEnd()
+    $script:PPPromptCache[$key] = $ansi
+    $ansi
+}
+
+# A mini terminal session drawn from the theme's own hex values on a filled block
+# of the theme's BACKGROUND color, so the whole thing recolors as you scroll. It
+# renders the real oh-my-posh prompt plus a few representative commands + output.
 function Show-PoshPalettePreview {
     param($Theme, [int] $Left = 42, [int] $Top = 4)
+    $W = 46
+    $bw = try { [Console]::BufferWidth } catch { 120 }
+    if ($bw -lt ($Left + $W + 1)) { return }   # not enough room for a side panel; skip cleanly
+
     $sc = $Theme.terminal.scheme
     $pr = $Theme.psReadLine
     $ps = $Theme.psStyle
-    $W  = 42
-    $rgb = { param($h) '{0};{1};{2}' -f [convert]::ToInt32($h.Substring(1,2),16), [convert]::ToInt32($h.Substring(3,2),16), [convert]::ToInt32($h.Substring(5,2),16) }
+    $rgb = { param($h) ConvertTo-PPRgb $h }
     $bg  = & $rgb $sc.background
 
-    # Build one line from a flat list of hex,text,hex,text... on the bg block.
+    # Plain colored line from flat hex,text,hex,text... pairs, padded on the bg.
     $row = {
         param([object[]] $parts)
         $s = "$e[48;2;${bg}m"; $len = 0
@@ -70,17 +116,37 @@ function Show-PoshPalettePreview {
         $s + "$e[0m"
     }
 
+    # The real prompt followed by a typed command, on the bg block.
+    $promptAnsi = Get-PoshPalettePromptAnsi $Theme
+    $promptBg   = $promptAnsi -replace [regex]::Escape("$e[0m"), "$e[0m$e[48;2;${bg}m"
+    $promptVis  = Get-PPVisibleLength $promptAnsi
+    $prow = {
+        param($cmdHex, $cmdText)
+        if (-not $cmdHex) { $cmdHex = $sc.foreground }
+        $vis = 1 + $promptVis + 1 + ('' + $cmdText).Length
+        $s = "$e[48;2;${bg}m " + $promptBg + "$e[38;2;$(& $rgb $cmdHex)m $cmdText"
+        if ($vis -lt $W) { $s += (' ' * ($W - $vis)) }
+        $s + "$e[0m"
+    }
+
     $lines = @(
-        (& $row @($sc.purple, '  preview'))
-        (& $row @($null, ''))
-        (& $row @($sc.green, '  user', $pr.Comment, ' in ', $sc.blue, '~/projects', $sc.purple, ' ❯'))
-        (& $row @($pr.Command, '  git', $null, ' ', $pr.Parameter, 'commit', $null, ' ', $pr.Parameter, '-m', $null, ' ', $pr.String, '"feat: theme"'))
-        (& $row @($pr.Variable, '  $count', $pr.Operator, ' = ', $pr.Number, '42'))
-        (& $row @($pr.Comment, '  # tidy up'))
-        (& $row @($ps.Directory, '  Documents/', $null, '  README.md'))
-        (& $row @($ps.Error, '  Error: build failed'))
-        (& $row @($null, ''))
-        (& $row @($sc.green, '  user', $pr.Comment, ' in ', $sc.blue, '~/projects', $sc.purple, ' ❯ '))
+        (& $prow $pr.Command 'Get-ChildItem')
+        (& $row  @($null, ''))
+        (& $row  @($ps.TableHeader, 'Mode    LastWriteTime      Length Name'))
+        (& $row  @($pr.Comment,     '----    -------------      ------ ----'))
+        (& $row  @($null, 'd----   6/20/2026  9:39 AM        ', $ps.Directory, 'src'))
+        (& $row  @($null, 'd----   6/20/2026  9:39 AM        ', $ps.Directory, 'docs'))
+        (& $row  @($null, '-a---   6/18/2026  1:12 PM   ', $pr.Number, '8.9k', $null, ' README.md'))
+        (& $row  @($null, ''))
+        (& $prow $pr.Command 'git pull')
+        (& $row  @($null, 'Updating ', $pr.Number, '1a2b3c4', $null, '..', $pr.Number, '5d6e7f8'))
+        (& $row  @($sc.green, ' 3 files changed, ', $sc.green, '42 insertions(+)'))
+        (& $row  @($null, ''))
+        (& $prow $pr.Command 'npm test')
+        (& $row  @($sc.green, '  ✓ ', $null, '42 passing'))
+        (& $row  @($sc.red,   '  ✗ ', $null, '1 failing'))
+        (& $row  @($null, ''))
+        (& $prow $sc.foreground '█')
     )
 
     [Console]::CursorVisible = $false
@@ -91,13 +157,19 @@ function Show-PoshPalettePreview {
 }
 
 # Generic scrollable picker. Items need a .Name; returns the chosen item or $null.
-# A navigable "Back" row sits below the items (Esc is still the shortcut).
+# A navigable "Back" row sits below the items (Esc is still the shortcut). When
+# -CustomPrompt is given, a "Type a name..." row lets you enter a value directly
+# (returned as a synthetic item), so you can use any oh-my-posh theme / font name.
 function Show-PoshPaletteList {
-    param([string] $Title, [array] $Items, [scriptblock] $PreviewFor)
+    param([string] $Title, [array] $Items, [scriptblock] $PreviewFor, [string] $CustomPrompt)
 
-    $idx   = 0
-    $total = $Items.Count + 1   # +1 for the Back row
-    $width = [Math]::Max((Get-PPMaxLen (@($Items | ForEach-Object { $_.Name }) + '← Back')), 12)
+    $hasCustom = [bool]$CustomPrompt
+    $customIdx = if ($hasCustom) { $Items.Count } else { -1 }
+    $backIdx   = $Items.Count + $(if ($hasCustom) { 1 } else { 0 })
+    $total     = $backIdx + 1
+    $extra     = if ($hasCustom) { @('⌨ Type a name...', '← Back') } else { @('← Back') }
+    $width     = [Math]::Max((Get-PPMaxLen (@($Items | ForEach-Object { $_.Name }) + $extra)), 16)
+    $idx       = 0
     [Console]::CursorVisible = $false
     try {
         while ($true) {
@@ -109,7 +181,8 @@ function Show-PoshPaletteList {
             for ($i = 0; $i -lt $Items.Count; $i++) {
                 Write-PPRow ($i -eq $idx) $Items[$i].Name $width
             }
-            Write-PPRow ($idx -eq $Items.Count) '← Back' $width
+            if ($hasCustom) { Write-PPRow ($idx -eq $customIdx) '⌨ Type a name...' $width }
+            Write-PPRow ($idx -eq $backIdx) '← Back' $width
             Write-PPFooter @('↑/↓ move', 'Enter select', 'Esc back')
             if ($PreviewFor -and $idx -lt $Items.Count) { & $PreviewFor $Items[$idx] }
 
@@ -117,11 +190,54 @@ function Show-PoshPaletteList {
             switch ($key.Key) {
                 'UpArrow'   { $idx = ($idx - 1 + $total) % $total }
                 'DownArrow' { $idx = ($idx + 1) % $total }
-                'Enter'     { if ($idx -eq $Items.Count) { return $null } else { return $Items[$idx] } }
                 'Escape'    { return $null }
+                'Enter'     {
+                    if ($idx -eq $backIdx) { return $null }
+                    elseif ($hasCustom -and $idx -eq $customIdx) {
+                        [Console]::CursorVisible = $true
+                        Write-Host ''
+                        Write-Host "  $CustomPrompt" -ForegroundColor Cyan
+                        $val = Read-Host '  name'
+                        if (-not [string]::IsNullOrWhiteSpace($val)) {
+                            return [pscustomobject]@{ Id = $val.Trim(); Name = $val.Trim(); Custom = $true }
+                        }
+                    }
+                    else { return $Items[$idx] }
+                }
             }
         }
     } finally { [Console]::CursorVisible = $true }
+}
+
+# Font info panel (fonts can't be rendered live - the terminal uses one font for
+# the whole window - so we show the name + how to install/apply it).
+function Show-PoshPaletteFontInfo {
+    param($Font, [int] $Left = 42, [int] $Top = 4)
+    $bw = try { [Console]::BufferWidth } catch { 120 }
+    if ($bw -lt ($Left + 30)) { return }
+    $dim = "$e[38;5;245m"; $wht = "$e[97m"; $rst = "$e[0m"
+    $name = if ($Font.Custom) { $Font.Name } else { $Font.name }
+    $face = if ($Font.face) { $Font.face } else { $name }
+    $id   = if ($Font.Custom) { '<face name>' } else { $Font.id }
+    $lines = @(
+        "${wht}Font${rst}"
+        ''
+        "${wht}$name${rst}"
+        "${dim}face: $face${rst}"
+        ''
+        "${dim}A font can't be shown here - the${rst}"
+        "${dim}terminal renders one font for the${rst}"
+        "${dim}whole window.${rst}"
+        ''
+        "${dim}Install a bundled one:${rst}"
+        "${dim}  Install-PoshPaletteFont $id${rst}"
+        "${dim}then pick it as your terminal font.${rst}"
+    )
+    [Console]::CursorVisible = $false
+    for ($i = 0; $i -lt $lines.Count; $i++) {
+        try { [Console]::SetCursorPosition($Left, $Top + $i); [Console]::Write($lines[$i]) } catch { }
+    }
+    [Console]::Write($rst)
 }
 
 # --- Simple mode: pick a full preset ------------------------------------------
@@ -198,6 +314,11 @@ function New-PoshPalettePreviewFor {
     }
 }
 
+# Preview callback for the font picker: show the font info panel.
+function New-PoshPaletteFontPreviewFor {
+    { param($it) Show-PoshPaletteFontInfo -Font $it }
+}
+
 function Invoke-PoshPaletteDetailMode {
     $presets = Get-PoshPaletteThemes
     if (-not $presets) { return }
@@ -231,13 +352,18 @@ function Invoke-PoshPaletteDetailMode {
                 if ($p) { $comp.palette = $p.Id }
             }
             'prompt' {
-                $p = Show-PoshPaletteList -Title 'Prompt (oh-my-posh)' -Items (Get-PoshPaletteCatalog prompts) -PreviewFor (New-PoshPalettePreviewFor $comp 'prompt')
+                $p = Show-PoshPaletteList -Title 'Prompt (oh-my-posh)' -Items (Get-PoshPaletteCatalog prompts) `
+                    -PreviewFor (New-PoshPalettePreviewFor $comp 'prompt') `
+                    -CustomPrompt 'Type an oh-my-posh theme name (e.g. atomic, jandedobbeleer):'
                 if ($p) { $comp.prompt = $p.Id }
             }
             'font' {
-                # Font can't be shown in the ANSI preview; pick from the list.
-                $p = Show-PoshPaletteList -Title 'Font (must be installed)' -Items (Get-PoshPaletteFonts)
-                if ($p) { $comp.font = $p.id }
+                # A font can't be rendered live; show its name + install hint, and
+                # allow typing any installed font face directly.
+                $p = Show-PoshPaletteList -Title 'Font' -Items (Get-PoshPaletteFonts) `
+                    -PreviewFor (New-PoshPaletteFontPreviewFor) `
+                    -CustomPrompt 'Type an installed font face (e.g. Cascadia Code NF):'
+                if ($p) { $comp.font = $p.Id }
             }
             'opacity' {
                 $v = Invoke-PoshPaletteAdjust 'Opacity' ([int]$comp.opacity) 30 100 5 '%'
