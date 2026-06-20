@@ -4,7 +4,7 @@
   "description": "Clean dark blue, inspired by Tokyo at night.",
   "scheme": "tokyo-night",
   "palette": "tokyo-night",
-  "prompt": "tokyonight-storm",
+  "prompt": "auto-powerline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 92,

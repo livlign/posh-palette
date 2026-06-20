@@ -13,7 +13,7 @@
 function New-PoshPaletteOmpConfig {
     param(
         [Parameter(Mandatory)] $Colors,
-        [ValidateSet('classic','minimal','powerline','robby')] [string] $Style = 'classic'
+        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure')] [string] $Style = 'classic'
     )
 
     $get = {
@@ -29,55 +29,70 @@ function New-PoshPaletteOmpConfig {
     $cyan   = & $get 'cyan'   '#7DCFFF'
     $yellow = & $get 'yellow' '#E0AF68'
     $fg     = & $get 'foreground' '#C0CAF5'
+    $chg    = "{{ if or (.Working.Changed) (.Staging.Changed) }}$red{{ end }}"
 
-    $segments = @(switch ($Style) {
+    # Reusable plain segments (scheme-colored).
+    $pathSeg = { param($fg, $tpl) [ordered]@{ type = 'path'; style = 'plain'; foreground = $fg; properties = [ordered]@{ style = 'folder' }; template = $tpl } }
+    $gitSeg  = { param($fg, $tpl) [ordered]@{ type = 'git'; style = 'plain'; foreground = $fg; foreground_templates = @($chg); properties = [ordered]@{ fetch_status = $true; branch_icon = '' }; template = $tpl } }
+    $timeSeg = { param($fg) [ordered]@{ type = 'time'; style = 'plain'; foreground = $fg; template = '{{ .CurrentDate | date "15:04" }} ' } }
+    $statSeg = { param($fg, $tpl) [ordered]@{ type = 'status'; style = 'plain'; foreground = $fg; foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); properties = [ordered]@{ always_enabled = $true }; template = $tpl } }
+    $textSeg = { param($fg, $tpl) [ordered]@{ type = 'text'; style = 'plain'; foreground = $fg; template = $tpl } }
+    $line    = { param($segs, [bool]$nl = $false) $b = [ordered]@{ type = 'prompt'; alignment = 'left'; segments = @($segs) }; if ($nl) { $b['newline'] = $true }; $b }
+
+    $blocks = @(switch ($Style) {
         'robby' {
-            @(
-                [ordered]@{ type = 'text'; style = 'plain'; foreground = $cyan; template = '❯❯' }
-                [ordered]@{ type = 'path'; style = 'plain'; foreground = $blue;
-                    properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
-                [ordered]@{ type = 'git'; style = 'plain'; foreground = $green;
-                    foreground_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$red{{ end }}");
-                    properties = [ordered]@{ fetch_status = $true; branch_icon = '' };
-                    template = 'git:({{ .HEAD }}) ' }
-                [ordered]@{ type = 'time'; style = 'plain'; foreground = $yellow;
-                    template = '{{ .CurrentDate | date "15:04" }} ' }
+            & $line @(
+                (& $textSeg $cyan '❯❯')
+                (& $pathSeg $blue ' {{ .Path }} ')
+                (& $gitSeg  $green 'git:({{ .HEAD }}) ')
+                (& $timeSeg $yellow)
             )
         }
-        'minimal' {
-            @(
-                [ordered]@{ type = 'status'; style = 'plain'; foreground = $purple;
-                    foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}");
-                    properties = [ordered]@{ always_enabled = $true }; template = '❯ ' }
-            )
-        }
+        'minimal' { & $line @((& $statSeg $purple '❯ ')) }
         'powerline' {
-            @(
-                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)";
-                    foreground = $bg; background = $blue; properties = [ordered]@{ style = 'folder' };
-                    template = ' {{ .Path }} ' }
-                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)";
-                    foreground = $bg; background = $green;
-                    background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$purple{{ end }}");
-                    properties = [ordered]@{ fetch_status = $true };
-                    template = " $([char]0xE0A0) {{ .HEAD }} " }
-                [ordered]@{ type = 'status'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)";
-                    foreground = $bg; background = $cyan;
-                    background_templates = @("{{ if gt .Code 0 }}$red{{ end }}");
-                    properties = [ordered]@{ always_enabled = $true };
-                    template = ' {{ if gt .Code 0 }}✗{{ else }}✓{{ end }} ' }
+            & $line @(
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $blue; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $green; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$purple{{ end }}"); properties = [ordered]@{ fetch_status = $true }; template = " $([char]0xE0A0) {{ .HEAD }} " }
+                [ordered]@{ type = 'status'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $cyan; background_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); properties = [ordered]@{ always_enabled = $true }; template = ' {{ if gt .Code 0 }}✗{{ else }}✓{{ end }} ' }
             )
+        }
+        'twoline' {
+            (& $line @(
+                (& $textSeg $cyan '╭─ ')
+                (& $pathSeg $blue '{{ .Path }} ')
+                (& $gitSeg  $green '● {{ .HEAD }} ')
+                (& $timeSeg $yellow)
+            ))
+            (& $line @(
+                (& $textSeg $cyan '╰─')
+                (& $statSeg $purple '❯ ')
+            ) $true)
+        }
+        'arrow' {
+            & $line @(
+                (& $pathSeg $blue '{{ .Path }} ')
+                (& $textSeg $cyan 'on ')
+                (& $gitSeg  $green '● {{ .HEAD }} ')
+                (& $timeSeg $yellow)
+                (& $statSeg $purple '❯ ')
+            )
+        }
+        'lambda' {
+            & $line @(
+                (& $textSeg $purple 'λ ')
+                (& $pathSeg $blue '{{ .Path }} ')
+                (& $textSeg $green '→ ')
+            )
+        }
+        'pure' {
+            (& $line @((& $pathSeg $blue '{{ .Path }}')))
+            (& $line @((& $statSeg $purple '❯ ')) $true)
         }
         default {  # classic
-            @(
-                [ordered]@{ type = 'path'; style = 'plain'; foreground = $blue;
-                    properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
-                [ordered]@{ type = 'git'; style = 'plain'; foreground = $green;
-                    properties = [ordered]@{ fetch_status = $true };
-                    template = '{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} ' }
-                [ordered]@{ type = 'status'; style = 'plain'; foreground = $purple;
-                    foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}");
-                    properties = [ordered]@{ always_enabled = $true }; template = '❯ ' }
+            & $line @(
+                (& $pathSeg $blue ' {{ .Path }} ')
+                [ordered]@{ type = 'git'; style = 'plain'; foreground = $green; properties = [ordered]@{ fetch_status = $true }; template = '{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} ' }
+                (& $statSeg $purple '❯ ')
             )
         }
     })
@@ -86,9 +101,7 @@ function New-PoshPaletteOmpConfig {
         '$schema'   = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json'
         version     = 2
         final_space = $true
-        blocks      = @(
-            [ordered]@{ type = 'prompt'; alignment = 'left'; segments = $segments }
-        )
+        blocks      = @($blocks)
     }
 }
 

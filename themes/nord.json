@@ -4,7 +4,7 @@
   "description": "Arctic, north-bluish muted palette.",
   "scheme": "nord",
   "palette": "nord",
-  "prompt": "nord",
+  "prompt": "auto-powerline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 96,

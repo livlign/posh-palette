@@ -4,7 +4,7 @@
   "description": "The famous cream. Engineered for comfort.",
   "scheme": "solarized-light",
   "palette": "solarized-light",
-  "prompt": "auto",
+  "prompt": "auto-lambda",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 100,

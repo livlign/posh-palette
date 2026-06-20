@@ -4,7 +4,7 @@
   "description": "Built for late nights. Deep ocean blue.",
   "scheme": "night-owl",
   "palette": "night-owl",
-  "prompt": "night-owl",
+  "prompt": "auto-arrow",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 94,

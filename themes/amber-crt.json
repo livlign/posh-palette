@@ -4,7 +4,7 @@
   "description": "Warm amber glow. The terminal your dad used.",
   "scheme": "amber-crt",
   "palette": "amber-crt",
-  "prompt": "auto-minimal",
+  "prompt": "auto-pure",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 96,

@@ -4,7 +4,7 @@
   "description": "The hub you already know, after dark.",
   "scheme": "github-dark",
   "palette": "github-dark",
-  "prompt": "night-owl",
+  "prompt": "auto-powerline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 97,

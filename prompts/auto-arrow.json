@@ -1,0 +1,7 @@
+{
+  "id": "auto-arrow",
+  "name": "Auto · Arrow",
+  "generate": true,
+  "style": "arrow",
+  "note": "Palette-aware single line: path on (branch) time then a chevron. No Nerd Font required."
+}

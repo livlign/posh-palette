@@ -4,7 +4,7 @@
   "description": "The hub you know, in broad daylight.",
   "scheme": "github-light",
   "palette": "github-light",
-  "prompt": "auto",
+  "prompt": "auto-pure",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 100,

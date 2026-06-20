@@ -4,7 +4,7 @@
   "description": "Inspired by Hokusai. Inky blues and washed paper.",
   "scheme": "kanagawa",
   "palette": "kanagawa",
-  "prompt": "tokyonight-storm",
+  "prompt": "auto-robby",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 93,

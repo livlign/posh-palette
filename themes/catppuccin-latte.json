@@ -4,7 +4,7 @@
   "description": "Warm, low-glare light theme. Catppuccin for daytime.",
   "scheme": "catppuccin-latte",
   "palette": "catppuccin-latte",
-  "prompt": "catppuccin-latte",
+  "prompt": "auto-twoline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 100,

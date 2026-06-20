@@ -4,7 +4,7 @@
   "description": "The legend, refined. Punchy pinks and limes.",
   "scheme": "monokai-pro",
   "palette": "monokai-pro",
-  "prompt": "auto",
+  "prompt": "auto-powerline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 95,

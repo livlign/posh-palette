@@ -54,7 +54,7 @@ Each command edits just that slot on top of your current look:
 ```powershell
 Set-PoshPaletteScheme  nord           # color scheme (Windows Terminal bg + 16 ANSI)
 Set-PoshPaletteColors  tokyo-night    # input + output colors (PSReadLine / $PSStyle)
-Set-PoshPalettePrompt  agnoster       # the oh-my-posh prompt
+Set-PoshPalettePrompt  auto-twoline   # the oh-my-posh prompt (any oh-my-posh name works too)
 Set-PoshPaletteFont    robotomono      # the terminal font
 Set-PoshPaletteLayer -Opacity 90 -Acrylic $true -FontSize 12   # window + size
 ```
@@ -131,13 +131,14 @@ The resolver expands a composition into the flat shape the appliers write, so
 Simple mode, Detail mode, `Install-PoshPaletteTheme`, and the `Set-PoshPalette*`
 layer commands all share one path.
 
-> **Note on prompts:** oh-my-posh themes hard-code their own colors, so a prompt
-> swapped onto a different scheme may not match. The preview shows the real combo
-> before you apply. To always match the scheme, use a generated prompt instead:
-> **`auto`** (classic), **`auto-minimal`**, **`auto-powerline`**, or **`auto-robby`**
-> (the `❯❯ folder git:(branch) time` robbyrussell layout). The catalog also ships
-> 20+ oh-my-posh built-in themes (`robbyrussell`, `agnoster`, `paradox`, `pure`,
-> `spaceship`, `powerlevel10k_rainbow`, and more) to pick from.
+> **Note on prompts:** every bundled prompt is **generated from the active scheme**,
+> so the prompt always matches your colors and always loads (no external oh-my-posh
+> theme files needed). Pick a style: **`auto`** (classic), **`auto-minimal`**,
+> **`auto-powerline`**, **`auto-robby`** (`❯❯ folder git:(branch) time`),
+> **`auto-twoline`**, **`auto-arrow`**, **`auto-lambda`**, or **`auto-pure`**.
+> Prefer a specific oh-my-posh community theme? Pass its name to
+> `Set-PoshPalettePrompt` (or type it in Detail mode) and it'll be used if you have
+> it installed under `POSH_THEMES_PATH`.
 
 ## Contribute
 

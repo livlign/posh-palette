@@ -4,7 +4,7 @@
   "description": "Warm coral sunset. Soft on a dark night.",
   "scheme": "horizon",
   "palette": "horizon",
-  "prompt": "auto",
+  "prompt": "auto-twoline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 93,

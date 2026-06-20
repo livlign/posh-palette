@@ -4,7 +4,7 @@
   "description": "Soho mornings. Warm, rosy, light.",
   "scheme": "rose-pine-dawn",
   "palette": "rose-pine-dawn",
-  "prompt": "auto",
+  "prompt": "auto-arrow",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 100,

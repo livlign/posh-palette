@@ -307,7 +307,7 @@
     const cmd = withCmd ? ` <span class="cmd">Get-ChildItem</span>` : "";
     switch(style){
       case "powerline": {
-        const segs = [["--c-cmd","~/proj"],["--c-str","main"],["--c-op","12:27"]];
+        const segs = [["--c-cmd","~/proj"],["--c-str","main"],["--c-op","✓"]];
         let h = '<span class="pl">';
         segs.forEach((s,i)=>{
           h += `<span class="seg" style="background:${c(s[0])};color:${dim}">${s[1]}</span>`;

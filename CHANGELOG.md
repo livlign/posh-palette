@@ -3,6 +3,27 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.4.0]
+
+### Changed
+- **Every bundled theme now uses a generated, scheme-matched prompt, so what you
+  install matches the website.** Previously some themes referenced external
+  oh-my-posh themes (e.g. `dracula`, `night-owl`, `tokyonight-storm`) that only
+  loaded if you had those `.omp.json` files under `POSH_THEMES_PATH` and used
+  their own hard-coded colors, while the showcase drew a different prompt shape
+  entirely. Generated prompts are written by PoshPalette itself, always load, and
+  always take the theme's colors.
+- **Four new prompt styles** join `auto` / `auto-minimal` / `auto-powerline` /
+  `auto-robby`: **`auto-twoline`**, **`auto-arrow`**, **`auto-lambda`**, and
+  **`auto-pure`**. Each bundled theme is assigned the style the gallery shows, so
+  the site, the in-app preview, and your terminal all agree.
+
+### Removed
+- The referenced oh-my-posh prompt entries (agnoster, atomic, dracula, etc.) are
+  no longer listed in the picker, since they depended on external files and could
+  silently fail to load. You can still use any oh-my-posh theme by passing its
+  name to `Set-PoshPalettePrompt` or typing it in Detail mode.
+
 ## [0.3.5]
 
 ### Fixed

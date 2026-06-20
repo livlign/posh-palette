@@ -4,7 +4,7 @@
   "description": "Soothing pastel dark theme. The crowd favorite.",
   "scheme": "catppuccin-mocha",
   "palette": "catppuccin-mocha",
-  "prompt": "catppuccin-mocha",
+  "prompt": "auto-robby",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 95,

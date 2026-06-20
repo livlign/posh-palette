@@ -4,7 +4,7 @@
   "description": "Soft forest greens. Comfortable for long sessions.",
   "scheme": "everforest",
   "palette": "everforest",
-  "prompt": "gruvbox",
+  "prompt": "auto-lambda",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 95,

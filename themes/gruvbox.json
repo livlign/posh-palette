@@ -4,7 +4,7 @@
   "description": "Retro, earthy, easy on the eyes.",
   "scheme": "gruvbox",
   "palette": "gruvbox",
-  "prompt": "gruvbox",
+  "prompt": "auto-arrow",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 94,

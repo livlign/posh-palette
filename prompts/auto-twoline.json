@@ -1,0 +1,7 @@
+{
+  "id": "auto-twoline",
+  "name": "Auto · Two-line",
+  "generate": true,
+  "style": "twoline",
+  "note": "Palette-aware two-line prompt: path / git / time on top, a chevron below. Uses box-drawing characters (no Nerd Font required)."
+}

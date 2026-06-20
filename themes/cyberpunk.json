@@ -4,7 +4,7 @@
   "description": "Acid yellow, hot magenta, electric cyan. Night City.",
   "scheme": "cyberpunk",
   "palette": "cyberpunk",
-  "prompt": "auto-powerline",
+  "prompt": "auto-twoline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 92,

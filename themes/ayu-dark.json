@@ -4,7 +4,7 @@
   "description": "Inky background, one warm amber accent.",
   "scheme": "ayu-dark",
   "palette": "ayu-dark",
-  "prompt": "auto",
+  "prompt": "auto-pure",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 95,

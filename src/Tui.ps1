@@ -60,8 +60,12 @@ function Get-PoshPalettePromptParts {
     if ($Theme.prompt.generated) {
         switch -Wildcard ($Theme.prompt.name) {
             '*minimal*'   { return @($sc.purple, '❯ ') }
+            '*twoline*'   { return @($sc.cyan, '╭ ', $sc.blue, 'posh-palette ', $sc.green, '● main ', $sc.cyan, '╰', $sc.purple, '❯ ') }
+            '*powerline*' { return @($sc.blue, ' posh-palette ', $sc.green, ' main ', $sc.purple, ' ❯ ') }
             '*robby*'     { return @($sc.cyan, '❯❯ ', $sc.blue, 'posh-palette ', $sc.green, 'git:(main) ', $sc.yellow, '18:50 ') }
-            '*powerline*' { return @($sc.blue, ' posh-palette ', $sc.green, ' main ', $sc.purple, '❯ ') }
+            '*arrow*'     { return @($sc.blue, 'posh-palette ', $sc.cyan, 'on ', $sc.green, '● main ', $sc.purple, '❯ ') }
+            '*lambda*'    { return @($sc.purple, 'λ ', $sc.blue, 'posh-palette ', $sc.green, '→ ') }
+            '*pure*'      { return @($sc.blue, 'posh-palette ', $sc.purple, '❯ ') }
             default       { return @($sc.blue, 'posh-palette ', $sc.green, 'main ', $sc.purple, '❯ ') }
         }
     }

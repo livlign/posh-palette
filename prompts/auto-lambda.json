@@ -1,0 +1,7 @@
+{
+  "id": "auto-lambda",
+  "name": "Auto · Lambda",
+  "generate": true,
+  "style": "lambda",
+  "note": "Palette-aware minimal lambda prompt. No Nerd Font required."
+}

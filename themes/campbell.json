@@ -4,7 +4,7 @@
   "description": "The Windows Terminal default. Your familiar home base.",
   "scheme": "campbell",
   "palette": "campbell",
-  "prompt": "auto",
+  "prompt": "auto-robby",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 100,

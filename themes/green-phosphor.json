@@ -4,7 +4,7 @@
   "description": "One color, all the way down. Old-school CRT.",
   "scheme": "green-phosphor",
   "palette": "green-phosphor",
-  "prompt": "auto-minimal",
+  "prompt": "auto-pure",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 96,

@@ -4,7 +4,7 @@
   "description": "The editor classic, brought to the shell.",
   "scheme": "one-dark",
   "palette": "one-dark",
-  "prompt": "atomic",
+  "prompt": "auto-twoline",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 94,

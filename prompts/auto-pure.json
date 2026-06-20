@@ -1,0 +1,7 @@
+{
+  "id": "auto-pure",
+  "name": "Auto · Pure",
+  "generate": true,
+  "style": "pure",
+  "note": "Palette-aware two-line minimal prompt (Pure-style). No Nerd Font required."
+}

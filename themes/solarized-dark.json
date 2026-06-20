@@ -4,7 +4,7 @@
   "description": "The precision-engineered original. Tuned contrast.",
   "scheme": "solarized-dark",
   "palette": "solarized-dark",
-  "prompt": "night-owl",
+  "prompt": "auto-lambda",
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 96,
