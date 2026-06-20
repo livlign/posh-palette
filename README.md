@@ -1,7 +1,8 @@
 # Posh Palette
 
-VS Code-style theme picker for **PowerShell + Windows Terminal**. Styles all
-**4 layers** at once with live preview, from inside your terminal.
+An interactive theme picker for **PowerShell + Windows Terminal**. Browse a
+gallery of looks, preview them live, and apply one across all **4 layers** at
+once, without leaving your terminal.
 
 > **Naming:** the project/brand is **Posh Palette** (repo: `posh-palette`, kebab-case
 > like `oh-my-posh` / `nerd-fonts`). The PowerShell module and its commands use
