@@ -17,9 +17,19 @@ VS Code-style theme picker for **PowerShell + Windows Terminal**. Styles all
 
 ## Install
 
+PoshPalette needs **PowerShell 7.2 or newer** (the modern, cross-platform
+PowerShell, `pwsh`), not the built-in Windows PowerShell 5.1. Check with
+`$PSVersionTable.PSVersion`.
+
 ```powershell
+winget install Microsoft.PowerShell      # if you don't have PowerShell 7 yet
+pwsh                                      # start PowerShell 7 (not "powershell")
 Install-Module PoshPalette -Scope CurrentUser
+palette
 ```
+
+In Windows Terminal, set the default profile to **PowerShell** (7.x) rather than
+**Windows PowerShell** so new tabs use it automatically.
 
 ## Use
 

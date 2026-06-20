@@ -64,6 +64,8 @@
   .runbox .row + .row{margin-top:9px}
   .runbox .pmt{color:var(--accent);transition:var(--tr)}
   .runbox .hint{color:var(--ink-faint)}
+  .req{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11.5px;color:var(--ink-faint);margin:-14px 0 24px}
+  .req b{color:var(--ink-dim);font-weight:600}
   .runbox button{margin-left:auto;background:var(--raised);border:1px solid var(--hair-strong);color:var(--ink-dim);
     font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;border-radius:4px;padding:6px 9px;cursor:pointer;transition:.2s}
   .runbox button:hover{color:var(--ink);border-color:var(--accent)}
@@ -216,6 +218,7 @@
           <button id="copyBtn" type="button" aria-label="Copy install command">copy</button></div>
         <div class="row"><span><span class="pmt">PS&gt;</span> palette</span> <span class="hint"># opens the picker</span></div>
       </div>
+      <p class="req">Requires <b>PowerShell 7.2+</b> · run <b>pwsh</b>, not Windows PowerShell 5.1</p>
 
       <div class="ctas">
         <a class="btn btn-primary" href="https://github.com/livlign/posh-palette">View on GitHub <span class="arrow" aria-hidden="true">→</span></a>
