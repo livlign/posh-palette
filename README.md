@@ -18,7 +18,7 @@ VS Code-style theme picker for **PowerShell + Windows Terminal**. Styles all
 ## Install
 
 ```powershell
-Install-Module PoshPalette -Scope CurrentUser   # (once published)
+Install-Module PoshPalette -Scope CurrentUser
 ```
 
 ## Use
