@@ -49,8 +49,10 @@
   .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
   .eyebrow{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--accent);margin-bottom:20px;transition:var(--tr)}
-  h1{font-size:clamp(30px,4.1vw,44px);line-height:1.1;letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
-  h1 .em{display:block;color:var(--accent);transition:var(--tr)}
+  h1{font-size:clamp(27px,3.5vw,42px);line-height:1.1;letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+  h1 .l1{display:block;white-space:nowrap}
+  h1 .em{display:block;white-space:nowrap;color:var(--accent);transition:var(--tr)}
+  @media (max-width:560px){ h1 .l1, h1 .em{white-space:normal} }
   .lede{font-size:18px;color:var(--ink-dim);max-width:36ch;margin:0 0 28px}
 
   /* get-started block */
@@ -205,7 +207,7 @@
   <div class="hero">
     <div class="hero-copy">
       <div class="eyebrow">PowerShell · Windows Terminal</div>
-      <h1>Theme the whole shell, <span class="em">not just the prompt.</span></h1>
+      <h1><span class="l1">Theme the whole shell,</span> <span class="em">not just the prompt.</span></h1>
       <p class="lede">One palette restyles your color scheme, the commands you type, your output, and your oh-my-posh prompt, previewed live, right in the terminal.</p>
 
       <div class="start-label">Get started</div>
