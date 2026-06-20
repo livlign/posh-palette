@@ -3,6 +3,16 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.4.2]
+
+### Fixed
+- **Reset now works every time, not just the first.** Reset restored the live
+  prompt with `Remove-Item Function:\prompt`, which only drops the copy in the
+  current scope - so after applying a theme again (which re-runs oh-my-posh in the
+  session), a second reset left the themed prompt in place. Reset now sets the
+  global prompt straight back to PowerShell's default and clears oh-my-posh's
+  `POSH_*` environment, so repeated resets are reliable.
+
 ## [0.4.1]
 
 ### Added

@@ -350,8 +350,17 @@ function Reset-PoshPalette {
         # Forget the active composition so tweaks start fresh.
         $cur = Join-Path $HOME '.poshpalette/current.json'
         if (Test-Path $cur) { Remove-Item $cur -Force }
-        # Best-effort live reset of this session's prompt (oh-my-posh sets one).
-        if (Test-Path Function:\prompt) { Remove-Item Function:\prompt -ErrorAction SilentlyContinue }
+        # Live session: oh-my-posh installs a prompt function (and POSH_* env). A
+        # bare Remove-Item Function:\prompt only drops the copy in the current
+        # scope, so a second reset can leave the visible (global) prompt in place.
+        # Set the global prompt straight back to PowerShell's default instead, and
+        # clear oh-my-posh's env so nothing re-applies it this session.
+        try {
+            $default = { "PS $($executionContext.SessionState.Path.CurrentLocation)$('>' * ($nestedPromptLevel + 1)) " }
+            Set-Item -Path Function:global:prompt -Value $default -Force -ErrorAction SilentlyContinue
+        } catch { }
+        Get-ChildItem Env: -ErrorAction SilentlyContinue | Where-Object { $_.Name -like 'POSH_*' } |
+            ForEach-Object { Remove-Item "Env:\$($_.Name)" -ErrorAction SilentlyContinue }
     }
 
     if (-not $Quiet) { Write-Host "Done. Terminal colors update now; open a new tab for the default prompt." -ForegroundColor Cyan }
