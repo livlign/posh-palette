@@ -1,0 +1,12 @@
+{
+  "id": "campbell",
+  "name": "Campbell",
+  "description": "The Windows Terminal default. Your familiar home base.",
+  "scheme": "campbell",
+  "palette": "campbell",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false
+}

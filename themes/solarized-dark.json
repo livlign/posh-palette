@@ -1,0 +1,12 @@
+{
+  "id": "solarized-dark",
+  "name": "Solarized Dark",
+  "description": "The precision-engineered original. Tuned contrast.",
+  "scheme": "solarized-dark",
+  "palette": "solarized-dark",
+  "prompt": "night-owl",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 96,
+  "acrylic": false
+}

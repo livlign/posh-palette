@@ -1,0 +1,21 @@
+{
+  "id": "horizon",
+  "name": "Horizon Dark",
+  "psReadLine": {
+    "Command": "#26BBD9",
+    "Parameter": "#59E1E3",
+    "String": "#29D398",
+    "Operator": "#EE64AC",
+    "Variable": "#FAB795",
+    "Number": "#FAB795",
+    "Comment": "#6C6F93",
+    "Error": "#E95678",
+    "Default": "#D5D8DA",
+    "InlinePrediction": "#5B5858"
+  },
+  "psStyle": {
+    "Directory": "#26BBD9",
+    "Error": "#E95678",
+    "TableHeader": "#EE64AC"
+  }
+}

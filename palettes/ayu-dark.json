@@ -1,0 +1,21 @@
+{
+  "id": "ayu-dark",
+  "name": "Ayu Dark",
+  "psReadLine": {
+    "Command": "#59C2FF",
+    "Parameter": "#95E6CB",
+    "String": "#AAD94C",
+    "Operator": "#D2A6FF",
+    "Variable": "#FFB454",
+    "Number": "#FFB454",
+    "Comment": "#565B66",
+    "Error": "#F07178",
+    "Default": "#BFBDB6",
+    "InlinePrediction": "#686868"
+  },
+  "psStyle": {
+    "Directory": "#59C2FF",
+    "Error": "#F07178",
+    "TableHeader": "#D2A6FF"
+  }
+}

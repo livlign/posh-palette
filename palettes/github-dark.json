@@ -1,0 +1,21 @@
+{
+  "id": "github-dark",
+  "name": "GitHub Dark",
+  "psReadLine": {
+    "Command": "#58A6FF",
+    "Parameter": "#39C5CF",
+    "String": "#3FB950",
+    "Operator": "#BC8CFF",
+    "Variable": "#D29922",
+    "Number": "#FFA657",
+    "Comment": "#8B949E",
+    "Error": "#FF7B72",
+    "Default": "#C9D1D9",
+    "InlinePrediction": "#6E7681"
+  },
+  "psStyle": {
+    "Directory": "#58A6FF",
+    "Error": "#FF7B72",
+    "TableHeader": "#BC8CFF"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "high-contrast",
+  "name": "High Contrast",
+  "colors": {
+    "background": "#000000",
+    "foreground": "#FFFFFF",
+    "cursorColor": "#FFFFFF",
+    "selectionBackground": "#4D4D4D",
+    "black": "#555555",
+    "red": "#FF5555",
+    "green": "#50FA7B",
+    "yellow": "#FFFF55",
+    "blue": "#5599FF",
+    "purple": "#FF66FF",
+    "cyan": "#55FFFF",
+    "white": "#FFFFFF",
+    "brightBlack": "#888888",
+    "brightRed": "#FF7777",
+    "brightGreen": "#77FF99",
+    "brightYellow": "#FFFF99",
+    "brightBlue": "#88BBFF",
+    "brightPurple": "#FF99FF",
+    "brightCyan": "#99FFFF",
+    "brightWhite": "#FFFFFF"
+  }
+}

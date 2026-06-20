@@ -1,0 +1,7 @@
+{
+  "id": "clean-detailed",
+  "name": "Clean Detailed",
+  "ohMyPoshTheme": "clean-detailed",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

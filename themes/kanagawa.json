@@ -1,0 +1,12 @@
+{
+  "id": "kanagawa",
+  "name": "Kanagawa Wave",
+  "description": "Inspired by Hokusai. Inky blues and washed paper.",
+  "scheme": "kanagawa",
+  "palette": "kanagawa",
+  "prompt": "tokyonight-storm",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 93,
+  "acrylic": true
+}

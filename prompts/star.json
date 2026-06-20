@@ -1,0 +1,7 @@
+{
+  "id": "star",
+  "name": "Star",
+  "ohMyPoshTheme": "star",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

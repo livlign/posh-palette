@@ -1,0 +1,12 @@
+{
+  "id": "monokai-pro",
+  "name": "Monokai Pro Spectrum",
+  "description": "The legend, refined. Punchy pinks and limes.",
+  "scheme": "monokai-pro",
+  "palette": "monokai-pro",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 95,
+  "acrylic": false
+}

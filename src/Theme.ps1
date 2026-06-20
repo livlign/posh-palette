@@ -74,6 +74,15 @@ function Resolve-PoshPaletteTheme {
     $schemeBlock = ConvertTo-PoshPaletteHashtable $scheme.colors
     $schemeBlock['name'] = $scheme.name   # WT scheme is named after the scheme, not the composition
 
+    # A prompt is either a reference to a fixed-color oh-my-posh theme, or 'auto',
+    # which generates a config from this scheme's colors so the prompt matches.
+    $promptBlock = if ($prompt.generate) {
+        $style = if ($prompt.style) { $prompt.style } else { 'classic' }
+        @{ generated = $true; name = "pp-$($prompt.id)"; config = (New-PoshPaletteOmpConfig $scheme.colors -Style $style) }
+    } else {
+        @{ ohMyPoshTheme = $prompt.ohMyPoshTheme }
+    }
+
     $resolved = @{
         name     = $Composition.name
         terminal = @{
@@ -85,7 +94,7 @@ function Resolve-PoshPaletteTheme {
         }
         psReadLine = (ConvertTo-PoshPaletteHashtable $palette.psReadLine)
         psStyle    = (ConvertTo-PoshPaletteHashtable $palette.psStyle)
-        prompt     = @{ ohMyPoshTheme = $prompt.ohMyPoshTheme }
+        prompt     = $promptBlock
     }
     # Round-trip to PSCustomObjects so appliers see the same shape as file themes.
     $resolved | ConvertTo-Json -Depth 32 | ConvertFrom-Json

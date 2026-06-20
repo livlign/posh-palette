@@ -1,0 +1,12 @@
+{
+  "id": "catppuccin-latte",
+  "name": "Catppuccin Latte",
+  "description": "Warm, low-glare light theme. Catppuccin for daytime.",
+  "scheme": "catppuccin-latte",
+  "palette": "catppuccin-latte",
+  "prompt": "catppuccin-latte",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false
+}

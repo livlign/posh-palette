@@ -1,0 +1,12 @@
+{
+  "id": "horizon",
+  "name": "Horizon Dark",
+  "description": "Warm coral sunset. Soft on a dark night.",
+  "scheme": "horizon",
+  "palette": "horizon",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 93,
+  "acrylic": true
+}

@@ -1,0 +1,12 @@
+{
+  "id": "night-owl",
+  "name": "Night Owl Deep",
+  "description": "Built for late nights. Deep ocean blue.",
+  "scheme": "night-owl",
+  "palette": "night-owl",
+  "prompt": "night-owl",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 94,
+  "acrylic": true
+}

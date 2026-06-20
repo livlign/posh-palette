@@ -1,0 +1,21 @@
+{
+  "id": "gruvbox",
+  "name": "Gruvbox Dark",
+  "psReadLine": {
+    "Command": "#83A598",
+    "Parameter": "#8EC07C",
+    "String": "#B8BB26",
+    "Operator": "#D3869B",
+    "Variable": "#FABD2F",
+    "Number": "#FE8019",
+    "Comment": "#928374",
+    "Error": "#FB4934",
+    "Default": "#EBDBB2",
+    "InlinePrediction": "#928374"
+  },
+  "psStyle": {
+    "Directory": "#83A598",
+    "Error": "#FB4934",
+    "TableHeader": "#D3869B"
+  }
+}

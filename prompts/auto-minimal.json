@@ -1,0 +1,7 @@
+{
+  "id": "auto-minimal",
+  "name": "Auto · Minimal",
+  "generate": true,
+  "style": "minimal",
+  "note": "Palette-aware. Just a prompt character that turns red on a failed command."
+}

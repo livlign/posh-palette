@@ -1,0 +1,21 @@
+{
+  "id": "night-owl",
+  "name": "Night Owl Deep",
+  "psReadLine": {
+    "Command": "#82AAFF",
+    "Parameter": "#21C7A8",
+    "String": "#22DA6E",
+    "Operator": "#C792EA",
+    "Variable": "#ADDB67",
+    "Number": "#F78C6C",
+    "Comment": "#637777",
+    "Error": "#EF5350",
+    "Default": "#D6DEEB",
+    "InlinePrediction": "#637777"
+  },
+  "psStyle": {
+    "Directory": "#82AAFF",
+    "Error": "#EF5350",
+    "TableHeader": "#C792EA"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "rose-pine-dawn",
+  "name": "Ros\u00e9 Pine Dawn",
+  "description": "Soho mornings. Warm, rosy, light.",
+  "scheme": "rose-pine-dawn",
+  "palette": "rose-pine-dawn",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false
+}

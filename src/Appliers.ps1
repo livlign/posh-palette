@@ -29,75 +29,104 @@ function Backup-PoshPaletteFile {
     }
 }
 
-# Windows Terminal settings.json is JSONC (// line comments, /* */ block
-# comments, and tolerated trailing commas) which ConvertFrom-Json cannot parse.
-# This strips comments while respecting string contents, so a "https://" inside
-# a value or a "," inside a string is never mistaken for a comment/separator.
-function Remove-JsoncComments {
-    param([string] $Text)
-    $sb = [System.Text.StringBuilder]::new()
-    $inString = $false; $escaped = $false
-    $i = 0; $n = $Text.Length
-    while ($i -lt $n) {
-        $c    = $Text[$i]
-        $next = if ($i + 1 -lt $n) { $Text[$i + 1] } else { [char]0 }
-        if ($inString) {
-            [void]$sb.Append($c)
-            if     ($escaped)      { $escaped = $false }
-            elseif ($c -eq '\')    { $escaped = $true }
-            elseif ($c -eq '"')    { $inString = $false }
-            $i++; continue
-        }
-        if ($c -eq '"')                  { $inString = $true; [void]$sb.Append($c); $i++; continue }
-        if ($c -eq '/' -and $next -eq '/') { while ($i -lt $n -and $Text[$i] -ne "`n") { $i++ }; continue }
-        if ($c -eq '/' -and $next -eq '*') {
-            $i += 2
-            while ($i -lt $n -and -not ($Text[$i] -eq '*' -and $i + 1 -lt $n -and $Text[$i + 1] -eq '/')) { $i++ }
-            $i += 2; continue
-        }
-        [void]$sb.Append($c); $i++
-    }
-    $sb.ToString()
-}
-
-function Set-PoshPaletteTerminalLayer {
-    param($Theme, [string] $SettingsPath, [switch] $DryRun)
-
+# Build the hashtable we upsert into settings.schemes / settings.profiles.defaults.
+function Get-PoshPaletteTerminalEdits {
+    param($Theme)
     $scheme = @{}
     $Theme.terminal.scheme.psobject.Properties | ForEach-Object { $scheme[$_.Name] = $_.Value }
     if (-not $scheme['name']) { $scheme['name'] = $Theme.name }
-    $schemeName = $scheme['name']
+    @{
+        SchemeName = $scheme['name']
+        Scheme     = $scheme
+        Defaults   = [ordered]@{
+            colorScheme = $scheme['name']
+            opacity     = $Theme.terminal.opacity
+            useAcrylic  = [bool]$Theme.terminal.useAcrylic
+            font        = [ordered]@{ face = $Theme.terminal.font; size = $Theme.terminal.fontSize }
+        }
+    }
+}
 
-    # NOTE: comments are stripped for parsing and NOT re-emitted on write, so a
-    # round-trip drops any comments the user had. The pre-write backup is the
-    # mitigation until a comment-preserving writer lands (see Restore-PoshPalette).
-    $clean = Remove-JsoncComments (Get-Content $SettingsPath -Raw)
-    $clean = [regex]::Replace($clean, ',(\s*[}\]])', '$1')   # tolerate trailing commas
-    $settings = $clean | ConvertFrom-Json -AsHashtable
+# Comment-preserving write: edit only the spans that change, so the user's
+# comments, key order, and formatting survive. Falls back to a parse->reserialize
+# round-trip if the file is too irregular to edit surgically.
+function Set-PoshPaletteTerminalLayer {
+    param($Theme, [string] $SettingsPath, [switch] $DryRun)
 
-    if (-not $settings.schemes) { $settings.schemes = @() }
-    $settings.schemes = @($settings.schemes | Where-Object { $_.name -ne $schemeName }) + $scheme
+    $edits      = Get-PoshPaletteTerminalEdits $Theme
+    $schemeName = $edits.SchemeName
 
-    if (-not $settings.profiles)          { $settings.profiles = @{} }
-    if (-not $settings.profiles.defaults) { $settings.profiles.defaults = @{} }
-    $d = $settings.profiles.defaults
-    $d.colorScheme = $schemeName
-    $d.opacity     = $Theme.terminal.opacity
-    $d.useAcrylic  = [bool]$Theme.terminal.useAcrylic
-    $d.font        = @{ face = $Theme.terminal.font; size = $Theme.terminal.fontSize }
-
-    $json = $settings | ConvertTo-Json -Depth 32
     if ($DryRun) {
         Write-Host "  [dry-run] would write Terminal scheme '$($Theme.name)' to $SettingsPath" -ForegroundColor DarkGray
-    } else {
-        Set-Content -Path $SettingsPath -Value $json -Encoding utf8
+        return
+    }
+
+    $text = Get-Content $SettingsPath -Raw
+    $wrote = $false
+    try {
+        $rootOpen = $text.IndexOf('{')
+        if ($rootOpen -lt 0) { throw 'no root object' }
+
+        # profiles.defaults.{colorScheme,opacity,useAcrylic,font}
+        $prof = Find-JsoncMember $text $rootOpen 'profiles'
+        if (-not $prof) {
+            $text = Set-JsoncMember $text $rootOpen 'profiles' '{ "defaults": {} }'
+            $prof = Find-JsoncMember $text $rootOpen 'profiles'
+        }
+        $profOpen = $text.IndexOf('{', $prof.ValueStart)
+        $defM = Find-JsoncMember $text $profOpen 'defaults'
+        if (-not $defM) {
+            $text = Set-JsoncMember $text $profOpen 'defaults' '{}'
+            $defM = Find-JsoncMember $text $profOpen 'defaults'
+        }
+        $defOpen = $text.IndexOf('{', $defM.ValueStart)
+        $text = Set-JsoncMember $text $defOpen 'colorScheme' ('"' + $schemeName + '"')
+        $defOpen = $text.IndexOf('{', (Find-JsoncMember $text $profOpen 'defaults').ValueStart)
+        $text = Set-JsoncMember $text $defOpen 'opacity' ([string]$edits.Defaults.opacity)
+        $defOpen = $text.IndexOf('{', (Find-JsoncMember $text $profOpen 'defaults').ValueStart)
+        $text = Set-JsoncMember $text $defOpen 'useAcrylic' ($edits.Defaults.useAcrylic.ToString().ToLower())
+        $defOpen = $text.IndexOf('{', (Find-JsoncMember $text $profOpen 'defaults').ValueStart)
+        $fontJson = ($edits.Defaults.font | ConvertTo-Json -Depth 5 -Compress)
+        $text = Set-JsoncMember $text $defOpen 'font' $fontJson
+
+        # schemes[] upsert by name
+        $rootOpen = $text.IndexOf('{')
+        $schM = Find-JsoncMember $text $rootOpen 'schemes'
+        if (-not $schM) {
+            $text = Set-JsoncMember $text $rootOpen 'schemes' '[]'
+            $schM = Find-JsoncMember $text $rootOpen 'schemes'
+        }
+        $arrOpen = $text.IndexOf('[', $schM.ValueStart)
+        $schemeJson = ($edits.Scheme | ConvertTo-Json -Depth 5)
+        $text = Set-JsoncArrayItemByName $text $arrOpen $schemeName $schemeJson
+
+        # validate before committing; if it doesn't parse, fall back
+        $null = ConvertFrom-Jsonc $text
+        Set-Content -Path $SettingsPath -Value $text -Encoding utf8
+        $wrote = $true
+    } catch {
+        Write-Verbose "Surgical JSONC edit failed ($_); falling back to round-trip."
+    }
+
+    if (-not $wrote) {
+        $settings = ConvertFrom-Jsonc (Get-Content $SettingsPath -Raw) -AsHashtable
+        if (-not $settings.schemes) { $settings.schemes = @() }
+        $settings.schemes = @($settings.schemes | Where-Object { $_.name -ne $schemeName }) + $edits.Scheme
+        if (-not $settings.profiles)          { $settings.profiles = @{} }
+        if (-not $settings.profiles.defaults) { $settings.profiles.defaults = @{} }
+        $d = $settings.profiles.defaults
+        $d.colorScheme = $schemeName
+        $d.opacity     = $edits.Defaults.opacity
+        $d.useAcrylic  = $edits.Defaults.useAcrylic
+        $d.font        = @{ face = $edits.Defaults.font.face; size = $edits.Defaults.font.size }
+        Set-Content -Path $SettingsPath -Value ($settings | ConvertTo-Json -Depth 32) -Encoding utf8
     }
 }
 
 # --- Layers 2-4: the $PROFILE managed block -----------------------------------
 
 function New-PoshPaletteProfileBlock {
-    param($Theme)
+    param($Theme, [switch] $DryRun)
     $sb = [System.Text.StringBuilder]::new()
     [void]$sb.AppendLine($script:BlockStart)
     [void]$sb.AppendLine('# Managed by PoshPalette - edit via the app, not by hand.')
@@ -118,8 +147,17 @@ function New-PoshPaletteProfileBlock {
     if ($Theme.psStyle.TableHeader) { [void]$sb.AppendLine("    `$PSStyle.Formatting.TableHeader = `$PSStyle.Foreground.FromRgb('$($Theme.psStyle.TableHeader)')") }
     [void]$sb.AppendLine('}')
 
-    # Layer 4: oh-my-posh prompt
-    if ($Theme.prompt.ohMyPoshTheme) {
+    # Layer 4: oh-my-posh prompt. A generated ('auto') prompt is written to a
+    # managed config file and referenced by absolute path; a referenced theme
+    # resolves against $env:POSH_THEMES_PATH at load time.
+    if ($Theme.prompt.generated) {
+        $cfgPath = if ($DryRun) { Join-Path $HOME '.poshpalette/prompts/pp-auto.omp.json' }
+                   else { Save-PoshPalettePrompt -Config $Theme.prompt.config -Name $Theme.prompt.name }
+        [void]$sb.AppendLine('if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {')
+        [void]$sb.AppendLine("    oh-my-posh init pwsh --config `"$cfgPath`" | Invoke-Expression")
+        [void]$sb.AppendLine('}')
+    }
+    elseif ($Theme.prompt.ohMyPoshTheme) {
         [void]$sb.AppendLine('if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {')
         [void]$sb.AppendLine("    oh-my-posh init pwsh --config `"`$env:POSH_THEMES_PATH\$($Theme.prompt.ohMyPoshTheme).omp.json`" | Invoke-Expression")
         [void]$sb.AppendLine('}')
@@ -131,7 +169,7 @@ function New-PoshPaletteProfileBlock {
 function Set-PoshPaletteProfileLayer {
     param($Theme, [string] $ProfilePath = $PROFILE, [switch] $DryRun)
 
-    $block   = New-PoshPaletteProfileBlock $Theme
+    $block   = New-PoshPaletteProfileBlock $Theme -DryRun:$DryRun
     $existing = if (Test-Path $ProfilePath) { Get-Content $ProfilePath -Raw } else { '' }
 
     # Replace an existing managed block, otherwise append. Idempotent re-apply.

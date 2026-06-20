@@ -1,0 +1,21 @@
+{
+  "id": "green-phosphor",
+  "name": "Green Phosphor CRT",
+  "psReadLine": {
+    "Command": "#00CC44",
+    "Parameter": "#66FFAA",
+    "String": "#33FF33",
+    "Operator": "#00FF88",
+    "Variable": "#66FF66",
+    "Number": "#66FF66",
+    "Comment": "#2A8A2A",
+    "Error": "#00AA00",
+    "Default": "#33FF33",
+    "InlinePrediction": "#0A5A0A"
+  },
+  "psStyle": {
+    "Directory": "#00CC44",
+    "Error": "#00AA00",
+    "TableHeader": "#00FF88"
+  }
+}

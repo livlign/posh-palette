@@ -1,0 +1,12 @@
+{
+  "id": "solarized-light",
+  "name": "Solarized Light",
+  "description": "The famous cream. Engineered for comfort.",
+  "scheme": "solarized-light",
+  "palette": "solarized-light",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false
+}

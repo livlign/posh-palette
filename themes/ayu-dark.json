@@ -1,0 +1,12 @@
+{
+  "id": "ayu-dark",
+  "name": "Ayu Dark",
+  "description": "Inky background, one warm amber accent.",
+  "scheme": "ayu-dark",
+  "palette": "ayu-dark",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 95,
+  "acrylic": false
+}

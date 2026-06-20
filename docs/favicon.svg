@@ -1,0 +1,18 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor" role="img" aria-label="Posh Palette">
+  <style>
+    :root { color: #18191b; }
+    @media (prefers-color-scheme: dark) { :root { color: #ffffff; } }
+  </style>
+  <defs>
+    <linearGradient id="ppRampF" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.9"/>
+      <stop offset="33.333%" stop-color="currentColor" stop-opacity="0.9"/>
+      <stop offset="33.333%" stop-color="currentColor" stop-opacity="0.5"/>
+      <stop offset="66.666%" stop-color="currentColor" stop-opacity="0.5"/>
+      <stop offset="66.666%" stop-color="currentColor" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.18"/>
+    </linearGradient>
+  </defs>
+  <path d="M3.3 7.2 L12.4 13.6 L3.3 20" fill="none" stroke="currentColor" stroke-width="2.9" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="7.7" y="20.4" width="22.3" height="5.8" rx="2.9" fill="url(#ppRampF)"/>
+</svg>

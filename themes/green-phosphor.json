@@ -1,0 +1,12 @@
+{
+  "id": "green-phosphor",
+  "name": "Green Phosphor CRT",
+  "description": "One color, all the way down. Old-school CRT.",
+  "scheme": "green-phosphor",
+  "palette": "green-phosphor",
+  "prompt": "auto-minimal",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 96,
+  "acrylic": false
+}

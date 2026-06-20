@@ -1,0 +1,21 @@
+{
+  "id": "github-light",
+  "name": "GitHub Light",
+  "psReadLine": {
+    "Command": "#0366D6",
+    "Parameter": "#1B7C83",
+    "String": "#28A745",
+    "Operator": "#5A32A3",
+    "Variable": "#DBAB09",
+    "Number": "#005CC5",
+    "Comment": "#6A737D",
+    "Error": "#D73A49",
+    "Default": "#24292F",
+    "InlinePrediction": "#959DA5"
+  },
+  "psStyle": {
+    "Directory": "#0366D6",
+    "Error": "#D73A49",
+    "TableHeader": "#5A32A3"
+  }
+}

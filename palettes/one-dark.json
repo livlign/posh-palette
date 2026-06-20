@@ -1,0 +1,21 @@
+{
+  "id": "one-dark",
+  "name": "One Dark Atom",
+  "psReadLine": {
+    "Command": "#61AFEF",
+    "Parameter": "#56B6C2",
+    "String": "#98C379",
+    "Operator": "#C678DD",
+    "Variable": "#E5C07B",
+    "Number": "#D19A66",
+    "Comment": "#5C6370",
+    "Error": "#E06C75",
+    "Default": "#ABB2BF",
+    "InlinePrediction": "#5C6370"
+  },
+  "psStyle": {
+    "Directory": "#61AFEF",
+    "Error": "#E06C75",
+    "TableHeader": "#C678DD"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "rose-pine",
+  "name": "Ros\u00e9 Pine Main",
+  "psReadLine": {
+    "Command": "#9CCFD8",
+    "Parameter": "#EBBCBA",
+    "String": "#31748F",
+    "Operator": "#C4A7E7",
+    "Variable": "#F6C177",
+    "Number": "#F6C177",
+    "Comment": "#6E6A86",
+    "Error": "#EB6F92",
+    "Default": "#E0DEF4",
+    "InlinePrediction": "#6E6A86"
+  },
+  "psStyle": {
+    "Directory": "#9CCFD8",
+    "Error": "#EB6F92",
+    "TableHeader": "#C4A7E7"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "dracula",
+  "name": "Dracula Vivid",
+  "description": "High-contrast neon on charcoal. The classic.",
+  "scheme": "dracula",
+  "palette": "dracula",
+  "prompt": "dracula",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 92,
+  "acrylic": true
+}

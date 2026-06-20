@@ -1,0 +1,26 @@
+{
+  "id": "rose-pine",
+  "name": "Ros\u00e9 Pine Main",
+  "colors": {
+    "background": "#191724",
+    "foreground": "#E0DEF4",
+    "cursorColor": "#524F67",
+    "selectionBackground": "#403D52",
+    "black": "#26233A",
+    "red": "#EB6F92",
+    "green": "#31748F",
+    "yellow": "#F6C177",
+    "blue": "#9CCFD8",
+    "purple": "#C4A7E7",
+    "cyan": "#EBBCBA",
+    "white": "#E0DEF4",
+    "brightBlack": "#6E6A86",
+    "brightRed": "#EB6F92",
+    "brightGreen": "#31748F",
+    "brightYellow": "#F6C177",
+    "brightBlue": "#9CCFD8",
+    "brightPurple": "#C4A7E7",
+    "brightCyan": "#EBBCBA",
+    "brightWhite": "#E0DEF4"
+  }
+}

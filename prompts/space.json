@@ -1,0 +1,7 @@
+{
+  "id": "space",
+  "name": "Space",
+  "ohMyPoshTheme": "space",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

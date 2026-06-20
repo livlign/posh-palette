@@ -1,0 +1,12 @@
+{
+  "id": "cyberpunk",
+  "name": "Cyberpunk Neon",
+  "description": "Acid yellow, hot magenta, electric cyan. Night City.",
+  "scheme": "cyberpunk",
+  "palette": "cyberpunk",
+  "prompt": "auto-powerline",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 92,
+  "acrylic": true
+}

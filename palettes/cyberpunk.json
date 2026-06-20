@@ -1,0 +1,21 @@
+{
+  "id": "cyberpunk",
+  "name": "Cyberpunk Neon",
+  "psReadLine": {
+    "Command": "#00B0FF",
+    "Parameter": "#00FFF7",
+    "String": "#00FF9C",
+    "Operator": "#D300C5",
+    "Variable": "#FCEE0A",
+    "Number": "#FF8A00",
+    "Comment": "#6C6A9E",
+    "Error": "#FF2E97",
+    "Default": "#E8E6F0",
+    "InlinePrediction": "#6B63B5"
+  },
+  "psStyle": {
+    "Directory": "#00B0FF",
+    "Error": "#FF2E97",
+    "TableHeader": "#D300C5"
+  }
+}

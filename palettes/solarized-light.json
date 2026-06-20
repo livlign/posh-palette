@@ -1,0 +1,21 @@
+{
+  "id": "solarized-light",
+  "name": "Solarized Light",
+  "psReadLine": {
+    "Command": "#268BD2",
+    "Parameter": "#2AA198",
+    "String": "#859900",
+    "Operator": "#D33682",
+    "Variable": "#B58900",
+    "Number": "#CB4B16",
+    "Comment": "#93A1A1",
+    "Error": "#DC322F",
+    "Default": "#657B83",
+    "InlinePrediction": "#586E75"
+  },
+  "psStyle": {
+    "Directory": "#268BD2",
+    "Error": "#DC322F",
+    "TableHeader": "#D33682"
+  }
+}

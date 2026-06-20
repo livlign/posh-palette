@@ -1,0 +1,12 @@
+{
+  "id": "high-contrast",
+  "name": "High Contrast",
+  "description": "Maximum legibility. Pure black, bright primaries.",
+  "scheme": "high-contrast",
+  "palette": "high-contrast",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false
+}

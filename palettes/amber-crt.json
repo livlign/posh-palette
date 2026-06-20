@@ -1,0 +1,21 @@
+{
+  "id": "amber-crt",
+  "name": "Amber CRT Retro",
+  "psReadLine": {
+    "Command": "#FF8C00",
+    "Parameter": "#FFD27F",
+    "String": "#FFB000",
+    "Operator": "#FFA033",
+    "Variable": "#FFC742",
+    "Number": "#FFC742",
+    "Comment": "#9A6A00",
+    "Error": "#FF6A00",
+    "Default": "#FFB000",
+    "InlinePrediction": "#6A4E00"
+  },
+  "psStyle": {
+    "Directory": "#FF8C00",
+    "Error": "#FF6A00",
+    "TableHeader": "#FFA033"
+  }
+}

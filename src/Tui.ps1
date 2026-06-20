@@ -78,6 +78,27 @@ function Invoke-PoshPaletteSimpleMode {
     if ($chosen) { Clear-Host; Set-PoshPaletteTheme -Theme (Resolve-PoshPaletteTheme $chosen.Data) }
 }
 
+# Adjust a numeric value with the arrow keys. Returns the new value, or $null on Esc.
+function Invoke-PoshPaletteAdjust {
+    param([string] $Label, [int] $Value, [int] $Min, [int] $Max, [int] $Step, [string] $Suffix = '')
+    [Console]::CursorVisible = $false
+    try {
+        while ($true) {
+            Clear-Host
+            Write-Host "`n  $Label" -ForegroundColor Cyan
+            Write-Host "  </> adjust   Enter confirm   Esc cancel`n" -ForegroundColor DarkGray
+            Write-Host ("    " + $Value + $Suffix) -ForegroundColor White
+            $key = [Console]::ReadKey($true)
+            switch ($key.Key) {
+                'LeftArrow'  { $Value = [Math]::Max($Min, $Value - $Step) }
+                'RightArrow' { $Value = [Math]::Min($Max, $Value + $Step) }
+                'Enter'      { return $Value }
+                'Escape'     { return $null }
+            }
+        }
+    } finally { [Console]::CursorVisible = $true }
+}
+
 # --- Detail mode: compose each layer independently ----------------------------
 
 function Invoke-PoshPaletteDetailMode {
@@ -102,11 +123,14 @@ function Invoke-PoshPaletteDetailMode {
         while ($true) {
             Clear-Host
             Write-Host "`n  Detail mode - compose your look" -ForegroundColor Cyan
-            Write-Host "  1-4 edit a layer   A apply   Esc back`n" -ForegroundColor DarkGray
+            Write-Host "  1-7 edit   A apply   Esc back`n" -ForegroundColor DarkGray
             Write-Host "  [1] Scheme       : $($comp.scheme)"
             Write-Host "  [2] Shell colors : $($comp.palette)"
             Write-Host "  [3] Prompt       : $($comp.prompt)"
             Write-Host "  [4] Font         : $($comp.font)"
+            Write-Host "  [5] Opacity      : $($comp.opacity)%"
+            Write-Host "  [6] Acrylic      : $(if ($comp.acrylic) { 'on' } else { 'off' })"
+            Write-Host "  [7] Font size    : $($comp.fontSize)"
             Write-Host "`n  [A] Apply   [Esc] Back" -ForegroundColor DarkGray
             Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp))
 
@@ -133,6 +157,15 @@ function Invoke-PoshPaletteDetailMode {
                     $p = Show-PoshPaletteList -Title 'Font (must be installed)' -Items (Get-PoshPaletteFonts)
                     if ($p) { $comp.font = $p.id }
                 }
+                '5' {
+                    $v = Invoke-PoshPaletteAdjust 'Opacity' ([int]$comp.opacity) 30 100 5 '%'
+                    if ($null -ne $v) { $comp.opacity = $v }
+                }
+                '6' { $comp.acrylic = -not [bool]$comp.acrylic }
+                '7' {
+                    $v = Invoke-PoshPaletteAdjust 'Font size' ([int]$comp.fontSize) 8 24 1
+                    if ($null -ne $v) { $comp.fontSize = $v }
+                }
                 { $_ -in 'a', 'A' } {
                     Clear-Host
                     Set-PoshPaletteTheme -Theme (Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp))
@@ -155,11 +188,13 @@ function Start-PoshPalette {
         Write-Host "  Style your PowerShell + Windows Terminal across all 4 layers.`n" -ForegroundColor DarkGray
         Write-Host "  [1] Simple mode  - scroll a list of full themes, pick one"
         Write-Host "  [2] Detail mode  - compose each layer (scheme / colors / prompt / font)"
+        Write-Host "  [3] Doctor       - check your setup (fonts, oh-my-posh, terminal)"
         Write-Host "  [Q] Quit`n"
         $key = [Console]::ReadKey($true)
         switch ($key.KeyChar) {
             '1' { Invoke-PoshPaletteSimpleMode }
             '2' { Invoke-PoshPaletteDetailMode }
+            '3' { Clear-Host; Test-PoshPaletteSetup | Out-Null; Write-Host "  Press any key to return..." -ForegroundColor DarkGray; [Console]::ReadKey($true) | Out-Null }
             { $_ -in 'q', 'Q' } { return }
         }
     }

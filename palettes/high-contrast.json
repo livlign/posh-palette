@@ -1,0 +1,21 @@
+{
+  "id": "high-contrast",
+  "name": "High Contrast",
+  "psReadLine": {
+    "Command": "#5599FF",
+    "Parameter": "#55FFFF",
+    "String": "#50FA7B",
+    "Operator": "#FF66FF",
+    "Variable": "#FFFF55",
+    "Number": "#FFFF99",
+    "Comment": "#9E9E9E",
+    "Error": "#FF5555",
+    "Default": "#FFFFFF",
+    "InlinePrediction": "#888888"
+  },
+  "psStyle": {
+    "Directory": "#5599FF",
+    "Error": "#FF5555",
+    "TableHeader": "#FF66FF"
+  }
+}

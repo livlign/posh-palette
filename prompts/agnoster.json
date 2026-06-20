@@ -1,0 +1,7 @@
+{
+  "id": "agnoster",
+  "name": "Agnoster",
+  "ohMyPoshTheme": "agnoster",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

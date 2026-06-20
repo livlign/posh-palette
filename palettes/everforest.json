@@ -1,0 +1,21 @@
+{
+  "id": "everforest",
+  "name": "Everforest Dark",
+  "psReadLine": {
+    "Command": "#7FBBB3",
+    "Parameter": "#83C092",
+    "String": "#A7C080",
+    "Operator": "#D699B6",
+    "Variable": "#DBBC7F",
+    "Number": "#E69875",
+    "Comment": "#7A8478",
+    "Error": "#E67E80",
+    "Default": "#D3C6AA",
+    "InlinePrediction": "#475258"
+  },
+  "psStyle": {
+    "Directory": "#7FBBB3",
+    "Error": "#E67E80",
+    "TableHeader": "#D699B6"
+  }
+}

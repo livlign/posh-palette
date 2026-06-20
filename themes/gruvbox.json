@@ -1,0 +1,12 @@
+{
+  "id": "gruvbox",
+  "name": "Gruvbox Dark",
+  "description": "Retro, earthy, easy on the eyes.",
+  "scheme": "gruvbox",
+  "palette": "gruvbox",
+  "prompt": "gruvbox",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 94,
+  "acrylic": false
+}

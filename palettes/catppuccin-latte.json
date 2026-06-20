@@ -1,0 +1,21 @@
+{
+  "id": "catppuccin-latte",
+  "name": "Catppuccin Latte",
+  "psReadLine": {
+    "Command": "#1E66F5",
+    "Parameter": "#179299",
+    "String": "#40A02B",
+    "Operator": "#EA76CB",
+    "Variable": "#DF8E1D",
+    "Number": "#FE640B",
+    "Comment": "#9CA0B0",
+    "Error": "#D20F39",
+    "Default": "#4C4F69",
+    "InlinePrediction": "#6C6F85"
+  },
+  "psStyle": {
+    "Directory": "#1E66F5",
+    "Error": "#D20F39",
+    "TableHeader": "#EA76CB"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "id": "github-dark",
+  "name": "GitHub Dark",
+  "description": "The hub you already know, after dark.",
+  "scheme": "github-dark",
+  "palette": "github-dark",
+  "prompt": "night-owl",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 97,
+  "acrylic": false
+}

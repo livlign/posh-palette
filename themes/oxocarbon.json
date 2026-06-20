@@ -1,0 +1,12 @@
+{
+  "id": "oxocarbon",
+  "name": "Oxocarbon Dark",
+  "description": "IBM Carbon, after dark. Crisp pink and blue.",
+  "scheme": "oxocarbon",
+  "palette": "oxocarbon",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 94,
+  "acrylic": false
+}

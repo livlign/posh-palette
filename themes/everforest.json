@@ -1,0 +1,12 @@
+{
+  "id": "everforest",
+  "name": "Everforest Dark",
+  "description": "Soft forest greens. Comfortable for long sessions.",
+  "scheme": "everforest",
+  "palette": "everforest",
+  "prompt": "gruvbox",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 95,
+  "acrylic": false
+}

@@ -1,0 +1,7 @@
+{
+  "id": "half-life",
+  "name": "Half Life",
+  "ohMyPoshTheme": "half-life",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

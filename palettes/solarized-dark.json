@@ -1,0 +1,21 @@
+{
+  "id": "solarized-dark",
+  "name": "Solarized Dark",
+  "psReadLine": {
+    "Command": "#268BD2",
+    "Parameter": "#2AA198",
+    "String": "#859900",
+    "Operator": "#D33682",
+    "Variable": "#B58900",
+    "Number": "#CB4B16",
+    "Comment": "#586E75",
+    "Error": "#DC322F",
+    "Default": "#839496",
+    "InlinePrediction": "#586E75"
+  },
+  "psStyle": {
+    "Directory": "#268BD2",
+    "Error": "#DC322F",
+    "TableHeader": "#D33682"
+  }
+}

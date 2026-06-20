@@ -1,0 +1,26 @@
+{
+  "id": "oxocarbon",
+  "name": "Oxocarbon Dark",
+  "colors": {
+    "background": "#161616",
+    "foreground": "#F2F4F8",
+    "cursorColor": "#F2F4F8",
+    "selectionBackground": "#393939",
+    "black": "#262626",
+    "red": "#ff7eb6",
+    "green": "#42be65",
+    "yellow": "#ffe97b",
+    "blue": "#33b1ff",
+    "purple": "#be95ff",
+    "cyan": "#3ddbd9",
+    "white": "#dde1e6",
+    "brightBlack": "#525252",
+    "brightRed": "#ee5396",
+    "brightGreen": "#42be65",
+    "brightYellow": "#ff832b",
+    "brightBlue": "#82cfff",
+    "brightPurple": "#be95ff",
+    "brightCyan": "#3ddbd9",
+    "brightWhite": "#ffffff"
+  }
+}

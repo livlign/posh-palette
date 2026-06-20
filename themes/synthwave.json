@@ -1,0 +1,12 @@
+{
+  "id": "synthwave",
+  "name": "Synthwave '84 Neon",
+  "description": "Neon pink and cyan on deep indigo. Pure 80s.",
+  "scheme": "synthwave",
+  "palette": "synthwave",
+  "prompt": "auto-robby",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 90,
+  "acrylic": true
+}

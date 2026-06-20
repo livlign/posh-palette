@@ -1,0 +1,26 @@
+{
+  "id": "night-owl",
+  "name": "Night Owl Deep",
+  "colors": {
+    "background": "#011627",
+    "foreground": "#D6DEEB",
+    "cursorColor": "#80A4C2",
+    "selectionBackground": "#1D3B53",
+    "black": "#011627",
+    "red": "#EF5350",
+    "green": "#22DA6E",
+    "yellow": "#ADDB67",
+    "blue": "#82AAFF",
+    "purple": "#C792EA",
+    "cyan": "#21C7A8",
+    "white": "#FFFFFF",
+    "brightBlack": "#637777",
+    "brightRed": "#EF5350",
+    "brightGreen": "#22DA6E",
+    "brightYellow": "#FFEB95",
+    "brightBlue": "#82AAFF",
+    "brightPurple": "#C792EA",
+    "brightCyan": "#7FDBCA",
+    "brightWhite": "#FFFFFF"
+  }
+}

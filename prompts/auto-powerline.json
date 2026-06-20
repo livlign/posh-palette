@@ -1,0 +1,7 @@
+{
+  "id": "auto-powerline",
+  "name": "Auto · Powerline",
+  "generate": true,
+  "style": "powerline",
+  "note": "Palette-aware filled segments. Needs a Nerd Font installed for the separators."
+}

@@ -1,0 +1,26 @@
+{
+  "id": "amber-crt",
+  "name": "Amber CRT Retro",
+  "colors": {
+    "background": "#1A1200",
+    "foreground": "#FFB000",
+    "cursorColor": "#FFB000",
+    "selectionBackground": "#3A2A00",
+    "black": "#2A1E00",
+    "red": "#FF6A00",
+    "green": "#FFB000",
+    "yellow": "#FFC742",
+    "blue": "#FF8C00",
+    "purple": "#FFA033",
+    "cyan": "#FFD27F",
+    "white": "#FFD9A0",
+    "brightBlack": "#6A4E00",
+    "brightRed": "#FF8A1E",
+    "brightGreen": "#FFC742",
+    "brightYellow": "#FFE08A",
+    "brightBlue": "#FFAB3D",
+    "brightPurple": "#FFC266",
+    "brightCyan": "#FFE3B0",
+    "brightWhite": "#FFF0D6"
+  }
+}

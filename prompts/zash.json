@@ -1,0 +1,7 @@
+{
+  "id": "zash",
+  "name": "Zash",
+  "ohMyPoshTheme": "zash",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

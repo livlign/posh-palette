@@ -1,0 +1,12 @@
+{
+  "id": "github-light",
+  "name": "GitHub Light",
+  "description": "The hub you know, in broad daylight.",
+  "scheme": "github-light",
+  "palette": "github-light",
+  "prompt": "auto",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false
+}

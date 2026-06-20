@@ -3,69 +3,72 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Posh Palette — theme your whole shell</title>
-<meta name="description" content="Posh Palette restyles your Windows Terminal color scheme, the commands you type, your output, and your oh-my-posh prompt together — with live preview, right in the terminal.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<title>Posh Palette: theme your whole shell</title>
+<meta name="description" content="Posh Palette restyles your Windows Terminal color scheme, the commands you type, your output, and your oh-my-posh prompt together, with live preview right in the terminal.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/cascadia-code@5/700.css">
 <style>
   :root{
     --bg:#0B0B12; --surface:#13131D; --raised:#1A1A27;
     --ink:#E8E8F2; --ink-dim:#9494AC; --ink-faint:#5E5E76;
     --hair:rgba(255,255,255,.08); --hair-strong:rgba(255,255,255,.14);
-    /* themed (overwritten by JS) — seeded with Catppuccin Mocha */
-    --term-bg:#1E1E2E; --term-fg:#CDD6F4; --cursor:#F5E0DC;
-    --t-cmd:#89B4FA; --t-param:#94E2D5; --t-str:#A6E3A1; --t-op:#F5C2E7;
-    --t-var:#F9E2AF; --t-num:#FAB387; --t-com:#6C7086; --t-err:#F38BA8; --t-dir:#89B4FA;
-    --accent:#89B4FA; --glow:rgba(137,180,250,.20);
-    --themed-tr:color .45s ease, background-color .45s ease, border-color .45s ease, box-shadow .45s ease;
+    /* themed (overwritten by JS), seeded with Tokyo Night */
+    --term-bg:#1A1B26; --term-fg:#C0CAF5; --cursor:#C0CAF5;
+    --t-cmd:#7AA2F7; --t-param:#7DCFFF; --t-str:#9ECE6A; --t-op:#BB9AF7;
+    --t-var:#E0AF68; --t-num:#FF9E64; --t-com:#565F89; --t-err:#F7768E; --t-dir:#7AA2F7;
+    --accent:#7AA2F7; --glow:rgba(122,162,247,.22);
+    --tr:color .45s ease, background-color .45s ease, border-color .45s ease, box-shadow .45s ease;
   }
   *{box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    margin:0;background:var(--bg);color:var(--ink);
-    font-family:"Space Grotesk",system-ui,sans-serif;
-    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;
-  }
-  .mono{font-family:"JetBrains Mono",ui-monospace,monospace}
-  a{color:inherit}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
-
-  /* ambient glow that shifts with the theme */
+  html{scroll-behavior:smooth;scroll-padding-top:72px}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Segoe UI Variable Text","Segoe UI Variable","Segoe UI",system-ui,-apple-system,sans-serif;
+    line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  .mono{font-family:"Cascadia Code","Cascadia Mono",Consolas,ui-monospace,monospace}
+  .wrap{max-width:1120px;margin:0 auto;padding-left:28px;padding-right:28px}
   .aura{position:fixed;inset:0;z-index:0;pointer-events:none;
-    background:radial-gradient(60% 50% at 78% 8%, var(--glow), transparent 70%);
-    transition:var(--themed-tr);}
+    background:radial-gradient(60% 50% at 78% 6%, var(--glow), transparent 70%);transition:var(--tr)}
 
   /* nav */
-  nav{position:relative;z-index:3;display:flex;align-items:center;justify-content:space-between;
-    padding:22px 0;}
-  .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.01em}
-  .brand .glyph{width:22px;height:22px;border-radius:6px;
-    background:linear-gradient(135deg,var(--t-cmd),var(--t-op));transition:var(--themed-tr)}
+  .navbar{position:sticky;top:0;z-index:50;background:color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--hair)}
+  nav{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:13px 28px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em;color:var(--ink);text-decoration:none}
+  .brand .logo{width:26px;height:26px;flex:none;display:block}
   .nav-links{display:flex;gap:26px;align-items:center;font-size:14px}
   .nav-links a{color:var(--ink-dim);text-decoration:none;transition:color .2s}
   .nav-links a:hover{color:var(--ink)}
-  .tag{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-faint);
-    border:1px solid var(--hair);border-radius:999px;padding:4px 10px}
+  .tag{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;color:var(--ink-faint);border:1px solid var(--hair);border-radius:999px;padding:4px 10px}
 
   /* hero */
-  header{position:relative;z-index:2;padding:46px 0 30px}
-  .hero{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;align-items:center}
-  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.16em;
-    text-transform:uppercase;color:var(--accent);margin-bottom:20px;transition:var(--themed-tr)}
-  h1{font-size:clamp(36px,5.2vw,60px);line-height:1.02;letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
-  h1 .em{color:var(--accent);transition:var(--themed-tr)}
-  .lede{font-size:18px;color:var(--ink-dim);max-width:34ch;margin:0 0 30px}
-  .cmd{display:flex;align-items:center;gap:14px;background:var(--surface);border:1px solid var(--hair);
-    border-radius:11px;padding:13px 15px;max-width:380px;margin-bottom:22px}
-  .cmd code{font-family:"JetBrains Mono",monospace;font-size:14px;color:var(--ink)}
-  .cmd .pmt{color:var(--accent);transition:var(--themed-tr)}
-  .cmd button{margin-left:auto;background:var(--raised);border:1px solid var(--hair-strong);color:var(--ink-dim);
-    font-family:"JetBrains Mono",monospace;font-size:11px;border-radius:7px;padding:6px 9px;cursor:pointer;transition:.2s}
-  .cmd button:hover{color:var(--ink);border-color:var(--accent)}
+  header{position:relative;z-index:2;padding:54px 0 72px;min-height:calc(100vh - 50px);display:flex;align-items:center}
+  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+  .eyebrow{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:20px;transition:var(--tr)}
+  h1{font-size:clamp(30px,4.1vw,44px);line-height:1.1;letter-spacing:-.025em;font-weight:700;margin:0 0 20px}
+  h1 .em{display:block;color:var(--accent);transition:var(--tr)}
+  .lede{font-size:18px;color:var(--ink-dim);max-width:36ch;margin:0 0 28px}
+
+  /* get-started block */
+  .start-label{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--ink-faint);margin-bottom:10px}
+  .runbox{background:var(--surface);border:1px solid var(--hair);border-radius:6px;padding:14px 16px;
+    max-width:430px;margin-bottom:24px;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:14px}
+  .runbox .row{display:flex;align-items:center;gap:12px}
+  .runbox .row + .row{margin-top:9px}
+  .runbox .pmt{color:var(--accent);transition:var(--tr)}
+  .runbox .hint{color:var(--ink-faint)}
+  .runbox button{margin-left:auto;background:var(--raised);border:1px solid var(--hair-strong);color:var(--ink-dim);
+    font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;border-radius:4px;padding:6px 9px;cursor:pointer;transition:.2s}
+  .runbox button:hover{color:var(--ink);border-color:var(--accent)}
+
   .ctas{display:flex;gap:14px;flex-wrap:wrap}
   .btn{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:600;font-size:15px;
-    border-radius:11px;padding:14px 24px;transition:transform .2s,box-shadow .2s,filter .2s,background .2s,var(--themed-tr)}
+    border-radius:6px;padding:14px 24px;transition:transform .2s,box-shadow .2s,filter .2s,background .2s,var(--tr)}
   .btn .arrow{transition:transform .2s}
   .btn-primary{background:var(--accent);color:#0B0B12;box-shadow:0 10px 34px -12px var(--glow)}
   .btn-primary:hover{filter:brightness(1.06);transform:translateY(-2px);box-shadow:0 18px 46px -12px var(--glow)}
@@ -73,94 +76,97 @@
   .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--hair-strong)}
   .btn-ghost:hover{border-color:var(--accent);background:rgba(255,255,255,.03);transform:translateY(-2px)}
 
-  /* terminal window */
-  .term{border-radius:13px;overflow:hidden;border:1px solid var(--hair-strong);
-    box-shadow:0 30px 80px -30px var(--glow),0 18px 40px -22px rgba(0,0,0,.7);
-    background:var(--term-bg);transition:var(--themed-tr)}
-  .term-bar{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(0,0,0,.22);
-    border-bottom:1px solid rgba(255,255,255,.06)}
-  .term-tab{display:flex;align-items:center;gap:8px;background:var(--term-bg);transition:var(--themed-tr);
-    border-radius:6px 6px 0 0;padding:6px 13px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--term-fg)}
-  .term-tab .dot{width:9px;height:9px;border-radius:3px;background:var(--t-cmd);transition:var(--themed-tr)}
-  .term-ctl{margin-left:auto;display:flex;gap:16px;color:var(--term-fg);opacity:.5;font-size:12px}
-  .term-body{padding:20px 20px 26px;font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.85;
-    color:var(--term-fg);overflow-x:auto;transition:var(--themed-tr)}
+  /* terminal */
+  .term{border-radius:8px;overflow:hidden;border:1px solid var(--hair-strong);
+    box-shadow:0 30px 80px -30px var(--glow),0 18px 40px -22px rgba(0,0,0,.7);background:var(--term-bg);transition:var(--tr)}
+  .term-bar{display:flex;align-items:center;gap:10px;padding:9px 12px;background:rgba(0,0,0,.22);border-bottom:1px solid rgba(255,255,255,.06)}
+  .term-tab{display:flex;align-items:center;gap:8px;background:var(--term-bg);transition:var(--tr);
+    border-radius:6px 6px 0 0;padding:6px 13px;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;color:var(--term-fg)}
+  .term-tab .dot{width:9px;height:9px;border-radius:3px;background:var(--t-cmd);transition:var(--tr)}
+  .newtab{color:var(--term-fg);opacity:.5;font-size:15px;line-height:1;padding:0 9px}
+  .term-ctl{margin-left:auto;display:flex;gap:18px;color:var(--term-fg);opacity:.5;font-size:12px}
+  .term-body{padding:20px 20px 26px;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:13.5px;line-height:1.85;
+    color:var(--term-fg);overflow-x:auto;transition:var(--tr)}
   .term-body .ln{white-space:pre}
   .c-cmd{color:var(--t-cmd)} .c-param{color:var(--t-param)} .c-str{color:var(--t-str)}
   .c-op{color:var(--t-op)} .c-var{color:var(--t-var)} .c-num{color:var(--t-num)}
   .c-com{color:var(--t-com)} .c-err{color:var(--t-err)} .c-dir{color:var(--t-dir)}
-  .c-cmd,.c-param,.c-str,.c-op,.c-var,.c-num,.c-com,.c-err,.c-dir{transition:var(--themed-tr)}
-  .cur{display:inline-block;width:8px;height:16px;background:var(--cursor);vertical-align:-3px;
-    margin-left:2px;transition:var(--themed-tr);animation:blink 1.1s steps(1) infinite}
+  .c-fg{color:var(--term-fg)}
+  .c-cmd,.c-param,.c-str,.c-op,.c-var,.c-num,.c-com,.c-err,.c-dir,.c-fg{transition:var(--tr)}
+  .cur{display:inline-block;width:8px;height:16px;background:var(--cursor);vertical-align:-3px;margin-left:2px;
+    transition:var(--tr);animation:blink 1.1s steps(1) infinite}
   @keyframes blink{50%{opacity:0}}
 
   /* theme switcher */
-  .switcher{margin-top:28px;display:flex;flex-direction:column;gap:14px}
-  .switcher .label{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-faint);
-    text-transform:uppercase;letter-spacing:.13em}
-  .chips{display:flex;gap:11px;flex-wrap:wrap}
-  .chip{display:inline-flex;align-items:center;gap:11px;cursor:pointer;background:var(--surface);
-    border:1px solid var(--hair);border-radius:13px;padding:9px 15px 9px 9px;color:var(--ink-dim);
-    text-decoration:none;font-family:"JetBrains Mono",monospace;font-size:13px;
-    transition:transform .22s,box-shadow .22s,border-color .22s,color .22s}
+  .switcher{margin-top:24px;display:flex;flex-direction:column;gap:14px}
+  .switcher .label{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.13em}
+  .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .chip{display:flex;align-items:center;gap:10px;cursor:pointer;background:var(--surface);border:1px solid var(--hair);
+    border-radius:8px;padding:9px 12px 9px 9px;color:var(--ink-dim);text-decoration:none;font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;
+    font-size:12.5px;min-width:0;transition:transform .22s,box-shadow .22s,border-color .22s,color .22s}
   .chip:hover{color:var(--ink);transform:translateY(-3px);border-color:var(--hair-strong)}
   .chip[aria-pressed="true"]{color:var(--ink);border-color:transparent;background:var(--raised);
     box-shadow:0 0 0 1.5px var(--accent),0 16px 38px -18px var(--glow)}
-  .chip .grad{width:32px;height:32px;border-radius:9px;flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
-  .chip-name{display:flex;flex-direction:column;line-height:1.15;text-align:left;white-space:nowrap}
-  .chip-name em{font-style:normal;color:var(--ink-faint);font-size:10px;letter-spacing:.05em;margin-top:2px;text-transform:uppercase}
+  .grad{width:32px;height:32px;border-radius:6px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;
+    flex:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16)}
+  .grad i{display:block}
   .grad-add{display:flex;align-items:center;justify-content:center;background:transparent;
-    border:1px dashed var(--hair-strong);color:var(--ink-faint);font-size:17px;box-shadow:none!important}
+    border:1px dashed var(--hair-strong);color:var(--ink-faint);font-size:17px}
+  .chip-name{display:flex;flex-direction:column;line-height:1.15;text-align:left;white-space:nowrap;overflow:hidden}
+  .chip-name em{font-style:normal;color:var(--ink-faint);font-size:10px;letter-spacing:.05em;margin-top:2px;text-transform:uppercase}
 
   /* sections */
-  section{position:relative;z-index:2;padding:96px 0}
-  .sec{border-top:1px solid var(--hair)}
-  .sec-head{margin-bottom:56px}
-  .kicker{display:inline-block;font-family:"JetBrains Mono",monospace;font-size:12px;letter-spacing:.14em;
-    text-transform:uppercase;color:var(--accent);margin-bottom:24px;transition:var(--themed-tr)}
-  .sec-head-row{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start}
-  .sec-head-r{padding-top:6px}
-  h2{font-size:clamp(27px,3.5vw,40px);letter-spacing:-.022em;font-weight:700;margin:0}
-  .sec-head-r{color:var(--ink-dim);font-size:17px;margin:0 0 7px;max-width:42ch}
+  section{position:relative;z-index:2}
+  .sec{border-top:1px solid var(--hair);padding-top:76px;padding-bottom:84px}
+  .sec-head{margin-bottom:20px}
+  .sec-head-row{max-width:640px}
+  h2{font-size:clamp(27px,3.3vw,38px);letter-spacing:-.02em;font-weight:700;margin:0;line-height:1.12}
+  .sec-head-row h2{margin:10px auto}
+  .sec-head-r{color:var(--ink-dim);font-size:17px;margin:15px 0 0;max-width:60ch}
 
   /* layers */
   .layers{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-  .layer{background:var(--surface);border:1px solid var(--hair);border-radius:14px;padding:22px;
-    display:flex;flex-direction:column;gap:14px}
-  .layer .idx{font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-faint)}
-  .layer .swatches{display:flex;gap:6px}
-  .layer .swatches span{width:18px;height:18px;border-radius:5px;transition:var(--themed-tr)}
-  .layer h3{font-size:17px;margin:0;letter-spacing:-.01em}
-  .layer .src{font-family:"JetBrains Mono",monospace;font-size:11.5px;color:var(--accent);transition:var(--themed-tr)}
-  .layer p{margin:0;color:var(--ink-dim);font-size:14px;line-height:1.55}
+  .layer{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:18px;display:flex;flex-direction:column}
+  .layer .idx{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11px;color:var(--ink-faint);margin-bottom:12px}
+  .demo{background:var(--term-bg);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:14px;
+    font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;line-height:1.6;height:96px;display:flex;
+    flex-direction:column;justify-content:center;gap:2px;color:var(--term-fg);transition:var(--tr);margin-bottom:18px;overflow:hidden}
+  .ansi{display:flex;gap:5px}
+  .ansi i{width:17px;height:17px;border-radius:4px;display:block;transition:var(--tr)}
+  .layer h3{font-size:17px;margin:0 0 7px;letter-spacing:-.01em}
+  .layer .src{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:11.5px;color:var(--accent);transition:var(--tr);margin-bottom:11px}
+  .layer p{margin:0;color:var(--ink-dim);font-size:13.5px;line-height:1.55}
 
   /* modes */
   .modes{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  .mode{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:30px}
-  .mode .num{font-family:"JetBrains Mono",monospace;font-size:13px;color:var(--accent);transition:var(--themed-tr)}
+  .mode{background:var(--surface);border:1px solid var(--hair);border-radius:8px;padding:30px}
+  .mode .num{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:13px;color:var(--accent);transition:var(--tr)}
   .mode h3{font-size:22px;margin:10px 0 10px;letter-spacing:-.015em}
   .mode p{color:var(--ink-dim);margin:0;font-size:15px}
 
-  /* open / composition */
-  .open{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center}
-  .open ul{list-style:none;padding:0;margin:22px 0 0}
-  .open li{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--hair);font-size:15px;color:var(--ink-dim)}
+  /* open */
+  .open{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:start}
+  .open .lead{color:var(--ink-dim);font-size:17px;margin:16px 0 0}
+  .open ul{list-style:none;padding:0;margin:24px 0 0}
+  .open li{display:flex;gap:14px;align-items:baseline;padding:11px 0;border-top:1px solid var(--hair);font-size:15px;color:var(--ink-dim)}
   .open li b{color:var(--ink);font-weight:600}
-  .open li .k{font-family:"JetBrains Mono",monospace;color:var(--accent);font-size:13px;min-width:78px;transition:var(--themed-tr)}
-  .code{background:var(--term-bg);border:1px solid var(--hair-strong);border-radius:13px;padding:22px 24px;
-    font-family:"JetBrains Mono",monospace;font-size:13.5px;line-height:1.9;overflow-x:auto;transition:var(--themed-tr)}
-  .code .file{color:var(--t-com);font-size:11.5px;display:block;margin-bottom:10px;transition:var(--themed-tr)}
+  .open li .k{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;color:var(--accent);font-size:13px;min-width:96px;flex:none;transition:var(--tr)}
+  .open .note{color:var(--ink-dim);margin:24px 0 0}
+  .code{background:var(--term-bg);border:1px solid var(--hair-strong);border-radius:8px;padding:20px 22px;
+    font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:13.5px;transition:var(--tr)}
+  .code .file{display:block;color:var(--t-com);font-size:11.5px;margin-bottom:13px;transition:var(--tr)}
+  .codepre{margin:0;font:inherit;line-height:1.85;white-space:pre;overflow-x:auto;color:var(--term-fg)}
   .jk{color:var(--t-cmd)} .js{color:var(--t-str)} .jp{color:var(--ink-faint)}
-  .jk,.js{transition:var(--themed-tr)}
+  .jk,.js{transition:var(--tr)}
 
-  /* footer cta */
-  .foot{position:relative;z-index:2;padding:80px 0 56px;text-align:center;border-top:1px solid var(--hair)}
-  .foot h2{margin-bottom:24px}
-  .foot .cmd{margin:0 auto 28px}
-  .foot-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;color:var(--ink-faint);font-size:14px;margin-top:40px}
+  /* footer */
+  .foot{position:relative;z-index:2;border-top:1px solid var(--hair);padding-top:40px;padding-bottom:56px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .foot .brand{font-size:15px}
+  .foot-links{display:flex;gap:22px;flex-wrap:wrap;font-size:14px}
   .foot-links a{color:var(--ink-dim);text-decoration:none}
   .foot-links a:hover{color:var(--ink)}
-  .meta{margin-top:18px;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-faint)}
+  .meta{font-family:"Cascadia Code","Cascadia Mono",Consolas,monospace;font-size:12px;color:var(--ink-faint);width:100%;margin-top:6px}
 
   :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
 
@@ -168,41 +174,47 @@
     .hero{grid-template-columns:1fr;gap:38px}
     .layers{grid-template-columns:1fr 1fr}
     .modes,.open{grid-template-columns:1fr;gap:26px}
-    .sec-head-row{grid-template-columns:1fr;gap:14px;align-items:start}
+    .sec-head-row{grid-template-columns:1fr;gap:14px}
     .nav-links .hide-sm{display:none}
   }
-  @media (max-width:560px){
-    .layers{grid-template-columns:1fr}
-    .wrap{padding:0 20px}
+  @media (max-width:560px){ .layers{grid-template-columns:1fr} .chips{grid-template-columns:repeat(2,1fr)} .wrap{padding-left:20px;padding-right:20px} }
+  @media (max-height:720px),(max-width:880px){
+    header{min-height:auto;padding:40px 0 56px}
+    .sec{padding-top:56px;padding-bottom:60px}
   }
-  @media (prefers-reduced-motion:reduce){
-    *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
-  }
+  @media (prefers-reduced-motion:reduce){ *{transition:none!important;animation:none!important;scroll-behavior:auto!important} }
 </style>
 </head>
 <body>
 <div class="aura" aria-hidden="true"></div>
 
-<div class="wrap">
+<div class="navbar">
   <nav>
-    <div class="brand"><span class="glyph" aria-hidden="true"></span>posh palette</div>
+    <a class="brand" href="#top"><svg class="logo" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><defs><linearGradient id="ppNav" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="currentColor" stop-opacity=".95"/><stop offset="20%" stop-color="currentColor" stop-opacity=".95"/><stop offset="20%" stop-color="currentColor" stop-opacity=".72"/><stop offset="40%" stop-color="currentColor" stop-opacity=".72"/><stop offset="40%" stop-color="currentColor" stop-opacity=".5"/><stop offset="60%" stop-color="currentColor" stop-opacity=".5"/><stop offset="60%" stop-color="currentColor" stop-opacity=".3"/><stop offset="80%" stop-color="currentColor" stop-opacity=".3"/><stop offset="80%" stop-color="currentColor" stop-opacity=".14"/><stop offset="100%" stop-color="currentColor" stop-opacity=".14"/></linearGradient></defs><path d="M3.3 7.4 L12.2 13.6 L3.3 19.7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="7.7" y="20.8" width="22.3" height="5" rx="2.5" fill="url(#ppNav)"/></svg>posh palette</a>
     <div class="nav-links">
+      <a href="#top">Home</a>
       <a class="hide-sm" href="#layers">Layers</a>
+      <a href="themes.html">Themes</a>
       <a class="hide-sm" href="#open">Contribute</a>
-      <span class="tag">phase&nbsp;1 · open source</span>
       <a href="https://github.com/livlign/posh-palette">GitHub</a>
     </div>
   </nav>
 </div>
 
-<header class="wrap">
+<header class="wrap" id="top">
   <div class="hero">
     <div class="hero-copy">
       <div class="eyebrow">PowerShell · Windows Terminal</div>
-      <h1>Theme the whole shell — <span class="em">not just the prompt.</span></h1>
-      <p class="lede">Posh Palette restyles your color scheme, the commands you type, your command output, and your oh-my-posh prompt together. Pick a look, preview it live — right in the terminal.</p>
-      <div class="cmd mono"><code><span class="pmt">PS&gt;</span> Install-Module PoshPalette</code>
-        <button id="copyBtn" type="button" aria-label="Copy install command">copy</button></div>
+      <h1>Theme the whole shell, <span class="em">not just the prompt.</span></h1>
+      <p class="lede">One palette restyles your color scheme, the commands you type, your output, and your oh-my-posh prompt, previewed live, right in the terminal.</p>
+
+      <div class="start-label">Get started</div>
+      <div class="runbox mono">
+        <div class="row"><span><span class="pmt">PS&gt;</span> Install-Module PoshPalette</span>
+          <button id="copyBtn" type="button" aria-label="Copy install command">copy</button></div>
+        <div class="row"><span><span class="pmt">PS&gt;</span> palette</span> <span class="hint"># opens the picker</span></div>
+      </div>
+
       <div class="ctas">
         <a class="btn btn-primary" href="https://github.com/livlign/posh-palette">View on GitHub <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn btn-ghost" href="#layers">How it works</a>
@@ -210,41 +222,33 @@
     </div>
 
     <div class="hero-demo">
-      <div class="term" id="term">
+      <div class="term">
         <div class="term-bar">
           <div class="term-tab"><span class="dot" aria-hidden="true"></span>PowerShell</div>
-          <div class="term-ctl mono" aria-hidden="true"><span>─</span><span>▢</span><span>✕</span></div>
+          <span class="newtab" aria-hidden="true">+</span>
+          <div class="term-ctl mono" aria-hidden="true"><span>─</span><span>◻</span><span>✕</span></div>
         </div>
         <div class="term-body">
-          <div class="ln"><span class="c-com">— preview · </span><span class="c-op" id="t-name">Catppuccin Mocha</span></div>
+          <div class="ln"><span class="c-com"># preview · </span><span class="c-op" id="t-name">Tokyo Night</span></div>
+          <div class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">posh-palette</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span> <span class="c-cmd">Get-ChildItem</span></div>
           <div class="ln">&nbsp;</div>
-          <div class="ln"><span class="c-cmd">user</span><span class="c-com"> in </span><span class="c-dir">~/projects</span> <span class="c-op">❯</span> <span class="c-cmd">git</span> <span class="c-param">commit</span> <span class="c-param">-m</span> <span class="c-str">"feat: theme"</span></div>
-          <div class="ln"><span class="c-var">$count</span> <span class="c-op">=</span> <span class="c-num">42</span>  <span class="c-com"># files restyled</span></div>
-          <div class="ln"><span class="c-dir">Documents/</span>  <span>README.md</span>  <span class="c-dir">src/</span></div>
-          <div class="ln"><span class="c-err">Error:</span> <span>could not find a reason to keep the old theme</span></div>
-          <div class="ln"><span class="c-cmd">user</span><span class="c-com"> in </span><span class="c-dir">~/projects</span> <span class="c-op">❯</span> <span class="cur" aria-hidden="true"></span></div>
+          <div class="ln"><span class="c-com">    Directory: C:\Users\you\posh-palette</span></div>
+          <div class="ln">&nbsp;</div>
+          <div class="ln"><span class="c-op">Mode    LastWriteTime      Length Name</span></div>
+          <div class="ln"><span class="c-com">----    -------------      ------ ----</span></div>
+          <div class="ln">d----    6/20/2026  9:39 AM         <span class="c-dir">schemes</span></div>
+          <div class="ln">d----    6/20/2026  9:39 AM         <span class="c-dir">themes</span></div>
+          <div class="ln">-a---    4/04/2026  4:38 PM   <span class="c-num">2014</span> README.md</div>
+          <div class="ln">-a---    6/18/2026  1:12 PM   <span class="c-num">8902</span> PoshPalette.psm1</div>
+          <div class="ln">&nbsp;</div>
+          <div class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">posh-palette</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span> <span class="c-cmd">Get-Content</span> <span class="c-str">build.log</span></div>
+          <div class="ln"><span class="c-err">Get-Content:</span> Cannot find path 'build.log' because it does not exist.</div>
+          <div class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">posh-palette</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span> <span class="cur" aria-hidden="true"></span></div>
         </div>
       </div>
       <div class="switcher">
-        <span class="label">Try a theme — the page recolors live ↓</span>
-        <div class="chips" role="group" aria-label="Preview a theme">
-          <button class="chip" data-theme="catppuccin-mocha" aria-pressed="true">
-            <span class="grad" style="background:linear-gradient(135deg,#89B4FA,#A6E3A1,#F9E2AF,#F38BA8)"></span>
-            <span class="chip-name">Catppuccin<em>Mocha</em></span>
-          </button>
-          <button class="chip" data-theme="tokyo-night" aria-pressed="false">
-            <span class="grad" style="background:linear-gradient(135deg,#7AA2F7,#9ECE6A,#BB9AF7,#F7768E)"></span>
-            <span class="chip-name">Tokyo Night<em>Storm</em></span>
-          </button>
-          <button class="chip" data-theme="nord" aria-pressed="false">
-            <span class="grad" style="background:linear-gradient(135deg,#88C0D0,#A3BE8C,#EBCB8B,#BF616A)"></span>
-            <span class="chip-name">Nord<em>Frost</em></span>
-          </button>
-          <a class="chip" href="https://github.com/livlign/posh-palette#contribute">
-            <span class="grad grad-add">+</span>
-            <span class="chip-name">Add yours<em>one PR</em></span>
-          </a>
-        </div>
+        <span class="label">Try a theme · the page recolors live ↓</span>
+        <div class="chips" id="chips" role="group" aria-label="Preview a theme"></div>
       </div>
     </div>
   </div>
@@ -252,34 +256,41 @@
 
 <section id="layers" class="wrap sec">
   <div class="sec-head">
-    <div class="kicker">The difference</div>
     <div class="sec-head-row">
       <h2>One theme, four layers.</h2>
-      <p class="sec-head-r">Most tools stop at the prompt. Posh Palette coordinates every layer that decides how your shell looks — from a single palette, applied at once.</p>
+      <p class="sec-head-r">Most tools stop at the prompt. Posh Palette coordinates every layer that decides how your shell looks, from a single palette, applied at once. Each tile below previews exactly what that layer controls.</p>
     </div>
   </div>
   <div class="layers">
     <div class="layer">
       <span class="idx">layer 01</span>
-      <div class="swatches"><span style="background:var(--term-bg);border:1px solid var(--hair-strong)"></span><span style="background:var(--t-cmd)"></span><span style="background:var(--t-str)"></span><span style="background:var(--t-err)"></span></div>
+      <div class="demo"><div class="ansi">
+        <i style="background:var(--t-err)"></i><i style="background:var(--t-str)"></i><i style="background:var(--t-var)"></i>
+        <i style="background:var(--t-cmd)"></i><i style="background:var(--t-op)"></i><i style="background:var(--t-param)"></i>
+        <i style="background:var(--t-num)"></i><i style="background:var(--term-fg)"></i>
+      </div></div>
       <h3>Color scheme</h3><span class="src">Windows Terminal</span>
       <p>Background, foreground, and the 16 ANSI colors. Hot-reloads the instant it's applied.</p>
     </div>
     <div class="layer">
       <span class="idx">layer 02</span>
-      <div class="swatches"><span style="background:var(--t-cmd)"></span><span style="background:var(--t-param)"></span><span style="background:var(--t-str)"></span><span style="background:var(--t-var)"></span></div>
+      <div class="demo"><span><span class="c-cmd">Get-ChildItem</span> <span class="c-param">-Path</span> <span class="c-str">src</span> <span class="c-param">-Recurse</span></span></div>
       <h3>Typed commands</h3><span class="src">PSReadLine</span>
-      <p>Commands, parameters, strings, and errors colored as you type them.</p>
+      <p>Cmdlets, parameters, strings, and errors colored as you type them.</p>
     </div>
     <div class="layer">
       <span class="idx">layer 03</span>
-      <div class="swatches"><span style="background:var(--t-dir)"></span><span style="background:var(--t-err)"></span><span style="background:var(--t-op)"></span></div>
+      <div class="demo">
+        <div><span class="c-op">Mode   LastWriteTime   Name</span></div>
+        <div>d----  6/20/2026    <span class="c-dir">schemes</span></div>
+        <div><span class="c-err">Get-Content:</span> path not found</div>
+      </div>
       <h3>Command output</h3><span class="src">$PSStyle</span>
-      <p>Directory listings, error text, and table headers in the output stream.</p>
+      <p>Table headers, directory names, and error text in the output stream.</p>
     </div>
     <div class="layer">
       <span class="idx">layer 04</span>
-      <div class="swatches"><span style="background:var(--t-op)"></span><span style="background:var(--t-cmd)"></span><span style="background:var(--t-num)"></span></div>
+      <div class="demo"><span><span class="c-param">❯❯</span> <span class="c-cmd">posh-palette</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span></span></div>
       <h3>Prompt</h3><span class="src">oh-my-posh</span>
       <p>Your prompt theme, kept in step with everything around it.</p>
     </div>
@@ -288,22 +299,21 @@
 
 <section class="wrap sec">
   <div class="sec-head">
-    <div class="kicker">Two ways in</div>
     <div class="sec-head-row">
       <h2>Browse a look, or build one.</h2>
-      <p class="sec-head-r">Start from a finished theme, or assemble one from the catalogs — both show a live preview before anything touches your config.</p>
+      <p class="sec-head-r">Start from a finished theme, or assemble one from the catalogs. Both show a live preview before anything touches your config.</p>
     </div>
   </div>
   <div class="modes">
     <div class="mode">
       <span class="num">simple mode</span>
       <h3>Scroll and pick</h3>
-      <p>Arrow through a list of complete themes with a live preview beside it. Press Enter — the terminal, your prompt, and your colors all change at once.</p>
+      <p>Arrow through complete themes with a live preview beside them. Press Enter, and the terminal, your prompt, and your colors all change at once.</p>
     </div>
     <div class="mode">
       <span class="num">detail mode</span>
       <h3>Compose layer by layer</h3>
-      <p>Keep your prompt, swap just the color scheme. Mix a scheme, a palette, a prompt, and a font from the catalogs — and watch each change in the preview before you commit.</p>
+      <p>Keep your prompt, swap just the color scheme. Mix a scheme, a palette, a prompt, and a font from the catalogs, previewing each change before you commit.</p>
     </div>
   </div>
 </section>
@@ -311,39 +321,31 @@
 <section id="open" class="wrap sec">
   <div class="open">
     <div>
-      <div class="kicker">Open by design</div>
       <h2>A theme is one small file.</h2>
-      <p style="color:var(--ink-dim);font-size:17px;margin:14px 0 0">It doesn't hold colors — it points at entries in per-layer catalogs. That's what lets you swap a single layer, and what makes every layer its own contribution.</p>
+      <p class="lead">It doesn't hold colors. It points at entries in per-layer catalogs. That's what lets you swap a single layer, and what makes every layer its own contribution.</p>
       <ul>
         <li><span class="k">schemes/</span><span>16 ANSI colors + background, foreground, cursor</span></li>
         <li><span class="k">palettes/</span><span>PSReadLine input + <b>$PSStyle</b> output colors</span></li>
         <li><span class="k">prompts/</span><span>an oh-my-posh theme reference</span></li>
         <li><span class="k">fonts.json</span><span>the nerd fonts you can pick from</span></li>
       </ul>
-      <p style="color:var(--ink-dim);margin:22px 0 0">Add your own — one JSON file, one pull request.</p>
+      <p class="note">Add your own: one JSON file, one pull request.</p>
     </div>
     <div class="code" aria-label="Example theme file">
       <span class="file">themes/tokyo-night.json</span>
-<span class="jp">{</span>
+      <pre class="codepre"><span class="jp">{</span>
   <span class="jk">"name"</span><span class="jp">:</span> <span class="js">"Tokyo Night"</span><span class="jp">,</span>
   <span class="jk">"scheme"</span><span class="jp">:</span> <span class="js">"tokyo-night"</span><span class="jp">,</span>
   <span class="jk">"palette"</span><span class="jp">:</span> <span class="js">"tokyo-night"</span><span class="jp">,</span>
   <span class="jk">"prompt"</span><span class="jp">:</span> <span class="js">"tokyonight-storm"</span><span class="jp">,</span>
   <span class="jk">"font"</span><span class="jp">:</span> <span class="js">"jetbrains"</span>
-<span class="jp">}</span>
+<span class="jp">}</span></pre>
     </div>
   </div>
 </section>
 
-<div class="foot wrap">
-  <div class="kicker">Get started</div>
-  <h2>Restyle your terminal in one line.</h2>
-  <div class="cmd mono"><code><span class="pmt">PS&gt;</span> Install-Module PoshPalette; palette</code>
-    <button id="copyBtn2" type="button" aria-label="Copy install command">copy</button></div>
-  <div class="ctas" style="justify-content:center">
-    <a class="btn btn-primary" href="https://github.com/livlign/posh-palette">View on GitHub <span class="arrow" aria-hidden="true">→</span></a>
-    <a class="btn btn-ghost" href="https://github.com/livlign/posh-palette#readme">Read the docs</a>
-  </div>
+<footer class="foot wrap">
+  <div class="brand"><svg class="logo" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true" style="width:22px;height:22px;margin-right:7px;vertical-align:-5px"><defs><linearGradient id="ppFoot" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="currentColor" stop-opacity=".95"/><stop offset="20%" stop-color="currentColor" stop-opacity=".95"/><stop offset="20%" stop-color="currentColor" stop-opacity=".72"/><stop offset="40%" stop-color="currentColor" stop-opacity=".72"/><stop offset="40%" stop-color="currentColor" stop-opacity=".5"/><stop offset="60%" stop-color="currentColor" stop-opacity=".5"/><stop offset="60%" stop-color="currentColor" stop-opacity=".3"/><stop offset="80%" stop-color="currentColor" stop-opacity=".3"/><stop offset="80%" stop-color="currentColor" stop-opacity=".14"/><stop offset="100%" stop-color="currentColor" stop-opacity=".14"/></linearGradient></defs><path d="M3.3 7.4 L12.2 13.6 L3.3 19.7" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="7.7" y="20.8" width="22.3" height="5" rx="2.5" fill="url(#ppFoot)"/></svg>posh palette</div>
   <div class="foot-links">
     <a href="https://github.com/livlign/posh-palette">Source</a>
     <a href="https://github.com/livlign/posh-palette/tree/main/themes">Themes</a>
@@ -352,46 +354,81 @@
     <a href="https://www.nerdfonts.com">Nerd Fonts</a>
   </div>
   <div class="meta">built for the terminal · phase 1 · MIT</div>
-</div>
+</footer>
 
 <script>
   const THEMES = {
-    "catppuccin-mocha":{name:"Catppuccin Mocha",
-      "--term-bg":"#1E1E2E","--term-fg":"#CDD6F4","--cursor":"#F5E0DC",
-      "--t-cmd":"#89B4FA","--t-param":"#94E2D5","--t-str":"#A6E3A1","--t-op":"#F5C2E7",
-      "--t-var":"#F9E2AF","--t-num":"#FAB387","--t-com":"#6C7086","--t-err":"#F38BA8","--t-dir":"#89B4FA",
-      "--accent":"#89B4FA","--glow":"rgba(137,180,250,.20)"},
-    "tokyo-night":{name:"Tokyo Night",
+    "synthwave":{name:"Synthwave '84",variant:"Neon",
+      "--term-bg":"#262335","--term-fg":"#F0EFF1","--cursor":"#FF7EDB",
+      "--t-cmd":"#03EDF9","--t-param":"#36F9F6","--t-str":"#72F1B8","--t-op":"#FF7EDB",
+      "--t-var":"#FEDE5D","--t-num":"#FF8B39","--t-com":"#848BBD","--t-err":"#FE4450","--t-dir":"#03EDF9",
+      "--accent":"#FF7EDB","--glow":"rgba(255,126,219,0.22)"},
+    "cyberpunk":{name:"Cyberpunk",variant:"Neon",
+      "--term-bg":"#060417","--term-fg":"#E8E6F0","--cursor":"#FCEE0A",
+      "--t-cmd":"#00B0FF","--t-param":"#00FFF7","--t-str":"#00FF9C","--t-op":"#D300C5",
+      "--t-var":"#FCEE0A","--t-num":"#FF8A00","--t-com":"#6C6A9E","--t-err":"#FF2E97","--t-dir":"#00B0FF",
+      "--accent":"#FCEE0A","--glow":"rgba(252,238,10,0.22)"},
+    "tokyo-night":{name:"Tokyo Night",variant:"Storm",
       "--term-bg":"#1A1B26","--term-fg":"#C0CAF5","--cursor":"#C0CAF5",
       "--t-cmd":"#7AA2F7","--t-param":"#7DCFFF","--t-str":"#9ECE6A","--t-op":"#BB9AF7",
       "--t-var":"#E0AF68","--t-num":"#FF9E64","--t-com":"#565F89","--t-err":"#F7768E","--t-dir":"#7AA2F7",
       "--accent":"#7AA2F7","--glow":"rgba(122,162,247,.22)"},
-    "nord":{name:"Nord",
-      "--term-bg":"#2E3440","--term-fg":"#D8DEE9","--cursor":"#D8DEE9",
-      "--t-cmd":"#81A1C1","--t-param":"#88C0D0","--t-str":"#A3BE8C","--t-op":"#B48EAD",
-      "--t-var":"#EBCB8B","--t-num":"#D08770","--t-com":"#616E88","--t-err":"#BF616A","--t-dir":"#88C0D0",
-      "--accent":"#88C0D0","--glow":"rgba(136,192,208,.22)"}
+    "catppuccin-latte":{name:"Catppuccin",variant:"Latte",
+      "--term-bg":"#EFF1F5","--term-fg":"#4C4F69","--cursor":"#DC8A78",
+      "--t-cmd":"#1E66F5","--t-param":"#179299","--t-str":"#40A02B","--t-op":"#8839EF",
+      "--t-var":"#DF8E1D","--t-num":"#FE640B","--t-com":"#9CA0B0","--t-err":"#D20F39","--t-dir":"#1E66F5",
+      "--accent":"#1E66F5","--glow":"rgba(30,102,245,.20)"},
+    "dracula":{name:"Dracula",variant:"Vivid",
+      "--term-bg":"#282A36","--term-fg":"#F8F8F2","--cursor":"#F8F8F2",
+      "--t-cmd":"#BD93F9","--t-param":"#8BE9FD","--t-str":"#50FA7B","--t-op":"#FF79C6",
+      "--t-var":"#FFB86C","--t-num":"#F1FA8C","--t-com":"#6272A4","--t-err":"#FF5555","--t-dir":"#8BE9FD",
+      "--accent":"#BD93F9","--glow":"rgba(189,147,249,.24)"},
+    "gruvbox":{name:"Gruvbox",variant:"Dark",
+      "--term-bg":"#282828","--term-fg":"#EBDBB2","--cursor":"#EBDBB2",
+      "--t-cmd":"#83A598","--t-param":"#8EC07C","--t-str":"#B8BB26","--t-op":"#D3869B",
+      "--t-var":"#FABD2F","--t-num":"#FE8019","--t-com":"#928374","--t-err":"#FB4934","--t-dir":"#8EC07C",
+      "--accent":"#FABD2F","--glow":"rgba(250,189,47,.20)"},
+    "rose-pine":{name:"Rosé Pine",variant:"Main",
+      "--term-bg":"#191724","--term-fg":"#E0DEF4","--cursor":"#E0DEF4",
+      "--t-cmd":"#C4A7E7","--t-param":"#9CCFD8","--t-str":"#F6C177","--t-op":"#EB6F92",
+      "--t-var":"#EBBCBA","--t-num":"#F6C177","--t-com":"#6E6A86","--t-err":"#EB6F92","--t-dir":"#9CCFD8",
+      "--accent":"#EB6F92","--glow":"rgba(235,111,146,.22)"}
   };
-  const root=document.documentElement, nameEl=document.getElementById("t-name");
-  function setTheme(id){
-    const t=THEMES[id]; if(!t) return;
-    for(const k in t){ if(k.startsWith("--")) root.style.setProperty(k,t[k]); }
-    nameEl.textContent=t.name;
-    document.querySelectorAll(".chip[data-theme]").forEach(c=>
-      c.setAttribute("aria-pressed", String(c.dataset.theme===id)));
-  }
-  document.querySelectorAll(".chip[data-theme]").forEach(c=>
-    c.addEventListener("click",()=>setTheme(c.dataset.theme)));
+  const ORDER = ["synthwave","cyberpunk","tokyo-night","dracula","catppuccin-latte"];
+  const root = document.documentElement, nameEl = document.getElementById("t-name"), chipsEl = document.getElementById("chips");
 
-  function copy(btn,text){
-    btn.addEventListener("click",async()=>{
-      try{ await navigator.clipboard.writeText(text);
-        const o=btn.textContent; btn.textContent="copied"; setTimeout(()=>btn.textContent=o,1400);
-      }catch(e){}
+  function setTheme(id){
+    const t = THEMES[id]; if(!t) return;
+    for(const k in t){ if(k.startsWith("--")) root.style.setProperty(k, t[k]); }
+    nameEl.textContent = t.name + (t.variant ? "" : "");
+    chipsEl.querySelectorAll(".chip[data-theme]").forEach(c => c.setAttribute("aria-pressed", String(c.dataset.theme === id)));
+  }
+
+  // build chips from real theme colors so swatches always match
+  ORDER.forEach(id => {
+    const t = THEMES[id];
+    const cols = [t["--t-cmd"], t["--t-param"], t["--t-str"], t["--t-op"]];
+    const b = document.createElement("button");
+    b.className = "chip"; b.dataset.theme = id; b.type = "button"; b.setAttribute("aria-pressed","false");
+    b.innerHTML = '<span class="grad">' + cols.map(c => '<i style="background:'+c+'"></i>').join("") +
+      '</span><span class="chip-name">'+t.name+'<em>'+t.variant+'</em></span>';
+    b.addEventListener("click", () => setTheme(id));
+    chipsEl.appendChild(b);
+  });
+  const more = document.createElement("a");
+  more.className = "chip"; more.href = "themes.html";
+  more.innerHTML = '<span class="grad grad-add">→</span><span class="chip-name">View more<em>all themes</em></span>';
+  chipsEl.appendChild(more);
+
+  setTheme(ORDER[0]);
+
+  function copy(btn, text){
+    if(!btn) return;
+    btn.addEventListener("click", async () => {
+      try{ await navigator.clipboard.writeText(text); const o = btn.textContent; btn.textContent = "copied"; setTimeout(()=>btn.textContent=o,1400); }catch(e){}
     });
   }
-  copy(document.getElementById("copyBtn"),"Install-Module PoshPalette");
-  copy(document.getElementById("copyBtn2"),"Install-Module PoshPalette; palette");
+  copy(document.getElementById("copyBtn"), "Install-Module PoshPalette");
 </script>
 </body>
 </html>

@@ -1,0 +1,21 @@
+{
+  "id": "monokai-pro",
+  "name": "Monokai Pro Spectrum",
+  "psReadLine": {
+    "Command": "#FC9867",
+    "Parameter": "#78DCE8",
+    "String": "#A9DC76",
+    "Operator": "#AB9DF2",
+    "Variable": "#FFD866",
+    "Number": "#FC9867",
+    "Comment": "#727072",
+    "Error": "#FF6188",
+    "Default": "#FCFCFA",
+    "InlinePrediction": "#727072"
+  },
+  "psStyle": {
+    "Directory": "#FC9867",
+    "Error": "#FF6188",
+    "TableHeader": "#AB9DF2"
+  }
+}

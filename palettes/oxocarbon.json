@@ -1,0 +1,21 @@
+{
+  "id": "oxocarbon",
+  "name": "Oxocarbon Dark",
+  "psReadLine": {
+    "Command": "#33b1ff",
+    "Parameter": "#3ddbd9",
+    "String": "#42be65",
+    "Operator": "#be95ff",
+    "Variable": "#ffe97b",
+    "Number": "#ff832b",
+    "Comment": "#525252",
+    "Error": "#ff7eb6",
+    "Default": "#F2F4F8",
+    "InlinePrediction": "#525252"
+  },
+  "psStyle": {
+    "Directory": "#33b1ff",
+    "Error": "#ff7eb6",
+    "TableHeader": "#be95ff"
+  }
+}

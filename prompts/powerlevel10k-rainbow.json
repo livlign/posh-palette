@@ -1,0 +1,7 @@
+{
+  "id": "powerlevel10k-rainbow",
+  "name": "Powerlevel10k Rainbow",
+  "ohMyPoshTheme": "powerlevel10k_rainbow",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

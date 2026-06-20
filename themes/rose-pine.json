@@ -1,0 +1,12 @@
+{
+  "id": "rose-pine",
+  "name": "Ros\u00e9 Pine Main",
+  "description": "Muted, cozy, all soho vibes.",
+  "scheme": "rose-pine",
+  "palette": "rose-pine",
+  "prompt": "atomic",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 93,
+  "acrylic": true
+}

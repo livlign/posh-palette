@@ -1,0 +1,12 @@
+{
+  "id": "one-dark",
+  "name": "One Dark Atom",
+  "description": "The editor classic, brought to the shell.",
+  "scheme": "one-dark",
+  "palette": "one-dark",
+  "prompt": "atomic",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 94,
+  "acrylic": false
+}

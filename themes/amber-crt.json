@@ -1,0 +1,12 @@
+{
+  "id": "amber-crt",
+  "name": "Amber CRT Retro",
+  "description": "Warm amber glow. The terminal your dad used.",
+  "scheme": "amber-crt",
+  "palette": "amber-crt",
+  "prompt": "auto-minimal",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 96,
+  "acrylic": false
+}

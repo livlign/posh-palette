@@ -1,0 +1,7 @@
+{
+  "id": "blue-owl",
+  "name": "Blue Owl",
+  "ohMyPoshTheme": "blue-owl",
+  "fixedColor": true,
+  "note": "oh-my-posh built-in theme (ships its own colors)."
+}

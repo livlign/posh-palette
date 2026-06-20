@@ -1,0 +1,21 @@
+{
+  "id": "synthwave",
+  "name": "Synthwave '84 Neon",
+  "psReadLine": {
+    "Command": "#03EDF9",
+    "Parameter": "#36F9F6",
+    "String": "#72F1B8",
+    "Operator": "#FF7EDB",
+    "Variable": "#FEDE5D",
+    "Number": "#FF8B39",
+    "Comment": "#848BBD",
+    "Error": "#FE4450",
+    "Default": "#F0EFF1",
+    "InlinePrediction": "#5C6688"
+  },
+  "psStyle": {
+    "Directory": "#03EDF9",
+    "Error": "#FE4450",
+    "TableHeader": "#FF7EDB"
+  }
+}

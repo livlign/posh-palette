@@ -1,0 +1,7 @@
+{
+  "id": "auto",
+  "name": "Auto (palette-aware)",
+  "generate": true,
+  "style": "classic",
+  "note": "Generated from the active scheme's colors so the prompt always matches. No external theme needed."
+}

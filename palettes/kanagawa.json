@@ -1,0 +1,21 @@
+{
+  "id": "kanagawa",
+  "name": "Kanagawa Wave",
+  "psReadLine": {
+    "Command": "#7E9CD8",
+    "Parameter": "#6A9589",
+    "String": "#76946A",
+    "Operator": "#957FB8",
+    "Variable": "#C0A36E",
+    "Number": "#FFA066",
+    "Comment": "#727169",
+    "Error": "#C34043",
+    "Default": "#DCD7BA",
+    "InlinePrediction": "#727169"
+  },
+  "psStyle": {
+    "Directory": "#7E9CD8",
+    "Error": "#C34043",
+    "TableHeader": "#957FB8"
+  }
+}

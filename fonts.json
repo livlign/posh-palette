@@ -1,7 +1,11 @@
 [
-  { "id": "jetbrains",   "name": "JetBrainsMono Nerd Font", "face": "JetBrainsMono Nerd Font" },
-  { "id": "cascadia",    "name": "CaskaydiaCove Nerd Font", "face": "CaskaydiaCove Nerd Font" },
-  { "id": "firacode",    "name": "FiraCode Nerd Font",      "face": "FiraCode Nerd Font" },
-  { "id": "hack",        "name": "Hack Nerd Font",          "face": "Hack Nerd Font" },
-  { "id": "meslo",       "name": "MesloLGS Nerd Font",      "face": "MesloLGS NF" }
+  { "id": "jetbrains",   "name": "JetBrainsMono Nerd Font", "face": "JetBrainsMono Nerd Font", "nerd": "JetBrainsMono" },
+  { "id": "cascadia",    "name": "CaskaydiaCove Nerd Font", "face": "CaskaydiaCove Nerd Font", "nerd": "CascadiaCode" },
+  { "id": "firacode",    "name": "FiraCode Nerd Font",      "face": "FiraCode Nerd Font",      "nerd": "FiraCode" },
+  { "id": "hack",        "name": "Hack Nerd Font",          "face": "Hack Nerd Font",          "nerd": "Hack" },
+  { "id": "meslo",       "name": "MesloLGS Nerd Font",      "face": "MesloLGS NF",             "nerd": "Meslo" },
+  { "id": "commitmono",  "name": "CommitMono Nerd Font",    "face": "CommitMono Nerd Font",    "nerd": "CommitMono" },
+  { "id": "victormono",  "name": "VictorMono Nerd Font",    "face": "VictorMono Nerd Font",    "nerd": "VictorMono" },
+  { "id": "iosevka",     "name": "Iosevka Nerd Font",       "face": "Iosevka Nerd Font",       "nerd": "Iosevka" },
+  { "id": "geistmono",   "name": "GeistMono Nerd Font",     "face": "GeistMono Nerd Font",     "nerd": "GeistMono" }
 ]
