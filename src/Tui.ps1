@@ -159,21 +159,32 @@ function Show-PoshPaletteList {
     $backIdx   = $Items.Count + $(if ($hasCustom) { 1 } else { 0 })
     $total     = $backIdx + 1
     $extra     = if ($hasCustom) { @('⌨ Type a name...', '← Back') } else { @('← Back') }
-    $width     = [Math]::Max((Get-PPMaxLen (@($Items | ForEach-Object { $_.Name }) + $extra)), 16)
-    $idx       = 0
+    $rows      = @($Items | ForEach-Object { $_.Name }) + $extra   # items, then Type-a-name / Back
+    $width     = [Math]::Max((Get-PPMaxLen $rows), 16)
+    $idx       = 0; $winTop = 0
     [Console]::CursorVisible = $false
     try {
         while ($true) {
+            # Scroll window so long catalogs (35+ entries) don't push the title off
+            # a short terminal. Keep the selection visible.
+            $wh = try { [Console]::WindowHeight } catch { 30 }
+            $maxRows = [Math]::Max(3, $wh - 7)
+            if ($total -le $maxRows) { $winTop = 0 }
+            elseif ($idx -lt $winTop) { $winTop = $idx }
+            elseif ($idx -ge $winTop + $maxRows) { $winTop = $idx - $maxRows + 1 }
+            if ($winTop -gt [Math]::Max(0, $total - $maxRows)) { $winTop = [Math]::Max(0, $total - $maxRows) }
+            $winEnd = [Math]::Min($total, $winTop + $maxRows)
+
             Clear-Host
             Write-Host ""
-            Write-Host "  $Title" -ForegroundColor White
+            Write-Host "  $Title" -ForegroundColor White -NoNewline
+            if ($total -gt $maxRows) { Write-Host "   ($($idx + 1)/$total)" -ForegroundColor DarkGray -NoNewline }
+            Write-Host ""
             Write-PPRule
             Write-Host ""
-            for ($i = 0; $i -lt $Items.Count; $i++) {
-                Write-PPRow ($i -eq $idx) $Items[$i].Name $width
+            for ($i = $winTop; $i -lt $winEnd; $i++) {
+                Write-PPRow ($i -eq $idx) $rows[$i] $width
             }
-            if ($hasCustom) { Write-PPRow ($idx -eq $customIdx) '⌨ Type a name...' $width }
-            Write-PPRow ($idx -eq $backIdx) '← Back' $width
             Write-PPFooter @('↑/↓ move', 'Enter select', 'Esc back')
             if ($PreviewFor -and $idx -lt $Items.Count) { & $PreviewFor $Items[$idx] }
 
@@ -330,7 +341,7 @@ function Show-PoshPaletteThemePicker {
         [pscustomobject]@{ Item = $t; Name = $t.Name; Id = $t.Id; Dark = (Test-PoshPaletteDarkHex $bg) }
     }
 
-    $query = ''; $filter = 'all'; $idx = 0
+    $query = ''; $filter = 'all'; $idx = 0; $winTop = 0
     $nextFilter = @{ all = 'dark'; dark = 'light'; light = 'all' }
     [Console]::CursorVisible = $false
     try {
@@ -341,6 +352,16 @@ function Show-PoshPaletteThemePicker {
                 ($q -eq '' -or $_.Name.ToLower().Contains($q) -or $_.Id.ToLower().Contains($q))
             })
             if ($idx -ge $view.Count) { $idx = [Math]::Max(0, $view.Count - 1) }
+
+            # Scroll window: only render as many rows as fit, so the header/search
+            # bar stays pinned on short terminals. Keep the selection in view.
+            $wh = try { [Console]::WindowHeight } catch { 30 }
+            $maxRows = [Math]::Max(3, $wh - 8)        # header (5) + footer (~3)
+            if ($view.Count -le $maxRows) { $winTop = 0 }
+            elseif ($idx -lt $winTop) { $winTop = $idx }
+            elseif ($idx -ge $winTop + $maxRows) { $winTop = $idx - $maxRows + 1 }
+            if ($winTop -gt [Math]::Max(0, $view.Count - $maxRows)) { $winTop = [Math]::Max(0, $view.Count - $maxRows) }
+            $winEnd = [Math]::Min($view.Count, $winTop + $maxRows)
 
             Clear-Host
             Write-Host ""
@@ -353,6 +374,7 @@ function Show-PoshPaletteThemePicker {
                 if ($f -eq $filter) { Write-Host " $lbl " -ForegroundColor Black -BackgroundColor Gray -NoNewline; Write-Host ' ' -NoNewline }
                 else { Write-Host "$lbl " -ForegroundColor DarkGray -NoNewline }
             }
+            if ($view.Count -gt $maxRows) { Write-Host "  ($($idx + 1)/$($view.Count))" -ForegroundColor DarkGray -NoNewline }
             Write-Host ""
             Write-PPRule
             Write-Host ""
@@ -360,7 +382,7 @@ function Show-PoshPaletteThemePicker {
                 Write-Host "     no themes match" -ForegroundColor DarkGray
             } else {
                 $width = [Math]::Max((Get-PPMaxLen ($view | ForEach-Object { $_.Name })), 16)
-                for ($i = 0; $i -lt $view.Count; $i++) { Write-PPRow ($i -eq $idx) $view[$i].Name $width }
+                for ($i = $winTop; $i -lt $winEnd; $i++) { Write-PPRow ($i -eq $idx) $view[$i].Name $width }
             }
             Write-PPFooter @('type to search', 'Tab filter', "$([char]0x2191)/$([char]0x2193) move", 'Enter apply', 'Esc back')
             if ($view.Count -gt 0) { Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme $view[$idx].Item.Data) -Top 5 }
