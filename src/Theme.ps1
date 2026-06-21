@@ -14,14 +14,37 @@
 function Get-PoshPaletteDataRoot { Split-Path $PSScriptRoot -Parent }
 function Get-PoshPaletteThemeRoot { Join-Path (Get-PoshPaletteDataRoot) 'themes' }
 
+# Where auto-fetched community entries are cached. The catalog loaders read this
+# in addition to the bundled module dir, so new themes pulled from GitHub show up
+# without reinstalling. Kept under the user's home so it's always writable and
+# survives module updates.
+function Get-PoshPaletteUserRoot  { Join-Path $HOME '.poshpalette' }
+function Get-PoshPaletteCacheRoot { Join-Path (Get-PoshPaletteUserRoot) 'catalog' }
+
 # --- Catalog loaders ----------------------------------------------------------
+
+# Enumerate the *.json entries for a kind across both roots (bundled first, then
+# the user cache), de-duped by id. Bundled wins on a clash, so the cache only
+# *adds* new community entries and can never shadow a shipped one.
+function Get-PoshPaletteCatalogFiles {
+    param([Parameter(Mandatory)][string] $Kind)
+    $seen = @{}
+    foreach ($root in @((Get-PoshPaletteDataRoot), (Get-PoshPaletteCacheRoot))) {
+        $dir = Join-Path $root $Kind
+        if (-not (Test-Path $dir)) { continue }
+        foreach ($file in (Get-ChildItem -Path $dir -Filter '*.json' -File | Sort-Object Name)) {
+            $data = try { Get-Content $file.FullName -Raw | ConvertFrom-Json } catch { $null }
+            if (-not $data -or -not $data.id -or $seen.ContainsKey($data.id)) { continue }
+            $seen[$data.id] = $true
+            [pscustomobject]@{ File = $file; Data = $data }
+        }
+    }
+}
 
 function Get-PoshPaletteCatalog {
     param([Parameter(Mandatory)][ValidateSet('schemes', 'palettes', 'prompts')] [string] $Kind)
-    $dir = Join-Path (Get-PoshPaletteDataRoot) $Kind
-    Get-ChildItem -Path $dir -Filter '*.json' -File | Sort-Object Name | ForEach-Object {
-        $data = Get-Content $_.FullName -Raw | ConvertFrom-Json
-        [pscustomobject]@{ Id = $data.id; Name = $data.name; Data = $data }
+    Get-PoshPaletteCatalogFiles -Kind $Kind | ForEach-Object {
+        [pscustomobject]@{ Id = $_.Data.id; Name = $_.Data.name; Data = $_.Data }
     }
 }
 
@@ -39,17 +62,18 @@ function Get-PoshPaletteFonts {
 # --- Compositions (presets) ---------------------------------------------------
 
 function Get-PoshPaletteThemes {
-    # Sorted by the theme's 'order' field (the curated catalog sequence the web
-    # gallery also uses), so tool and site agree; entries without an order fall
-    # to the end, then alphabetically by name as a stable tiebreak.
-    Get-ChildItem -Path (Get-PoshPaletteThemeRoot) -Filter '*.json' -File | ForEach-Object {
-        $data = Get-Content $_.FullName -Raw | ConvertFrom-Json
+    # Merges bundled themes with auto-fetched community ones (see
+    # Get-PoshPaletteCatalogFiles). Sorted by the theme's 'order' field (the
+    # curated sequence the web gallery also uses); entries without an order fall
+    # to the end (where new community themes land), then by name as a tiebreak.
+    Get-PoshPaletteCatalogFiles -Kind 'themes' | ForEach-Object {
+        $data = $_.Data
         [pscustomobject]@{
             Id          = $data.id
             Name        = $data.name
             Description = $data.description
             Order       = if ($null -ne $data.order) { [int]$data.order } else { [int]::MaxValue }
-            Path        = $_.FullName
+            Path        = $_.File.FullName
             Data        = $data   # the composition
         }
     } | Sort-Object Order, Name

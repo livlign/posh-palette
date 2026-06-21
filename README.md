@@ -97,10 +97,17 @@ Import-PoshPaletteScheme ./gruvbox.yaml -Save            # base16
 Import-PoshPaletteScheme ./scheme.json -Save             # Windows Terminal
 ```
 
-**Pull a theme from the GitHub catalog** (no clone needed):
+**New themes show up automatically.** On launch, `palette` checks the GitHub
+catalog (at most once a day) and pulls any new community themes — along with the
+scheme / palette / prompt files they reference — into a local cache at
+`~/.poshpalette/catalog/`, so you get them without reinstalling the module. The
+check is time-boxed and best-effort: offline or slow, it just uses what you
+already have. Force a check, browse, or opt out:
 ```powershell
+palette -Refresh                             # check for new themes right now
 Get-PoshPaletteRemoteCatalog                 # list what's published
-Save-PoshPaletteRemoteTheme some-theme       # download into your catalog
+Save-PoshPaletteRemoteTheme some-theme       # pull one on demand
+$env:POSHPALETTE_NO_AUTOUPDATE = 1           # disable the auto-check (e.g. offline / locked-down)
 ```
 
 **Check your setup** (PowerShell, fonts, oh-my-posh, terminal: what's ready, what to fix):

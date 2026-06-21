@@ -533,7 +533,18 @@ function Invoke-PoshPaletteDetailMode {
 
 function Start-PoshPalette {
     [CmdletBinding()]
-    param()
+    param([switch] $Refresh)
+
+    # Pull any new community themes from GitHub before showing the menu. This is
+    # throttled (once/24h), time-boxed, and best-effort, so it's instant on the
+    # common path and never blocks when offline. -Refresh forces it now.
+    $script:PPNewThemes = 0
+    try {
+        Clear-Host
+        Write-Host "`n  Checking for new themes…" -ForegroundColor DarkGray
+        $script:PPNewThemes = Update-PoshPaletteCatalog -Force:$Refresh
+    } catch { $script:PPNewThemes = 0 }
+
     $items = @(
         @{ Key = '1'; Title = 'Simple mode'; Desc = 'Pick a full theme from a scrollable list';   Run = { Invoke-PoshPaletteSimpleMode } }
         @{ Key = '2'; Title = 'Detail mode'; Desc = 'Compose scheme, colors, prompt, font';        Run = { Invoke-PoshPaletteDetailMode } }
@@ -559,6 +570,10 @@ function Start-PoshPalette {
             Write-Host "Posh Palette" -ForegroundColor White
             Write-PPRule
             Write-Host "  Style all 4 layers: scheme · PSReadLine · `$PSStyle · prompt" -ForegroundColor DarkGray
+            if ($script:PPNewThemes -gt 0) {
+                $s = if ($script:PPNewThemes -eq 1) { '' } else { 's' }
+                Write-Host "  + $($script:PPNewThemes) new community theme$s from GitHub" -ForegroundColor Green
+            }
             Write-Host ""
             for ($i = 0; $i -lt $items.Count; $i++) {
                 Write-PPRow ($i -eq $idx) $texts[$i] $rowW
