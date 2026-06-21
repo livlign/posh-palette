@@ -60,19 +60,19 @@ function Get-PoshPalettePromptParts {
     if ($Theme.prompt.generated) {
         switch -Wildcard ($Theme.prompt.name) {
             '*minimal*'   { return @($sc.purple, '❯ ') }
-            '*twoline*'   { return @($sc.cyan, '╭ ', $sc.blue, 'posh-palette ', $sc.green, '● main ', $sc.cyan, '╰', $sc.purple, '❯ ') }
-            '*powerline*' { return @($sc.blue, ' posh-palette ', $sc.green, ' main ', $sc.purple, ' ❯ ') }
-            '*robby*'     { return @($sc.cyan, '❯❯ ', $sc.blue, 'posh-palette ', $sc.green, 'git:(main) ', $sc.yellow, '18:50 ') }
-            '*arrow*'     { return @($sc.blue, 'posh-palette ', $sc.cyan, 'on ', $sc.green, '● main ', $sc.purple, '❯ ') }
-            '*lambda*'    { return @($sc.purple, 'λ ', $sc.blue, 'posh-palette ', $sc.green, '→ ') }
-            '*spaceship*' { return @($sc.blue, 'posh-palette ', $sc.cyan, 'on ', $sc.purple, '⎇ main ', $sc.yellow, '12:27 ', $sc.green, '➜ ') }
-            '*atomic*'    { return @($sc.purple, '⚡ ', $sc.blue, ' posh-palette ', $sc.green, ' main ', $sc.purple, ' ❯ ') }
-            '*smoothie*'  { return @($sc.purple, ' posh-palette ', $sc.cyan, ' main ', $sc.purple, ' ❯ ') }
-            '*pure*'      { return @($sc.blue, 'posh-palette ', $sc.purple, '❯ ') }
-            default       { return @($sc.blue, 'posh-palette ', $sc.green, 'main ', $sc.purple, '❯ ') }
+            '*twoline*'   { return @($sc.cyan, '╭ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '● main ', $sc.cyan, '╰', $sc.purple, '❯ ') }
+            '*powerline*' { return @($sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.purple, ' ❯ ') }
+            '*robby*'     { return @($sc.cyan, '❯❯ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, 'git:(main) ', $sc.yellow, '18:50 ') }
+            '*arrow*'     { return @($sc.blue, 'C:\proj\ccbit ', $sc.cyan, 'on ', $sc.green, '● main ', $sc.purple, '❯ ') }
+            '*lambda*'    { return @($sc.purple, 'λ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '→ ') }
+            '*spaceship*' { return @($sc.blue, 'C:\proj\ccbit ', $sc.cyan, 'on ', $sc.purple, '⎇ main ', $sc.yellow, '12:27 ', $sc.green, '➜ ') }
+            '*atomic*'    { return @($sc.purple, '⚡ ', $sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.purple, ' ❯ ') }
+            '*smoothie*'  { return @($sc.purple, ' C:\proj\ccbit ', $sc.cyan, ' main ', $sc.purple, ' ❯ ') }
+            '*pure*'      { return @($sc.blue, 'C:\proj\ccbit ', $sc.purple, '❯ ') }
+            default       { return @($sc.blue, 'C:\proj\ccbit ', $sc.green, 'main ', $sc.purple, '❯ ') }
         }
     }
-    @($sc.cyan, '❯❯ ', $sc.blue, 'posh-palette ', $sc.green, 'git:(main) ')
+    @($sc.cyan, '❯❯ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, 'git:(main) ')
 }
 
 # A mini terminal session drawn from the theme's own hex values on a filled block

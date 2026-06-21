@@ -5,7 +5,7 @@
   "scheme": "ayu-dark",
   "palette": "ayu-dark",
   "prompt": "auto-pure",
-  "font": "hack",
+  "font": "sourcecodepro",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,

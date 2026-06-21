@@ -5,7 +5,7 @@
   "scheme": "frostbyte",
   "palette": "frostbyte",
   "prompt": "auto-arrow",
-  "font": "hack",
+  "font": "spacemono",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,

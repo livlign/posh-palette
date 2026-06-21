@@ -15,5 +15,9 @@
   { "id": "agave",       "name": "Agave Nerd Font",         "face": "Agave Nerd Font",         "nerd": "Agave" },
   { "id": "bitstromwera","name": "BitstromWera Nerd Font",  "face": "BitstromWera Nerd Font",  "nerd": "BitstreamVeraSansMono" },
   { "id": "droidsans",   "name": "DroidSansM Nerd Font",    "face": "DroidSansM Nerd Font",    "nerd": "DroidSansMono" },
-  { "id": "gomono",      "name": "GoMono Nerd Font",        "face": "GoMono Nerd Font",        "nerd": "Go-Mono" }
+  { "id": "gomono",      "name": "GoMono Nerd Font",        "face": "GoMono Nerd Font",        "nerd": "Go-Mono" },
+  { "id": "ibmplex",     "name": "IBM Plex Mono (Blex)",    "face": "BlexMono Nerd Font",      "nerd": "IBMPlexMono" },
+  { "id": "spacemono",   "name": "SpaceMono Nerd Font",     "face": "SpaceMono Nerd Font",     "nerd": "SpaceMono" },
+  { "id": "sourcecodepro","name": "SauceCodePro Nerd Font", "face": "SauceCodePro Nerd Font",  "nerd": "SourceCodePro" },
+  { "id": "monaspace",   "name": "Monaspace Neon",          "face": "MonaspiceNe Nerd Font",   "nerd": "Monaspace" }
 ]

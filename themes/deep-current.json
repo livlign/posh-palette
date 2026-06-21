@@ -5,7 +5,7 @@
   "scheme": "deep-current",
   "palette": "deep-current",
   "prompt": "auto-twoline",
-  "font": "zeroxproto",
+  "font": "ibmplex",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,

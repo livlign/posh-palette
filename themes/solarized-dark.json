@@ -5,7 +5,7 @@
   "scheme": "solarized-dark",
   "palette": "solarized-dark",
   "prompt": "auto-lambda",
-  "font": "hack",
+  "font": "sourcecodepro",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,

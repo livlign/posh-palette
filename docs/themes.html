@@ -12,12 +12,15 @@
 <!-- per-theme preview faces: each card renders in its real font -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5/400.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/fira-code@5/400.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/hack@5/400.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/victor-mono@5/400.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/geist-mono@5/400.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/iosevka@5/400.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/martian-mono@5/400.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/0xproto@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/commit-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ibm-plex-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/space-mono@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-code-pro@5/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-neon@5/400.css">
 <style>
   :root{
     --bg:#0B0B12; --surface:#13131C; --raised:#1B1B27; --ink:#ECECF3; --ink-dim:#A7A7B8;
@@ -342,27 +345,28 @@
     jetbrains:["JetBrainsMono Nerd Font","JetBrains Mono","JetBrains"],
     cascadia:["CaskaydiaCove Nerd Font","Cascadia Code","Cascadia"],
     firacode:["FiraCode Nerd Font","Fira Code","Fira Code"],
-    hack:["Hack Nerd Font","Hack","Hack"],
-    meslo:["MesloLGS NF","Roboto Mono","Meslo"],
-    commitmono:["CommitMono Nerd Font","Roboto Mono","Commit Mono"],
     victormono:["VictorMono Nerd Font","Victor Mono","Victor Mono"],
     iosevka:["Iosevka Nerd Font","Iosevka","Iosevka"],
     geistmono:["GeistMono Nerd Font","Geist Mono","Geist"],
+    commitmono:["CommitMono Nerd Font","Commit Mono","Commit Mono"],
     martianmono:["MartianMono Nerd Font","Martian Mono","Martian Mono"],
-    zeroxproto:["0xProto Nerd Font","0xProto","0xProto"]
+    ibmplex:["BlexMono Nerd Font","IBM Plex Mono","IBM Plex"],
+    spacemono:["SpaceMono Nerd Font","Space Mono","Space Mono"],
+    sourcecodepro:["SauceCodePro Nerd Font","Source Code Pro","Source Code"],
+    monaspace:["MonaspiceNe Nerd Font","Monaspace Neon","Monaspace"]
   };
   const FONT = {
-    "nebula-drift":"martianmono", "deep-current":"zeroxproto", "miami-heat":"victormono",
+    "nebula-drift":"martianmono", "deep-current":"ibmplex", "miami-heat":"victormono",
     "forge-ember":"firacode", "matcha-zen":"geistmono", "velvet-court":"jetbrains",
-    "acid-lime":"cascadia", "frostbyte":"hack", "golden-hour":"robotomono",
+    "acid-lime":"cascadia", "frostbyte":"spacemono", "golden-hour":"robotomono",
     "tokyo-night":"jetbrains", "synthwave":"victormono", "catppuccin-latte":"geistmono",
-    "gruvbox":"firacode", "green-phosphor":"iosevka", "solarized-dark":"hack",
-    "dracula":"cascadia", "high-contrast":"meslo", "rose-pine":"commitmono",
+    "gruvbox":"firacode", "green-phosphor":"iosevka", "solarized-dark":"sourcecodepro",
+    "dracula":"cascadia", "high-contrast":"monaspace", "rose-pine":"commitmono",
     "nord":"robotomono", "monokai-pro":"jetbrains", "one-dark":"firacode",
     "cyberpunk":"victormono", "catppuccin-mocha":"geistmono", "github-dark":"cascadia",
-    "everforest":"iosevka", "kanagawa":"meslo", "horizon":"commitmono",
-    "ayu-dark":"hack", "night-owl":"jetbrains", "oxocarbon":"geistmono",
-    "github-light":"cascadia", "solarized-light":"hack", "rose-pine-dawn":"commitmono",
+    "everforest":"iosevka", "kanagawa":"monaspace", "horizon":"commitmono",
+    "ayu-dark":"sourcecodepro", "night-owl":"jetbrains", "oxocarbon":"geistmono",
+    "github-light":"cascadia", "solarized-light":"sourcecodepro", "rose-pine-dawn":"commitmono",
     "amber-crt":"iosevka", "campbell":"robotomono"
   };
 
@@ -375,9 +379,10 @@
     const c = k => t[k];
     const dim = t.dark ? c("--c-bg") : "#ffffff";        // contrasting text on filled segments
     const cmd = withCmd ? ` <span class="cmd">Get-ChildItem</span>` : "";
+    const P = "C:\\proj\\ccbit", D = "ccbit";            // Windows-style path / current folder
     switch(style){
       case "powerline": {
-        const segs = [["--c-cmd","~/proj"],["--c-str","main"],["--c-op","✓"]];
+        const segs = [["--c-cmd",P],["--c-str","main"],["--c-op","✓"]];
         let h = '<span class="pl">';
         segs.forEach((s,i)=>{
           h += `<span class="seg" style="background:${c(s[0])};color:${dim}">${s[1]}</span>`;
@@ -388,19 +393,19 @@
         return `<div class="ln prompt">${h}${cmd}</div>`;
       }
       case "robby":
-        return `<div class="ln prompt"><span class="param">❯❯</span> <span class="cmd">proj</span> <span class="com">git:(</span><span class="str">main</span><span class="com">)</span> <span class="var">12:27</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="param">❯❯</span> <span class="cmd">${D}</span> <span class="com">git:(</span><span class="str">main</span><span class="com">)</span> <span class="var">12:27</span>${cmd}</div>`;
       case "arrow":
-        return `<div class="ln prompt"><span class="cmd">proj</span> <span class="com">on</span> <span class="str">● main</span> <span class="var">12:27</span> <span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="cmd">${D}</span> <span class="com">on</span> <span class="str">● main</span> <span class="var">12:27</span> <span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
       case "lambda":
-        return `<div class="ln prompt"><span class="op">λ</span> <span class="cmd">~/proj</span> <span class="str">→</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="op">λ</span> <span class="cmd">${P}</span> <span class="str">→</span>${cmd}</div>`;
       case "pure":
-        return `<div class="ln prompt"><span class="cmd">~/proj</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="cmd">${P}</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
       case "twoline":
-        return `<div class="ln prompt"><span class="com">╭─</span> <span class="cmd">proj</span> <span class="str">● main</span> <span class="var">12:27</span></div><div class="ln prompt"><span class="com">╰─</span><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="com">╭─</span> <span class="cmd">${D}</span> <span class="str">● main</span> <span class="var">12:27</span></div><div class="ln prompt"><span class="com">╰─</span><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
       case "spaceship":
-        return `<div class="ln prompt"><span class="cmd">~/proj</span> <span class="com">on</span> <span class="op">⎇ main</span> <span class="var">12:27</span> <span style="color:${c("--c-str")}">➜</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="cmd">${P}</span> <span class="com">on</span> <span class="op">⎇ main</span> <span class="var">12:27</span> <span style="color:${c("--c-str")}">➜</span>${cmd}</div>`;
       case "atomic": {
-        const segs = [["--c-cmd","~/proj"],["--c-str","main"]];
+        const segs = [["--c-cmd",P],["--c-str","main"]];
         let h = `<span style="color:${c("--c-accent")}">⚡</span> <span class="pl">`;
         segs.forEach((s,i)=>{
           h += `<span class="seg" style="background:${c(s[0])};color:${dim}">${s[1]}</span>`;
@@ -411,7 +416,7 @@
         return `<div class="ln prompt">${h}${cmd}</div>`;
       }
       case "smoothie": {
-        const segs = [["--c-op","~/proj"],["--c-param","main"]];
+        const segs = [["--c-op",P],["--c-param","main"]];
         let h = '<span class="pl smooth">';
         segs.forEach(s=>{ h += `<span class="seg" style="background:${c(s[0])};color:${dim}">${s[1]}</span>`; });
         h += `</span> <span style="color:${c("--c-accent")}">❯</span>`;
