@@ -7,6 +7,7 @@
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/PoshPalette?logo=powershell&label=PowerShell%20Gallery)](https://www.powershellgallery.com/packages/PoshPalette)
 [![Downloads](https://img.shields.io/powershellgallery/dt/PoshPalette?label=installs)](https://www.powershellgallery.com/packages/PoshPalette)
 [![License](https://img.shields.io/github/license/livlign/posh-palette)](LICENSE)
+[![tests](https://github.com/livlign/posh-palette/actions/workflows/tests.yml/badge.svg)](https://github.com/livlign/posh-palette/actions/workflows/tests.yml)
 
 An interactive theme picker for **PowerShell + Windows Terminal**. Browse a
 gallery of looks, preview them live, and apply one across all **4 layers** at
@@ -179,6 +180,18 @@ Each layer is independently contributable: **one JSON file, one PR**.
 Copy an existing file in the matching folder, change the values, open a PR.
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and naming conventions.
 
+### Running the tests
+
+The data and catalog logic (resolver, dark/light detection, prompt generation,
+and the GitHub auto-refresh — with the network mocked) is covered by
+[Pester](https://pester.dev) tests in `tests/`, run in CI on both Windows and
+Linux on every push and PR:
+
+```powershell
+Install-Module Pester -MinimumVersion 5.5.0 -Scope CurrentUser
+Invoke-Pester ./tests
+```
+
 ## Safety
 
 - Backs up `settings.json` and `$PROFILE` before the first write (`*.poshpalette-*.bak`).
@@ -188,7 +201,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and naming conventi
 ## Status
 
 Stable and **published to the PowerShell Gallery** (`Install-Module PoshPalette`).
-35 bundled themes, the full 4-layer apply engine, live preview, scheme import, and a
-setup doctor all ship today. See [CHANGELOG.md](CHANGELOG.md) for release history.
+35 bundled themes, the full 4-layer apply engine, live preview, search/filter,
+scheme import, a setup doctor, and an auto-updating community catalog all ship
+today. See [CHANGELOG.md](CHANGELOG.md) for release history.
 
 **Next:** expand the prompt template library; grow the community catalog.
