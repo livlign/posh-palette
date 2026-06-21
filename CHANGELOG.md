@@ -3,6 +3,14 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [0.5.1]
+
+### Fixed
+- **Long theme/catalog lists no longer push the header off a short terminal.**
+  Simple mode and the Detail-mode pickers now scroll: they render only as many
+  rows as fit, keep the selection in view, and show an `(n/total)` indicator —
+  so the search bar and filters stay visible no matter the window height.
+
 ## [0.5.0]
 
 ### Added
