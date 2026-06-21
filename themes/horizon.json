@@ -5,8 +5,9 @@
   "scheme": "horizon",
   "palette": "horizon",
   "prompt": "auto-twoline",
-  "font": "robotomono",
+  "font": "commitmono",
   "fontSize": 11,
-  "opacity": 93,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 18
 }

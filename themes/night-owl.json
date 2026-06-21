@@ -5,8 +5,9 @@
   "scheme": "night-owl",
   "palette": "night-owl",
   "prompt": "auto-arrow",
-  "font": "robotomono",
+  "font": "jetbrains",
   "fontSize": 11,
-  "opacity": 94,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 20
 }

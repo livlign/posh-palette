@@ -5,8 +5,9 @@
   "scheme": "catppuccin-latte",
   "palette": "catppuccin-latte",
   "prompt": "auto-twoline",
-  "font": "robotomono",
+  "font": "geistmono",
   "fontSize": 11,
   "opacity": 100,
-  "acrylic": false
+  "acrylic": false,
+  "order": 3
 }

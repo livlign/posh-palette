@@ -5,8 +5,9 @@
   "scheme": "solarized-dark",
   "palette": "solarized-dark",
   "prompt": "auto-lambda",
-  "font": "robotomono",
+  "font": "hack",
   "fontSize": 11,
-  "opacity": 96,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 6
 }

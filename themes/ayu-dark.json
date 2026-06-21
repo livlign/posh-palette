@@ -5,8 +5,9 @@
   "scheme": "ayu-dark",
   "palette": "ayu-dark",
   "prompt": "auto-pure",
-  "font": "robotomono",
+  "font": "hack",
   "fontSize": 11,
-  "opacity": 95,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 19
 }

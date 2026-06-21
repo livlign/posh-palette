@@ -5,8 +5,9 @@
   "scheme": "high-contrast",
   "palette": "high-contrast",
   "prompt": "auto-powerline",
-  "font": "robotomono",
+  "font": "meslo",
   "fontSize": 11,
   "opacity": 100,
-  "acrylic": false
+  "acrylic": false,
+  "order": 8
 }

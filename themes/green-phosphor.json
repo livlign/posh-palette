@@ -5,8 +5,9 @@
   "scheme": "green-phosphor",
   "palette": "green-phosphor",
   "prompt": "auto-pure",
-  "font": "robotomono",
+  "font": "iosevka",
   "fontSize": 11,
-  "opacity": 96,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 5
 }

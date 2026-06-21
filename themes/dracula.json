@@ -5,8 +5,9 @@
   "scheme": "dracula",
   "palette": "dracula",
   "prompt": "auto-powerline",
-  "font": "robotomono",
+  "font": "cascadia",
   "fontSize": 11,
-  "opacity": 92,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 7
 }

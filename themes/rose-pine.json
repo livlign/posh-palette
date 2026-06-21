@@ -1,12 +1,13 @@
 {
   "id": "rose-pine",
-  "name": "Ros\u00e9 Pine Main",
+  "name": "Rosé Pine Main",
   "description": "Muted, cozy, all soho vibes.",
   "scheme": "rose-pine",
   "palette": "rose-pine",
   "prompt": "auto-robby",
-  "font": "robotomono",
+  "font": "commitmono",
   "fontSize": 11,
-  "opacity": 93,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 9
 }

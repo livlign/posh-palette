@@ -5,8 +5,9 @@
   "scheme": "monokai-pro",
   "palette": "monokai-pro",
   "prompt": "auto-powerline",
-  "font": "robotomono",
+  "font": "jetbrains",
   "fontSize": 11,
-  "opacity": 95,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 11
 }

@@ -5,8 +5,9 @@
   "scheme": "kanagawa",
   "palette": "kanagawa",
   "prompt": "auto-robby",
-  "font": "robotomono",
+  "font": "meslo",
   "fontSize": 11,
-  "opacity": 93,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 17
 }

@@ -5,8 +5,9 @@
   "scheme": "tokyo-night",
   "palette": "tokyo-night",
   "prompt": "auto-powerline",
-  "font": "robotomono",
+  "font": "jetbrains",
   "fontSize": 11,
-  "opacity": 92,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 1
 }

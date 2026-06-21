@@ -5,8 +5,9 @@
   "scheme": "catppuccin-mocha",
   "palette": "catppuccin-mocha",
   "prompt": "auto-robby",
-  "font": "robotomono",
+  "font": "geistmono",
   "fontSize": 11,
-  "opacity": 95,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 14
 }

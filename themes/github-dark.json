@@ -5,8 +5,9 @@
   "scheme": "github-dark",
   "palette": "github-dark",
   "prompt": "auto-powerline",
-  "font": "robotomono",
+  "font": "cascadia",
   "fontSize": 11,
-  "opacity": 97,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 15
 }

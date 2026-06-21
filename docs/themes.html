@@ -76,9 +76,11 @@
   .card-head h3{font-size:15.5px;margin:0;letter-spacing:-.01em}
   .card-head .var{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:11px;color:var(--ink-faint);
     text-transform:uppercase;letter-spacing:.08em}
-  .pill{margin-left:auto;font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:10px;
+  .pill{font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;font-size:10px;
     letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);border:1px solid var(--hair);
     border-radius:999px;padding:3px 9px}
+  .card-head .pill:first-of-type{margin-left:auto}
+  .pill.font{color:var(--ink-dim)}
 
   /* self-themed terminal preview (vars set inline per card) */
   .term{background:var(--c-bg);color:var(--c-fg);font-family:"Roboto Mono","Cascadia Code",Consolas,monospace;
@@ -269,10 +271,14 @@
       "--c-err":"#FF5555","--c-dir":"#5599FF","--c-accent":"#FFFF55","--c-glow":"rgba(255,255,85,0.4)"}
   };
   // First six are deliberately distinct: different background family AND prompt shape.
-  const ORDER = ["synthwave","cyberpunk","solarized-light","gruvbox","green-phosphor","dracula",
-    "catppuccin-latte","oxocarbon","night-owl","monokai-pro","horizon","amber-crt",
-    "tokyo-night","rose-pine","ayu-dark","one-dark","github-light","everforest",
-    "campbell","nord","catppuccin-mocha","high-contrast","solarized-dark","kanagawa","github-dark","rose-pine-dawn"];
+  // Curated catalog order — the first 9 are chosen to show the widest range
+  // (background, color, prompt shape, font) on first scroll. Mirrors the
+  // 'order' field in themes/*.json so the tool and this page agree.
+  const ORDER = ["tokyo-night","synthwave","catppuccin-latte","gruvbox","green-phosphor",
+    "solarized-dark","dracula","high-contrast","rose-pine",
+    "nord","monokai-pro","one-dark","cyberpunk","catppuccin-mocha","github-dark",
+    "everforest","kanagawa","horizon","ayu-dark","night-owl","oxocarbon",
+    "github-light","solarized-light","rose-pine-dawn","amber-crt","campbell"];
 
   const grid = document.getElementById("grid");
   const countEl = document.getElementById("count");
@@ -289,11 +295,31 @@
     "night-owl":"arrow", "rose-pine-dawn":"arrow",
     campbell:"robby", "high-contrast":"powerline"
   };
-  // Themes that apply an acrylic / translucent background get a glass sheen.
-  const ACRYLIC = new Set(["tokyo-night","catppuccin-mocha","dracula","rose-pine","kanagawa",
-    "synthwave","cyberpunk","horizon","night-owl"]);
+  // All bundled themes ship fully opaque (opacity 100), so no glass sheen.
+  const ACRYLIC = new Set();
   const STYLE_LABEL = { powerline:"powerline", robby:"chevron", pure:"minimal", lambda:"lambda",
     twoline:"two-line", arrow:"arrow" };
+  // Each theme also applies a font (a real differentiator the tool sets). The
+  // preview renders in that face when the visitor has it installed, else falls
+  // back to the page mono; the label communicates it either way.
+  const FONT = {
+    "tokyo-night":["jetbrains","JetBrainsMono Nerd Font"], "synthwave":["victormono","VictorMono Nerd Font"],
+    "catppuccin-latte":["geistmono","GeistMono Nerd Font"], "gruvbox":["firacode","FiraCode Nerd Font"],
+    "green-phosphor":["iosevka","Iosevka Nerd Font"], "solarized-dark":["hack","Hack Nerd Font"],
+    "dracula":["cascadia","CaskaydiaCove Nerd Font"], "high-contrast":["meslo","MesloLGS NF"],
+    "rose-pine":["commitmono","CommitMono Nerd Font"], "nord":["robotomono","RobotoMono Nerd Font"],
+    "monokai-pro":["jetbrains","JetBrainsMono Nerd Font"], "one-dark":["firacode","FiraCode Nerd Font"],
+    "cyberpunk":["victormono","VictorMono Nerd Font"], "catppuccin-mocha":["geistmono","GeistMono Nerd Font"],
+    "github-dark":["cascadia","CaskaydiaCove Nerd Font"], "everforest":["iosevka","Iosevka Nerd Font"],
+    "kanagawa":["meslo","MesloLGS NF"], "horizon":["commitmono","CommitMono Nerd Font"],
+    "ayu-dark":["hack","Hack Nerd Font"], "night-owl":["jetbrains","JetBrainsMono Nerd Font"],
+    "oxocarbon":["geistmono","GeistMono Nerd Font"], "github-light":["cascadia","CaskaydiaCove Nerd Font"],
+    "solarized-light":["hack","Hack Nerd Font"], "rose-pine-dawn":["commitmono","CommitMono Nerd Font"],
+    "amber-crt":["iosevka","Iosevka Nerd Font"], "campbell":["robotomono","RobotoMono Nerd Font"]
+  };
+  const FONT_LABEL = { jetbrains:"JetBrains", victormono:"Victor Mono", geistmono:"Geist",
+    firacode:"Fira Code", iosevka:"Iosevka", hack:"Hack", cascadia:"Cascadia", meslo:"Meslo",
+    commitmono:"Commit Mono", robotomono:"Roboto Mono" };
 
   function cardVars(t){ return ["--c-bg","--c-fg","--c-cur","--c-cmd","--c-param","--c-str","--c-op",
     "--c-var","--c-num","--c-com","--c-err","--c-dir","--c-accent","--c-glow"]
@@ -333,6 +359,7 @@
     const t = THEMES[id];
     const style = PROMPT[id] || "robby";
     const glass = ACRYLIC.has(id);
+    const font = FONT[id];
     const cmd = `Install-PoshPaletteTheme '${id}'`;
     const el = document.createElement("article");
     el.className = "card";
@@ -340,12 +367,14 @@
     const bg = glass
       ? `background:linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,0) 45%), var(--c-bg)`
       : "";
+    const termFont = font ? `font-family:"${font[1]}","Roboto Mono","Cascadia Code",Consolas,monospace;` : "";
     el.innerHTML = `
       <div class="card-head">
         <h3>${t.name}</h3><span class="var">${t.variant}</span>
+        ${font ? `<span class="pill font">${FONT_LABEL[font[0]]}</span>` : ""}
         <span class="pill">${STYLE_LABEL[style]}</span>
       </div>
-      <div class="term" style="${bg}">
+      <div class="term" style="${bg}${termFont}">
         ${renderPrompt(t, style, true)}
         <div class="ln"><span class="op">Mode   LastWriteTime   Name</span></div>
         <div class="ln"><span class="com">----   -------------   ----</span></div>

@@ -5,8 +5,9 @@
   "scheme": "cyberpunk",
   "palette": "cyberpunk",
   "prompt": "auto-twoline",
-  "font": "robotomono",
+  "font": "victormono",
   "fontSize": 11,
-  "opacity": 92,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 13
 }

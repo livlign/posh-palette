@@ -39,16 +39,20 @@ function Get-PoshPaletteFonts {
 # --- Compositions (presets) ---------------------------------------------------
 
 function Get-PoshPaletteThemes {
-    Get-ChildItem -Path (Get-PoshPaletteThemeRoot) -Filter '*.json' -File | Sort-Object Name | ForEach-Object {
+    # Sorted by the theme's 'order' field (the curated catalog sequence the web
+    # gallery also uses), so tool and site agree; entries without an order fall
+    # to the end, then alphabetically by name as a stable tiebreak.
+    Get-ChildItem -Path (Get-PoshPaletteThemeRoot) -Filter '*.json' -File | ForEach-Object {
         $data = Get-Content $_.FullName -Raw | ConvertFrom-Json
         [pscustomobject]@{
             Id          = $data.id
             Name        = $data.name
             Description = $data.description
+            Order       = if ($null -ne $data.order) { [int]$data.order } else { [int]::MaxValue }
             Path        = $_.FullName
             Data        = $data   # the composition
         }
-    }
+    } | Sort-Object Order, Name
 }
 
 # --- Resolver -----------------------------------------------------------------

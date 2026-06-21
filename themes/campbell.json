@@ -8,5 +8,6 @@
   "font": "robotomono",
   "fontSize": 11,
   "opacity": 100,
-  "acrylic": false
+  "acrylic": false,
+  "order": 26
 }

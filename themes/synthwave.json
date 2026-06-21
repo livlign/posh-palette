@@ -5,8 +5,9 @@
   "scheme": "synthwave",
   "palette": "synthwave",
   "prompt": "auto-robby",
-  "font": "robotomono",
+  "font": "victormono",
   "fontSize": 11,
-  "opacity": 90,
-  "acrylic": true
+  "opacity": 100,
+  "acrylic": false,
+  "order": 2
 }

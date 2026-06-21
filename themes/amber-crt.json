@@ -5,8 +5,9 @@
   "scheme": "amber-crt",
   "palette": "amber-crt",
   "prompt": "auto-pure",
-  "font": "robotomono",
+  "font": "iosevka",
   "fontSize": 11,
-  "opacity": 96,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 25
 }

@@ -274,11 +274,86 @@ function Invoke-PoshPaletteReset {
     }
 }
 
+# Perceived-luminance test on a "#rrggbb" background: is it a dark theme? Used to
+# tag each theme dark/light for the Simple-mode filter (matches the site's split).
+function Test-PoshPaletteDarkHex {
+    param([string] $Hex)
+    if (-not $Hex -or $Hex.Length -lt 7) { return $true }
+    $r = [convert]::ToInt32($Hex.Substring(1,2),16)
+    $g = [convert]::ToInt32($Hex.Substring(3,2),16)
+    $b = [convert]::ToInt32($Hex.Substring(5,2),16)
+    (((0.2126 * $r) + (0.7152 * $g) + (0.0722 * $b)) / 255) -lt 0.5
+}
+
+# Simple-mode theme picker with type-to-search + a dark/light filter. The list is
+# focused by default (arrows move, Enter applies). Just start typing to live-filter
+# by name; Tab cycles All -> Dark -> Light; Backspace edits; Esc clears the query
+# (or backs out when it's already empty). Returns the chosen theme item or $null.
+function Show-PoshPaletteThemePicker {
+    param([array] $Themes)
+
+    # Precompute dark/light once from each theme's scheme background.
+    $entries = foreach ($t in $Themes) {
+        $bg = (Get-PoshPaletteCatalogItem -Kind 'schemes' -Id $t.Data.scheme).colors.background
+        [pscustomobject]@{ Item = $t; Name = $t.Name; Id = $t.Id; Dark = (Test-PoshPaletteDarkHex $bg) }
+    }
+
+    $query = ''; $filter = 'all'; $idx = 0
+    $nextFilter = @{ all = 'dark'; dark = 'light'; light = 'all' }
+    [Console]::CursorVisible = $false
+    try {
+        while ($true) {
+            $q = $query.ToLower()
+            $view = @($entries | Where-Object {
+                ($filter -eq 'all' -or ($filter -eq 'dark' -and $_.Dark) -or ($filter -eq 'light' -and -not $_.Dark)) -and
+                ($q -eq '' -or $_.Name.ToLower().Contains($q) -or $_.Id.ToLower().Contains($q))
+            })
+            if ($idx -ge $view.Count) { $idx = [Math]::Max(0, $view.Count - 1) }
+
+            Clear-Host
+            Write-Host ""
+            Write-Host "  Simple mode - pick a theme" -ForegroundColor White
+            Write-Host "  Search: " -ForegroundColor DarkGray -NoNewline
+            Write-Host ($query + [char]0x2588) -ForegroundColor White -NoNewline
+            Write-Host "   Filter: " -ForegroundColor DarkGray -NoNewline
+            foreach ($f in @('all', 'dark', 'light')) {
+                $lbl = $f.Substring(0, 1).ToUpper() + $f.Substring(1)
+                if ($f -eq $filter) { Write-Host " $lbl " -ForegroundColor Black -BackgroundColor Gray -NoNewline; Write-Host ' ' -NoNewline }
+                else { Write-Host "$lbl " -ForegroundColor DarkGray -NoNewline }
+            }
+            Write-Host ""
+            Write-PPRule
+            Write-Host ""
+            if ($view.Count -eq 0) {
+                Write-Host "     no themes match" -ForegroundColor DarkGray
+            } else {
+                $width = [Math]::Max((Get-PPMaxLen ($view | ForEach-Object { $_.Name })), 16)
+                for ($i = 0; $i -lt $view.Count; $i++) { Write-PPRow ($i -eq $idx) $view[$i].Name $width }
+            }
+            Write-PPFooter @('type to search', 'Tab filter', "$([char]0x2191)/$([char]0x2193) move", 'Enter apply', 'Esc back')
+            if ($view.Count -gt 0) { Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme $view[$idx].Item.Data) -Top 5 }
+
+            $key = [Console]::ReadKey($true)
+            switch ($key.Key) {
+                'UpArrow'   { if ($view.Count) { $idx = ($idx - 1 + $view.Count) % $view.Count } }
+                'DownArrow' { if ($view.Count) { $idx = ($idx + 1) % $view.Count } }
+                'Enter'     { if ($view.Count) { return $view[$idx].Item } }
+                'Tab'       { $filter = $nextFilter[$filter]; $idx = 0 }
+                'Backspace' { if ($query.Length) { $query = $query.Substring(0, $query.Length - 1); $idx = 0 } }
+                'Escape'    { if ($query.Length) { $query = ''; $idx = 0 } else { return $null } }
+                default {
+                    # Any printable character extends the search query.
+                    $ch = $key.KeyChar
+                    if ([int]$ch -ge 32 -and [int]$ch -ne 127) { $query += $ch; $idx = 0 }
+                }
+            }
+        }
+    } finally { [Console]::CursorVisible = $true }
+}
+
 function Invoke-PoshPaletteSimpleMode {
     $themes = Get-PoshPaletteThemes
-    $chosen = Show-PoshPaletteList -Title 'Simple mode - pick a theme' -Items $themes -PreviewFor {
-        param($t) Show-PoshPalettePreview -Theme (Resolve-PoshPaletteTheme $t.Data)
-    }
+    $chosen = Show-PoshPaletteThemePicker -Themes $themes
     if ($chosen) {
         Clear-Host
         $t = Resolve-PoshPaletteTheme $chosen.Data

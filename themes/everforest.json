@@ -5,8 +5,9 @@
   "scheme": "everforest",
   "palette": "everforest",
   "prompt": "auto-lambda",
-  "font": "robotomono",
+  "font": "iosevka",
   "fontSize": 11,
-  "opacity": 95,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 16
 }

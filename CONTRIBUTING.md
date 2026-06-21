@@ -25,6 +25,22 @@ Keep `id` kebab-case and matching the filename (e.g. `tokyo-night.json` → `"id
 If you add a full theme, make sure the same `id` exists across the layers it
 references so the resolver can expand it.
 
+A `themes/*.json` composition looks like:
+
+```json
+{ "id": "tokyo-night", "name": "Tokyo Night", "description": "...",
+  "scheme": "tokyo-night", "palette": "tokyo-night",
+  "prompt": "auto-powerline", "font": "jetbrains",
+  "fontSize": 11, "opacity": 100, "acrylic": false, "order": 1 }
+```
+
+- `font` is a `fonts.json` id (or any installed face name). Vary it across themes —
+  it's a real part of the look the tool applies.
+- `order` controls where the theme appears in both the tool list and the web
+  gallery (lower = earlier). The first nine are deliberately the most varied
+  (background, color, prompt shape, font) since they're the first thing a new user
+  sees — keep that diversity in mind when slotting a new theme near the top.
+
 ## Naming conventions
 
 The project/brand is **Posh Palette** (repo: `posh-palette`, kebab-case like

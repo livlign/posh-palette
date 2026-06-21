@@ -5,8 +5,9 @@
   "scheme": "gruvbox",
   "palette": "gruvbox",
   "prompt": "auto-arrow",
-  "font": "robotomono",
+  "font": "firacode",
   "fontSize": 11,
-  "opacity": 94,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 4
 }

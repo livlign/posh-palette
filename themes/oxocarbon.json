@@ -5,8 +5,9 @@
   "scheme": "oxocarbon",
   "palette": "oxocarbon",
   "prompt": "auto-powerline",
-  "font": "robotomono",
+  "font": "geistmono",
   "fontSize": 11,
-  "opacity": 94,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 21
 }

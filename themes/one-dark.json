@@ -5,8 +5,9 @@
   "scheme": "one-dark",
   "palette": "one-dark",
   "prompt": "auto-twoline",
-  "font": "robotomono",
+  "font": "firacode",
   "fontSize": 11,
-  "opacity": 94,
-  "acrylic": false
+  "opacity": 100,
+  "acrylic": false,
+  "order": 12
 }
