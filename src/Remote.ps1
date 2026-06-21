@@ -97,6 +97,16 @@ function Update-PoshPaletteCatalog {
 
     $added = 0
     try {
+        if (-not (Test-Path $cacheRoot)) { New-Item -ItemType Directory -Path $cacheRoot -Force | Out-Null }
+
+        # Same pass also caches the latest published version, so the version check
+        # rides the same once/24h cadence as the theme fetch (read back cheaply by
+        # Get-PoshPaletteUpdateAvailable for the menu).
+        try {
+            $latest = Get-PoshPaletteLatestVersion -TimeoutSec $TimeoutSec
+            if ($latest) { Set-Content -Path (Join-Path $cacheRoot '.latest-version') -Value $latest -Encoding utf8 }
+        } catch { Write-Verbose "PoshPalette version check skipped: $_" }
+
         $haveThemes = @(Get-PoshPaletteThemes | ForEach-Object Id)
         $remote     = @(Get-PoshPaletteRemoteCatalog -Kind themes -Repo $Repo -Branch $Branch -TimeoutSec $TimeoutSec)
         $newThemes  = @($remote | Where-Object { $_.Id -notin $haveThemes })
@@ -139,4 +149,41 @@ function Update-PoshPaletteCatalog {
         Write-Verbose "PoshPalette catalog refresh skipped: $_"   # offline / slow / rate-limited: non-fatal
     }
     $added
+}
+
+# --- Version check ------------------------------------------------------------
+
+# The latest PoshPalette version published to the PowerShell Gallery, as a string,
+# or $null if it can't be determined. Uses the Gallery's OData feed via a
+# time-boxed Invoke-WebRequest and regex (no PowerShellGet round-trip, so it can't
+# hang), then takes the highest version found.
+function Get-PoshPaletteLatestVersion {
+    param([int] $TimeoutSec = 5)
+    $url = "https://www.powershellgallery.com/api/v2/FindPackagesById()?id='PoshPalette'"
+    $resp = Invoke-WebRequest -Uri $url -Headers @{ 'User-Agent' = 'PoshPalette' } -TimeoutSec $TimeoutSec
+    $content = [string]$resp.Content
+    $versions = [regex]::Matches($content, '<d:Version>([0-9][0-9.]*)</d:Version>') |
+        ForEach-Object { try { [version]$_.Groups[1].Value } catch { $null } } |
+        Where-Object { $_ }
+    if (-not $versions) { return $null }
+    ($versions | Sort-Object -Descending | Select-Object -First 1).ToString()
+}
+
+# The version of this loaded module (from its manifest).
+function Get-PoshPaletteInstalledVersion {
+    $m = $ExecutionContext.SessionState.Module
+    if ($m -and $m.Version) { return $m.Version }
+    (Get-Module PoshPalette | Sort-Object Version -Descending | Select-Object -First 1).Version
+}
+
+# If the cached latest published version is newer than the installed one, return
+# it as a string; otherwise $null. Reads the cache written by the daily refresh,
+# so it's instant and works offline.
+function Get-PoshPaletteUpdateAvailable {
+    $f = Join-Path (Get-PoshPaletteCacheRoot) '.latest-version'
+    if (-not (Test-Path $f)) { return $null }
+    $latest = try { [version]((Get-Content $f -Raw).Trim()) } catch { $null }
+    $cur    = try { [version](Get-PoshPaletteInstalledVersion) } catch { $null }
+    if ($latest -and $cur -and ($latest -gt $cur)) { return $latest.ToString() }
+    $null
 }

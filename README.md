@@ -41,6 +41,20 @@ palette
 In Windows Terminal, set the default profile to **PowerShell** (7.x) rather than
 **Windows PowerShell** so new tabs use it automatically.
 
+## Update
+
+To move to a newer release of the module:
+
+```powershell
+Update-Module PoshPalette     # then open a new PowerShell tab to load it
+```
+
+You don't have to remember to check: on launch Posh Palette compares your version
+against the Gallery (on the same once-a-day cadence it uses to fetch new themes),
+and when a newer one is out the menu shows a **`[5] Update`** option — pick it to
+run the update right there. New *themes*, separately, arrive on their own with no
+module update needed (see **Use → New themes show up automatically**, below).
+
 ## Use
 
 **Interactive (Simple or Detail mode):**

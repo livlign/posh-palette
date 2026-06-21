@@ -60,8 +60,10 @@ Describe 'New-PoshPaletteOmpConfig' {
 
 Describe 'Update-PoshPaletteCatalog' {
     BeforeEach {
-        # Route the cache to a throwaway dir and stub GitHub.
+        # Route the cache to a throwaway dir and stub GitHub + the version check
+        # so no test in this block touches the network.
         Mock -ModuleName PoshPalette Get-PoshPaletteCacheRoot { Join-Path $TestDrive 'catalog' }
+        Mock -ModuleName PoshPalette Get-PoshPaletteLatestVersion { $null }
         Remove-Item Env:\POSHPALETTE_NO_AUTOUPDATE -ErrorAction SilentlyContinue
     }
     AfterEach {
@@ -131,5 +133,40 @@ Describe 'Update-PoshPaletteCatalog' {
         }
         Mock -ModuleName PoshPalette Invoke-RestMethod { throw 'should not be called' }
         Update-PoshPaletteCatalog -Force | Should -Be 0
+    }
+}
+
+Describe 'Version check' {
+    It 'parses the highest published version from the Gallery feed' {
+        InModuleScope PoshPalette {
+            Mock Invoke-WebRequest {
+                [pscustomobject]@{ Content = @'
+<feed>
+<entry><m:properties><d:Version>0.3.0</d:Version></m:properties></entry>
+<entry><m:properties><d:Version>0.4.2</d:Version></m:properties></entry>
+<entry><m:properties><d:Version>0.4.10</d:Version></m:properties></entry>
+</feed>
+'@ }
+            }
+            Get-PoshPaletteLatestVersion | Should -Be '0.4.10'
+        }
+    }
+
+    It 'flags an update when the cached latest exceeds the installed version' {
+        Mock -ModuleName PoshPalette Get-PoshPaletteCacheRoot { Join-Path $TestDrive 'catalog' }
+        Mock -ModuleName PoshPalette Get-PoshPaletteInstalledVersion { [version]'0.4.2' }
+        $cache = Join-Path $TestDrive 'catalog'
+        New-Item -ItemType Directory -Path $cache -Force | Out-Null
+        Set-Content -Path (Join-Path $cache '.latest-version') -Value '9.9.9'
+        (InModuleScope PoshPalette { Get-PoshPaletteUpdateAvailable }) | Should -Be '9.9.9'
+    }
+
+    It 'reports no update when already current' {
+        Mock -ModuleName PoshPalette Get-PoshPaletteCacheRoot { Join-Path $TestDrive 'catalog' }
+        Mock -ModuleName PoshPalette Get-PoshPaletteInstalledVersion { [version]'0.4.2' }
+        $cache = Join-Path $TestDrive 'catalog'
+        New-Item -ItemType Directory -Path $cache -Force | Out-Null
+        Set-Content -Path (Join-Path $cache '.latest-version') -Value '0.1.0'
+        (InModuleScope PoshPalette { Get-PoshPaletteUpdateAvailable }) | Should -BeNullOrEmpty
     }
 }

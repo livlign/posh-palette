@@ -277,6 +277,35 @@ function Invoke-PoshPaletteReset {
     }
 }
 
+# Update the module from the PowerShell Gallery, then confirm. Returns 'quit'/$null.
+function Invoke-PoshPaletteUpdate {
+    Clear-Host
+    Write-Host "`n  Updating PoshPalette from the PowerShell Gallery…" -ForegroundColor Cyan
+    $ok = $false
+    try {
+        Update-Module PoshPalette -ErrorAction Stop
+        $ok = $true
+    } catch {
+        Write-Host "`n  Couldn't update automatically: $($_.Exception.Message)" -ForegroundColor Yellow
+        Write-Host "  Run this yourself, then reopen PowerShell:" -ForegroundColor Gray
+        Write-Host "    Update-Module PoshPalette" -ForegroundColor Cyan
+    }
+    if ($ok) {
+        Write-Host ""
+        Write-Host "  ✓ " -ForegroundColor Green -NoNewline
+        Write-Host "Updated." -ForegroundColor White
+        Write-PPRule
+        Write-Host ""
+        Write-Host "  Open a new PowerShell tab to load the new version." -ForegroundColor Gray
+    }
+    Write-PPFooter @('Enter  back to menu', 'Q  quit')
+    while ($true) {
+        $k = [Console]::ReadKey($true)
+        if ($k.Key -eq 'Enter' -or $k.Key -eq 'Escape') { return $null }
+        if ([string]$k.KeyChar -in 'q', 'Q')            { return 'quit' }
+    }
+}
+
 # Perceived-luminance test on a "#rrggbb" background: is it a dark theme? Used to
 # tag each theme dark/light for the Simple-mode filter (matches the site's split).
 function Test-PoshPaletteDarkHex {
@@ -550,8 +579,14 @@ function Start-PoshPalette {
         @{ Key = '2'; Title = 'Detail mode'; Desc = 'Compose scheme, colors, prompt, font';        Run = { Invoke-PoshPaletteDetailMode } }
         @{ Key = '3'; Title = 'Doctor';      Desc = 'Check fonts, oh-my-posh, terminal';           Run = { Clear-Host; Test-PoshPaletteSetup | Out-Null; Write-Host "`n  [Enter] back to menu" -ForegroundColor DarkGray; [Console]::ReadKey($true) | Out-Null } }
         @{ Key = '4'; Title = 'Reset';       Desc = 'Back to the default look (for before/after)'; Run = { Invoke-PoshPaletteReset } }
-        @{ Key = 'Q'; Title = 'Quit';        Desc = 'Exit Posh Palette';                           Run = { 'quit' } }
     )
+    # Offer an Update item only when a newer version is on the Gallery (detected on
+    # the same daily cadence as the theme refresh, read back from cache here).
+    $updateVer = try { Get-PoshPaletteUpdateAvailable } catch { $null }
+    if ($updateVer) {
+        $items += @{ Key = '5'; Title = 'Update'; Desc = "New version $updateVer available. Select to Update."; Run = { Invoke-PoshPaletteUpdate } }
+    }
+    $items += @{ Key = 'Q'; Title = 'Quit'; Desc = 'Exit Posh Palette'; Run = { 'quit' } }
     $titleW = Get-PPMaxLen ($items | ForEach-Object { $_.Title })
     $texts  = $items | ForEach-Object { "[$($_.Key)] " + $_.Title.PadRight($titleW) + '   ' + $_.Desc }
     $rowW   = Get-PPMaxLen $texts
