@@ -1,6 +1,6 @@
 {
   "id": "rose-pine",
-  "name": "Rosé Pine Main",
+  "name": "Ros\u00e9 Pine Main",
   "description": "Muted, cozy, all soho vibes.",
   "scheme": "rose-pine",
   "palette": "rose-pine",
@@ -9,5 +9,5 @@
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,
-  "order": 18
+  "order": 24
 }

@@ -31,6 +31,10 @@ Describe 'Bundled catalog' {
         $ids | Should -Contain 'auto-spaceship'
         $ids | Should -Contain 'auto-atomic'
         $ids | Should -Contain 'auto-smoothie'
+        $ids | Should -Contain 'auto-1shell'
+        $ids | Should -Contain 'auto-cert'
+        $ids | Should -Contain 'auto-clean'
+        $ids | Should -Contain 'auto-velvet'
     }
 }
 
@@ -46,12 +50,12 @@ Describe 'Test-PoshPaletteDarkHex' {
 }
 
 Describe 'New-PoshPaletteOmpConfig' {
-    It 'generates a valid v2 config for every style' {
+    It 'generates a valid v4 config for every style' {
         InModuleScope PoshPalette {
             $colors = (Get-PoshPaletteCatalogItem -Kind schemes -Id 'tokyo-night').colors
-            foreach ($style in 'powerline','twoline','robby','arrow','lambda','pure','spaceship','atomic','smoothie') {
+            foreach ($style in 'powerline','twoline','robby','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet') {
                 $cfg = New-PoshPaletteOmpConfig $colors -Style $style
-                $cfg.version | Should -Be 2
+                $cfg.version | Should -Be 4
                 @($cfg.blocks).Count | Should -BeGreaterThan 0
             }
         }

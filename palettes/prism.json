@@ -1,0 +1,21 @@
+{
+  "id": "prism",
+  "name": "Prism",
+  "psReadLine": {
+    "Command": "#5AB0FF",
+    "Parameter": "#58D6E8",
+    "String": "#7FD9B0",
+    "Operator": "#9DA8FF",
+    "Variable": "#F2D58A",
+    "Number": "#F0A878",
+    "Comment": "#5E6F90",
+    "Error": "#FF7A93",
+    "Default": "#D7E3F4",
+    "InlinePrediction": "#5E6F90"
+  },
+  "psStyle": {
+    "Directory": "#5AB0FF",
+    "Error": "#FF7A93",
+    "TableHeader": "#9DA8FF"
+  }
+}

@@ -2,20 +2,20 @@
   "id": "forge-ember",
   "name": "Forge Ember",
   "psReadLine": {
-    "Command": "#E89C4F",
-    "Parameter": "#FFCB6B",
-    "String": "#C8C84F",
-    "Operator": "#FF7A5C",
+    "Command": "#F0A24F",
+    "Parameter": "#FFD27A",
+    "String": "#C4C24A",
+    "Operator": "#FF6A4D",
     "Variable": "#FFB347",
-    "Number": "#FF8A3D",
-    "Comment": "#7A6450",
-    "Error": "#FF5A47",
-    "Default": "#F0DFC8",
-    "InlinePrediction": "#7A6450"
+    "Number": "#FF7A2D",
+    "Comment": "#7A6248",
+    "Error": "#FF4733",
+    "Default": "#F4E2C8",
+    "InlinePrediction": "#7A6248"
   },
   "psStyle": {
-    "Directory": "#E89C4F",
-    "Error": "#FF5A47",
-    "TableHeader": "#FF7A5C"
+    "Directory": "#F0A24F",
+    "Error": "#FF4733",
+    "TableHeader": "#FF6A4D"
   }
 }

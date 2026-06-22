@@ -2,20 +2,20 @@
   "id": "nebula-drift",
   "name": "Nebula Drift",
   "psReadLine": {
-    "Command": "#8AB4FF",
-    "Parameter": "#5EE8E8",
-    "String": "#6EE7B7",
-    "Operator": "#C792EA",
-    "Variable": "#FFD479",
-    "Number": "#FFB86C",
-    "Comment": "#5A5A86",
-    "Error": "#FF6B9D",
-    "Default": "#D6D6F5",
-    "InlinePrediction": "#5A5A86"
+    "Command": "#7C9BFF",
+    "Parameter": "#57E6F0",
+    "String": "#66E6A8",
+    "Operator": "#C77DFF",
+    "Variable": "#FFCB6B",
+    "Number": "#FF9E64",
+    "Comment": "#5C5A88",
+    "Error": "#FF5C8D",
+    "Default": "#E2E0FA",
+    "InlinePrediction": "#5C5A88"
   },
   "psStyle": {
-    "Directory": "#8AB4FF",
-    "Error": "#FF6B9D",
-    "TableHeader": "#C792EA"
+    "Directory": "#7C9BFF",
+    "Error": "#FF5C8D",
+    "TableHeader": "#C77DFF"
   }
 }

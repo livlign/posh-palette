@@ -2,20 +2,20 @@
   "id": "frostbyte",
   "name": "Frostbyte",
   "psReadLine": {
-    "Command": "#2E7FD0",
-    "Parameter": "#2585A5",
-    "String": "#2F7A5A",
-    "Operator": "#6A6FD0",
-    "Variable": "#9A6A10",
-    "Number": "#A0601A",
-    "Comment": "#93A4B5",
-    "Error": "#C7445A",
-    "Default": "#2E3D4F",
-    "InlinePrediction": "#93A4B5"
+    "Command": "#1A66BE",
+    "Parameter": "#1A7E9E",
+    "String": "#2E7A56",
+    "Operator": "#5552CC",
+    "Variable": "#876010",
+    "Number": "#9A5220",
+    "Comment": "#93A4B6",
+    "Error": "#C2384F",
+    "Default": "#283645",
+    "InlinePrediction": "#93A4B6"
   },
   "psStyle": {
-    "Directory": "#2E7FD0",
-    "Error": "#C7445A",
-    "TableHeader": "#6A6FD0"
+    "Directory": "#1A66BE",
+    "Error": "#C2384F",
+    "TableHeader": "#5552CC"
   }
 }

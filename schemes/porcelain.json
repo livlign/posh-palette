@@ -1,0 +1,26 @@
+{
+  "id": "porcelain",
+  "name": "Porcelain",
+  "colors": {
+    "background": "#FBFBFD",
+    "foreground": "#2A2E37",
+    "cursorColor": "#1257C7",
+    "selectionBackground": "#DCE6F7",
+    "black": "#2A2E37",
+    "red": "#C81E2B",
+    "green": "#2C7A33",
+    "yellow": "#8A6000",
+    "blue": "#1257C7",
+    "purple": "#7A33C2",
+    "cyan": "#0F6E78",
+    "white": "#5A6170",
+    "brightBlack": "#828896",
+    "brightRed": "#D72B38",
+    "brightGreen": "#338A3D",
+    "brightYellow": "#B23A0E",
+    "brightBlue": "#1A66D9",
+    "brightPurple": "#8A3FD1",
+    "brightCyan": "#128594",
+    "brightWhite": "#1B1E25"
+  }
+}

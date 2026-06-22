@@ -1,0 +1,7 @@
+{
+  "id": "auto-velvet",
+  "name": "Auto · Velvet",
+  "generate": true,
+  "style": "velvet",
+  "note": "Palette-aware take on oh-my-posh's velvet: an OS pill, rounded powerline path and git, then an exit-status cap. Needs a Nerd Font for the separators."
+}

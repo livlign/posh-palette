@@ -1,0 +1,7 @@
+{
+  "id": "auto-1shell",
+  "name": "Auto · 1 Shell",
+  "generate": true,
+  "style": "1_shell",
+  "note": "Palette-aware take on oh-my-posh's 1_shell: rounded diamond pills (user · time · branch) over a second path line. Needs a Nerd Font for the diamond caps."
+}

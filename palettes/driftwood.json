@@ -1,0 +1,21 @@
+{
+  "id": "driftwood",
+  "name": "Driftwood",
+  "psReadLine": {
+    "Command": "#7FAFB0",
+    "Parameter": "#A6C0B0",
+    "String": "#A8B57A",
+    "Operator": "#C2A0B8",
+    "Variable": "#D9B777",
+    "Number": "#D89A6E",
+    "Comment": "#9A8E7C",
+    "Error": "#D97A6E",
+    "Default": "#E6DDD0",
+    "InlinePrediction": "#9A8E7C"
+  },
+  "psStyle": {
+    "Directory": "#7FAFB0",
+    "Error": "#D97A6E",
+    "TableHeader": "#C2A0B8"
+  }
+}

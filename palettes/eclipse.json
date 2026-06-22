@@ -1,0 +1,21 @@
+{
+  "id": "eclipse",
+  "name": "Eclipse",
+  "psReadLine": {
+    "Command": "#6CB6FF",
+    "Parameter": "#5BD6C0",
+    "String": "#8DD86F",
+    "Operator": "#C8A6FF",
+    "Variable": "#E8C46A",
+    "Number": "#F2A86A",
+    "Comment": "#6B7689",
+    "Error": "#F26D6D",
+    "Default": "#DCE3ED",
+    "InlinePrediction": "#5C6675"
+  },
+  "psStyle": {
+    "Directory": "#6CB6FF",
+    "Error": "#F26D6D",
+    "TableHeader": "#C8A6FF"
+  }
+}

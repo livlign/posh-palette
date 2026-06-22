@@ -1,0 +1,26 @@
+{
+  "id": "driftwood",
+  "name": "Driftwood",
+  "colors": {
+    "background": "#2A2622",
+    "foreground": "#E6DDD0",
+    "cursorColor": "#D9B777",
+    "selectionBackground": "#39332B",
+    "black": "#211D19",
+    "red": "#D97A6E",
+    "green": "#A8B57A",
+    "yellow": "#D9B777",
+    "blue": "#7FAFB0",
+    "purple": "#C2A0B8",
+    "cyan": "#A6C0B0",
+    "white": "#C2B7A6",
+    "brightBlack": "#9A8E7C",
+    "brightRed": "#E69384",
+    "brightGreen": "#BCC892",
+    "brightYellow": "#D89A6E",
+    "brightBlue": "#97C2C2",
+    "brightPurple": "#D4B6CC",
+    "brightCyan": "#BCD2C2",
+    "brightWhite": "#F2EADB"
+  }
+}

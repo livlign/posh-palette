@@ -2,20 +2,20 @@
   "id": "velvet-court",
   "name": "Velvet Court",
   "psReadLine": {
-    "Command": "#A98AE0",
+    "Command": "#B392E8",
     "Parameter": "#6FD0C8",
     "String": "#9AD08A",
-    "Operator": "#C77DD9",
-    "Variable": "#E0B84F",
-    "Number": "#E0934F",
-    "Comment": "#7A5A70",
-    "Error": "#E5577B",
-    "Default": "#EFD9E6",
-    "InlinePrediction": "#7A5A70"
+    "Operator": "#D087E0",
+    "Variable": "#F0C44E",
+    "Number": "#E8964F",
+    "Comment": "#836075",
+    "Error": "#EE5C82",
+    "Default": "#F2DCEA",
+    "InlinePrediction": "#836075"
   },
   "psStyle": {
-    "Directory": "#A98AE0",
-    "Error": "#E5577B",
-    "TableHeader": "#C77DD9"
+    "Directory": "#B392E8",
+    "Error": "#EE5C82",
+    "TableHeader": "#D087E0"
   }
 }

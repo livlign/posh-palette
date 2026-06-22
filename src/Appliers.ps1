@@ -61,8 +61,15 @@ function Set-PoshPaletteTerminalLayer {
     # and point them at the installer instead.
     $face = $edits.Defaults.font.face
     if ($face -and -not (Test-PoshPaletteFontInstalled $face)) {
+        # Suggest installing the font this theme actually needs - look up its id by
+        # face in the catalog rather than naming a fixed font.
+        $fontId = (Get-PoshPaletteFonts | Where-Object { $_.face -eq $face -or $_.name -eq $face } | Select-Object -First 1).id
         Write-Host "  Font '$face' is not installed - keeping your current terminal font." -ForegroundColor Yellow
-        Write-Host "  Install it with:  Install-PoshPaletteFont robotomono" -ForegroundColor DarkGray
+        if ($fontId) {
+            Write-Host "  Install it with:  Install-PoshPaletteFont $fontId" -ForegroundColor DarkGray
+        } else {
+            Write-Host "  Install a matching Nerd Font, then set it as your terminal font." -ForegroundColor DarkGray
+        }
         $edits.Defaults.Remove('font')
     }
 

@@ -1,0 +1,13 @@
+{
+  "id": "halcyon",
+  "name": "Halcyon",
+  "description": "Dreamy twilight: dusty rose, periwinkle and soft gold.",
+  "scheme": "halcyon",
+  "palette": "halcyon",
+  "prompt": "auto-pure",
+  "font": "robotomono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 15
+}

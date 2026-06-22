@@ -140,12 +140,14 @@ Install-PoshPaletteFont CascadiaCode   # or a raw Nerd Font name
 
 ## Bundled themes
 
-**35 themes**, from muted dev classics to neon and retro CRT. Browse them all in
+**41 themes**, from muted dev classics to neon and retro CRT. Browse them all in
 the [theme gallery](https://livlign.github.io/posh-palette/themes.html).
 
-- **Originals (featured):** `nebula-drift`, `deep-current`, `miami-heat`, `forge-ember`,
-  `matcha-zen`, `velvet-court`, `acid-lime`, `frostbyte`, `golden-hour` — nine
-  originals showcasing the widest spread of color, font, and prompt shape
+- **Drift set (featured):** `eclipse`, `graphite`, `driftwood`, `prism`,
+  `daybreak`, `porcelain` — six themes that lead the catalog as a deliberate
+  style drift from dark → grey → neutral → colorful → soft light → light
+- **Originals:** `nebula-drift`, `verdigris`, `miami-heat`, `forge-ember`,
+  `matcha-zen`, `velvet-court`, `acid-lime`, `frostbyte`, `halcyon`
 - **Vivid / neon:** `synthwave`, `cyberpunk`, `oxocarbon`, `monokai-pro`
 - **Dark classics:** `tokyo-night`, `dracula`, `catppuccin-mocha`, `nord`, `one-dark`,
   `gruvbox`, `rose-pine`, `kanagawa`, `everforest`, `solarized-dark`, `github-dark`
@@ -177,7 +179,8 @@ layer commands all share one path.
 > theme files needed). Pick a style: **`auto`** (classic), **`auto-minimal`**,
 > **`auto-powerline`**, **`auto-robby`** (`❯❯ folder git:(branch) time`),
 > **`auto-twoline`**, **`auto-arrow`**, **`auto-lambda`**, **`auto-pure`**,
-> **`auto-spaceship`**, **`auto-atomic`**, or **`auto-smoothie`**.
+> **`auto-spaceship`**, **`auto-atomic`**, **`auto-smoothie`**, **`auto-1shell`**,
+> **`auto-cert`**, **`auto-clean`**, or **`auto-velvet`**.
 > Prefer a specific oh-my-posh community theme? Pass its name to
 > `Set-PoshPalettePrompt` (or type it in Detail mode) and it'll be used if you have
 > it installed under `POSH_THEMES_PATH`.

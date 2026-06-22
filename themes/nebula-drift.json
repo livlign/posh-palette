@@ -4,10 +4,10 @@
   "description": "Deep-space indigo with violet, magenta and starlight cyan.",
   "scheme": "nebula-drift",
   "palette": "nebula-drift",
-  "prompt": "auto-spaceship",
+  "prompt": "auto-1shell",
   "font": "martianmono",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,
-  "order": 1
+  "order": 7
 }

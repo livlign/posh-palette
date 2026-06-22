@@ -1,0 +1,13 @@
+{
+  "id": "eclipse",
+  "name": "Eclipse",
+  "description": "Deep slate and soft white, tuned for marathon sessions without eye strain.",
+  "scheme": "eclipse",
+  "palette": "eclipse",
+  "prompt": "auto-twoline",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 1
+}

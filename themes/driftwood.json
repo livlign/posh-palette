@@ -1,0 +1,13 @@
+{
+  "id": "driftwood",
+  "name": "Driftwood",
+  "description": "Warm neutral taupe with soft earthen tones.",
+  "scheme": "driftwood",
+  "palette": "driftwood",
+  "prompt": "auto-spaceship",
+  "font": "ibmplex",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 3
+}

@@ -1,0 +1,13 @@
+{
+  "id": "porcelain",
+  "name": "Porcelain",
+  "description": "Crisp cool white with clean, saturated accents.",
+  "scheme": "porcelain",
+  "palette": "porcelain",
+  "prompt": "auto-clean",
+  "font": "cascadia",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 6
+}

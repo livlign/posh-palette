@@ -1,0 +1,21 @@
+{
+  "id": "halcyon",
+  "name": "Halcyon",
+  "psReadLine": {
+    "Command": "#A2ABF5",
+    "Parameter": "#7FD4CC",
+    "String": "#B7D9A0",
+    "Operator": "#CDA8EC",
+    "Variable": "#F0CE8E",
+    "Number": "#F4B894",
+    "Comment": "#6E6889",
+    "Error": "#F08AA0",
+    "Default": "#EAE2F4",
+    "InlinePrediction": "#6E6889"
+  },
+  "psStyle": {
+    "Directory": "#A2ABF5",
+    "Error": "#F08AA0",
+    "TableHeader": "#CDA8EC"
+  }
+}

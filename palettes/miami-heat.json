@@ -2,20 +2,20 @@
   "id": "miami-heat",
   "name": "Miami Heat",
   "psReadLine": {
-    "Command": "#59B0FF",
-    "Parameter": "#4DD9FF",
-    "String": "#4DE0C0",
-    "Operator": "#C77DFF",
-    "Variable": "#FFD93D",
-    "Number": "#FF9E4F",
-    "Comment": "#6E5A8E",
-    "Error": "#FF5C8A",
-    "Default": "#F2E6FF",
-    "InlinePrediction": "#6E5A8E"
+    "Command": "#29B6FF",
+    "Parameter": "#18E0FF",
+    "String": "#2EE6B6",
+    "Operator": "#B86BFF",
+    "Variable": "#FFCB52",
+    "Number": "#FF7847",
+    "Comment": "#5E5388",
+    "Error": "#FF3D7F",
+    "Default": "#FCE7FF",
+    "InlinePrediction": "#5E5388"
   },
   "psStyle": {
-    "Directory": "#59B0FF",
-    "Error": "#FF5C8A",
-    "TableHeader": "#C77DFF"
+    "Directory": "#29B6FF",
+    "Error": "#FF3D7F",
+    "TableHeader": "#B86BFF"
   }
 }

@@ -2,20 +2,20 @@
   "id": "matcha-zen",
   "name": "Matcha Zen",
   "psReadLine": {
-    "Command": "#3F7F7C",
-    "Parameter": "#2F8A8A",
-    "String": "#4F7A2A",
-    "Operator": "#7A5FA0",
-    "Variable": "#9A7400",
-    "Number": "#A0601A",
-    "Comment": "#9AA88E",
-    "Error": "#C7522A",
-    "Default": "#3A4A32",
-    "InlinePrediction": "#9AA88E"
+    "Command": "#2E7C78",
+    "Parameter": "#2A8585",
+    "String": "#4E8C2E",
+    "Operator": "#7E5BA6",
+    "Variable": "#927000",
+    "Number": "#B05A1E",
+    "Comment": "#97A887",
+    "Error": "#C2452A",
+    "Default": "#354029",
+    "InlinePrediction": "#97A887"
   },
   "psStyle": {
-    "Directory": "#3F7F7C",
-    "Error": "#C7522A",
-    "TableHeader": "#7A5FA0"
+    "Directory": "#2E7C78",
+    "Error": "#C2452A",
+    "TableHeader": "#7E5BA6"
   }
 }

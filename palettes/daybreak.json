@@ -1,0 +1,21 @@
+{
+  "id": "daybreak",
+  "name": "Daybreak",
+  "psReadLine": {
+    "Command": "#2C6E7A",
+    "Parameter": "#1F7068",
+    "String": "#467026",
+    "Operator": "#7A4C96",
+    "Variable": "#7E6111",
+    "Number": "#9E5630",
+    "Comment": "#8C8579",
+    "Error": "#B23A2A",
+    "Default": "#44413B",
+    "InlinePrediction": "#8C8579"
+  },
+  "psStyle": {
+    "Directory": "#2C6E7A",
+    "Error": "#B23A2A",
+    "TableHeader": "#7A4C96"
+  }
+}

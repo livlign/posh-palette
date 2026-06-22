@@ -1,0 +1,26 @@
+{
+  "id": "graphite",
+  "name": "Graphite",
+  "colors": {
+    "background": "#1C1E22",
+    "foreground": "#D2D6DC",
+    "cursorColor": "#C8CDD4",
+    "selectionBackground": "#2E333B",
+    "black": "#15171A",
+    "red": "#D98A8A",
+    "green": "#A7C0A0",
+    "yellow": "#C9C2A0",
+    "blue": "#8FB0C8",
+    "purple": "#B6A9C4",
+    "cyan": "#A9C2CE",
+    "white": "#B4B9C0",
+    "brightBlack": "#7E8590",
+    "brightRed": "#E6A0A0",
+    "brightGreen": "#B9D0B2",
+    "brightYellow": "#C9B79A",
+    "brightBlue": "#A6C2D6",
+    "brightPurple": "#C8BCD6",
+    "brightCyan": "#BCD2DC",
+    "brightWhite": "#ECEFF3"
+  }
+}

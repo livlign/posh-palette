@@ -1,0 +1,21 @@
+{
+  "id": "porcelain",
+  "name": "Porcelain",
+  "psReadLine": {
+    "Command": "#1257C7",
+    "Parameter": "#0F6E78",
+    "String": "#2C7A33",
+    "Operator": "#7A33C2",
+    "Variable": "#8A6000",
+    "Number": "#B23A0E",
+    "Comment": "#828896",
+    "Error": "#C81E2B",
+    "Default": "#2A2E37",
+    "InlinePrediction": "#828896"
+  },
+  "psStyle": {
+    "Directory": "#1257C7",
+    "Error": "#C81E2B",
+    "TableHeader": "#7A33C2"
+  }
+}

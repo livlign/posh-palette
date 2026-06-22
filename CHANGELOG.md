@@ -3,6 +3,64 @@
 All notable changes to PoshPalette are documented here.
 This project follows [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- **A six-theme "style drift" now leads the catalog (positions 1–6)**, designed
+  to showcase the full range on first scroll — each with a distinct background,
+  prompt shape and font, and every syntax color verified to clear WCAG AA:
+  - **Eclipse** (`eclipse`, #1, *dark*) — deep blue-slate (`#0E1116`, not pure
+    black, to avoid halation) with soft-white text at ~14.6:1 contrast and
+    not-quite-neon accents that all hit AAA. A warm gold cursor anchors the cool
+    palette. Two-line prompt, JetBrains Mono. Tuned for marathon sessions.
+  - **Graphite** (`graphite`, #2, *grey*) — near-monochrome charcoal with a
+    single steel-blue accent. Lambda prompt, Commit Mono.
+  - **Driftwood** (`driftwood`, #3, *neutral*) — warm taupe with soft earthen
+    tones. Spaceship prompt, IBM Plex Mono.
+  - **Prism** (`prism`, #4, *colorful*) — deep midnight navy lit by azure, cyan
+    and starlight gold; a night-sky take on the colorful step. Atomic prompt,
+    Martian Mono.
+  - **Daybreak** (`daybreak`, #5, *soft light*) — warm paper with gentle,
+    low-glare accents. Minimal prompt, Geist Mono.
+  - **Porcelain** (`porcelain`, #6, *light*) — crisp cool white with clean,
+    saturated accents. Detailed prompt, Cascadia Code.
+- **Two brand-new original themes**, replacing two of the nine originals:
+  **Verdigris** (`verdigris`) — oxidized copper and patina green over dark bronze,
+  an earthy-metallic dark theme on the two-line prompt with IBM Plex Mono — and
+  **Halcyon** (`halcyon`) — a dreamy twilight palette of dusty rose, periwinkle and
+  soft gold on the minimal prompt with Roboto Mono. These retire `deep-current`
+  and `golden-hour`.
+- **Four new generated prompt styles that are faithful 1:1 ports of the
+  oh-my-posh community themes they're named after** — `auto-1shell`, `auto-cert`,
+  `auto-clean` (clean-detailed) and `auto-velvet`. Same blocks, segments, glyphs,
+  templates and options as upstream; only the colors are swapped for the active
+  scheme. Verified structurally identical to the upstream theme JSON.
+
+### Changed
+- **Reworked the color palettes of all nine original themes** for stronger,
+  WCAG-grade contrast and a single clear hero color each: deeper, tinted
+  backgrounds and punchier signature accents across Nebula Drift, Miami Heat,
+  Forge Ember, Matcha Zen, Velvet Court, Acid Lime and Frostbyte.
+- Reassigned prompt shapes: **Nebula Drift → `auto-1shell`**, **Miami Heat →
+  `auto-smoothie`** (rounded neon pills), **Matcha Zen → `auto-clean`**,
+  **Velvet Court → `auto-velvet`**.
+- Generated oh-my-posh configs are now emitted as **schema version 4** (using
+  `options` instead of the deprecated `properties`), matching current oh-my-posh
+  and the official themes.
+
+### Fixed
+- **Picking a theme in the interactive picker didn't persist the active
+  composition.** Simple and Detail mode now write `~/.poshpalette/current.json`,
+  so a later `Set-PoshPalettePrompt`/`Set-PoshPaletteFont`/etc. tweaks *that*
+  theme instead of silently falling back to the first bundled theme.
+- **The "font not installed" hint always told you to install `robotomono`**,
+  regardless of which font the theme actually needs. It now names the correct
+  font id (e.g. `Install-PoshPaletteFont victormono`).
+- **Forge Ember (and other powerline/atomic prompts) showed two git branch
+  icons.** The git segment prepended a branch glyph while `{{ .HEAD }}` already
+  rendered oh-my-posh's default `branch_icon`. The default icon is now suppressed
+  so only one glyph shows.
+
 ## [0.5.1]
 
 ### Fixed

@@ -412,6 +412,9 @@ function Invoke-PoshPaletteSimpleMode {
         Clear-Host
         $t = Resolve-PoshPaletteTheme $chosen.Data
         Set-PoshPaletteTheme -Theme $t -Quiet
+        # Remember what's active so later per-layer tweaks build on THIS theme
+        # (without this, Set-PoshPalette* falls back to the first bundled theme).
+        Save-PoshPaletteCurrentComposition (ConvertTo-PoshPaletteHashtable $chosen.Data)
         return (Show-PoshPaletteApplied $t)
     }
 }
@@ -519,6 +522,8 @@ function Invoke-PoshPaletteDetailMode {
                 Clear-Host
                 $t = Resolve-PoshPaletteTheme (ConvertTo-PPComposition $comp)
                 Set-PoshPaletteTheme -Theme $t -Quiet
+                # Persist the composition so per-layer tweaks build on it afterwards.
+                Save-PoshPaletteCurrentComposition $comp
                 return (Show-PoshPaletteApplied $t)   # 'quit' or $null
             }
         }

@@ -1,0 +1,13 @@
+{
+  "id": "graphite",
+  "name": "Graphite",
+  "description": "Near-monochrome graphite with a single steel-blue accent.",
+  "scheme": "graphite",
+  "palette": "graphite",
+  "prompt": "auto-lambda",
+  "font": "commitmono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 2
+}

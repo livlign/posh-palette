@@ -5,15 +5,16 @@
 # prompt sidesteps that: it generates a clean oh-my-posh config whose segment
 # colors are pulled straight from the active scheme, so the prompt always matches.
 
-# Build an oh-my-posh config (v2) from a scheme's colors. -Style picks the layout:
-#   classic   - path · git · ❯ (plain, no background fills)
-#   minimal   - just a colored ❯ that turns red on a non-zero exit
-#   powerline - filled powerline segments (needs a nerd font for the separators)
-#   robby     - robbyrussell-style: ❯❯ folder git:(branch) time (no glyphs needed)
+# Build an oh-my-posh config (v4) from a scheme's colors. -Style picks the layout.
+# Simple house styles (classic/minimal/powerline/robby/twoline/arrow/lambda/pure/
+# spaceship/atomic/smoothie) are hand-built. The four named after real oh-my-posh
+# community themes - 1_shell, cert, clean-detailed, velvet - are faithful 1:1 ports
+# of those themes (same blocks, segments, glyphs, templates and options); only the
+# hardcoded colors are swapped for the active scheme so the prompt always matches.
 function New-PoshPaletteOmpConfig {
     param(
         [Parameter(Mandatory)] $Colors,
-        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie')] [string] $Style = 'classic'
+        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet')] [string] $Style = 'classic'
     )
 
     $get = {
@@ -30,12 +31,15 @@ function New-PoshPaletteOmpConfig {
     $yellow = & $get 'yellow' '#E0AF68'
     $fg     = & $get 'foreground' '#C0CAF5'
     $chg    = "{{ if or (.Working.Changed) (.Staging.Changed) }}$red{{ end }}"
+    # The detailed git template shared by the ported themes (branch, upstream, ahead/
+    # behind, working/staging counts, stash) - byte-for-byte the upstream template.
+    $gitFull = "{{ .UpstreamIcon }}{{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} $([char]0xF044) {{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} |{{ end }}{{ if .Staging.Changed }} $([char]0xF046) {{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} $([char]0xEB4B) {{ .StashCount }}{{ end }}"
 
     # Reusable plain segments (scheme-colored).
-    $pathSeg = { param($fg, $tpl) [ordered]@{ type = 'path'; style = 'plain'; foreground = $fg; properties = [ordered]@{ style = 'folder' }; template = $tpl } }
-    $gitSeg  = { param($fg, $tpl) [ordered]@{ type = 'git'; style = 'plain'; foreground = $fg; foreground_templates = @($chg); properties = [ordered]@{ fetch_status = $true; branch_icon = '' }; template = $tpl } }
+    $pathSeg = { param($fg, $tpl) [ordered]@{ type = 'path'; style = 'plain'; foreground = $fg; options = [ordered]@{ style = 'folder' }; template = $tpl } }
+    $gitSeg  = { param($fg, $tpl) [ordered]@{ type = 'git'; style = 'plain'; foreground = $fg; foreground_templates = @($chg); options = [ordered]@{ fetch_status = $true; branch_icon = '' }; template = $tpl } }
     $timeSeg = { param($fg) [ordered]@{ type = 'time'; style = 'plain'; foreground = $fg; template = '{{ .CurrentDate | date "15:04" }} ' } }
-    $statSeg = { param($fg, $tpl) [ordered]@{ type = 'status'; style = 'plain'; foreground = $fg; foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); properties = [ordered]@{ always_enabled = $true }; template = $tpl } }
+    $statSeg = { param($fg, $tpl) [ordered]@{ type = 'status'; style = 'plain'; foreground = $fg; foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); options = [ordered]@{ always_enabled = $true }; template = $tpl } }
     $textSeg = { param($fg, $tpl) [ordered]@{ type = 'text'; style = 'plain'; foreground = $fg; template = $tpl } }
     $line    = { param($segs, [bool]$nl = $false) $b = [ordered]@{ type = 'prompt'; alignment = 'left'; segments = @($segs) }; if ($nl) { $b['newline'] = $true }; $b }
 
@@ -51,9 +55,9 @@ function New-PoshPaletteOmpConfig {
         'minimal' { & $line @((& $statSeg $purple '❯ ')) }
         'powerline' {
             & $line @(
-                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $blue; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
-                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $green; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$purple{{ end }}"); properties = [ordered]@{ fetch_status = $true }; template = " $([char]0xE0A0) {{ .HEAD }} " }
-                [ordered]@{ type = 'status'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $cyan; background_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); properties = [ordered]@{ always_enabled = $true }; template = ' {{ if gt .Code 0 }}✗{{ else }}✓{{ end }} ' }
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $blue; options = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $green; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$purple{{ end }}"); options = [ordered]@{ fetch_status = $true; branch_icon = '' }; template = " $([char]0xE0A0) {{ .HEAD }} " }
+                [ordered]@{ type = 'status'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $cyan; background_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); options = [ordered]@{ always_enabled = $true }; template = ' {{ if gt .Code 0 }}✗{{ else }}✓{{ end }} ' }
             )
         }
         'twoline' {
@@ -98,18 +102,86 @@ function New-PoshPaletteOmpConfig {
             # a leading bolt, then filled powerline segments
             & $line @(
                 (& $textSeg $purple "$([char]0x26A1) ")
-                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $blue; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
-                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $green; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$red{{ end }}"); properties = [ordered]@{ fetch_status = $true }; template = " $([char]0xE0A0) {{ .HEAD }} " }
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $blue; options = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B0)"; foreground = $bg; background = $green; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$red{{ end }}"); options = [ordered]@{ fetch_status = $true; branch_icon = '' }; template = " $([char]0xE0A0) {{ .HEAD }} " }
                 (& $statSeg $purple "$([char]0x276F) ")
             )
         }
         'smoothie' {
             # soft rounded powerline segments (rounded cap separator)
             & $line @(
-                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $purple; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
-                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $cyan; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$yellow{{ end }}"); properties = [ordered]@{ fetch_status = $true }; template = " {{ .HEAD }} " }
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $purple; options = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $cyan; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$yellow{{ end }}"); options = [ordered]@{ fetch_status = $true }; template = " {{ .HEAD }} " }
                 (& $statSeg $purple "$([char]0x276F) ")
             )
+        }
+        '1_shell' {
+            # Faithful port of oh-my-posh's 1_shell theme (colored text, no fills).
+            [ordered]@{ type = 'prompt'; alignment = 'left'; newline = $true; segments = @(
+                [ordered]@{ type = 'session'; style = 'diamond'; foreground = $red; leading_diamond = "<$purple> $([char]0xE200) </>"; template = "{{ .UserName }} <$fg>on</>" }
+                [ordered]@{ type = 'time'; style = 'diamond'; foreground = $purple; options = [ordered]@{ time_format = "Monday <$fg>at</> 3:04 PM" }; template = ' {{ .CurrentDate | date .Format }} ' }
+                [ordered]@{ type = 'git'; style = 'diamond'; foreground = $cyan; options = [ordered]@{ branch_icon = "$([char]0xE725) "; fetch_status = $true; fetch_upstream_icon = $true }; template = " $gitFull " }
+            ) }
+            [ordered]@{ type = 'prompt'; alignment = 'right'; segments = @(
+                [ordered]@{ type = 'text'; style = 'plain'; foreground = $green }
+                [ordered]@{ type = 'executiontime'; style = 'diamond'; foreground = $green; options = [ordered]@{ style = 'dallas'; threshold = 0 }; template = " {{ .FormattedMs }}s <$fg>$([char]0xE601)</>" }
+                [ordered]@{ type = 'root'; style = 'diamond'; options = [ordered]@{ root_icon = "$([char]0xF292) " }; template = " $([char]0xF0E7) " }
+                [ordered]@{ type = 'sysinfo'; style = 'diamond'; foreground = $green; template = " <$fg>MEM:</> {{ round .PhysicalPercentUsed .Precision }}% ({{ (div ((sub .PhysicalTotalMemory .PhysicalAvailableMemory)|float64) 1073741824.0) }}/{{ (div .PhysicalTotalMemory 1073741824.0) }}GB)" }
+            ) }
+            [ordered]@{ type = 'prompt'; alignment = 'left'; newline = $true; segments = @(
+                [ordered]@{ type = 'path'; style = 'diamond'; foreground = $cyan; leading_diamond = "<$blue> $([char]0xE285) </><$cyan>{</>"; trailing_diamond = "<$cyan>}</>"; options = [ordered]@{ folder_icon = "$([char]0xF07B)"; folder_separator_icon = " $([char]0xEBCB) "; home_icon = 'home'; style = 'agnoster_full' }; template = " $([char]0xE5FF) {{ .Path }} " }
+                [ordered]@{ type = 'status'; style = 'plain'; foreground = $green; foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); options = [ordered]@{ always_enabled = $true }; template = " $([char]0xE286) " }
+            ) }
+        }
+        'cert' {
+            # Faithful port of oh-my-posh's cert theme: one connected diamond chain.
+            [ordered]@{ type = 'prompt'; alignment = 'left'; segments = @(
+                [ordered]@{ type = 'session'; style = 'diamond'; foreground = $bg; background = $red; leading_diamond = "$([char]0xE0B6)"; trailing_diamond = "$([char]0xE0C6)"; template = '{{ .UserName }} ' }
+                [ordered]@{ type = 'path'; style = 'diamond'; foreground = $bg; background = $green; leading_diamond = "$([char]0xE0C7)"; trailing_diamond = "$([char]0xE0C6)"; options = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'diamond'; foreground = $bg; background = $cyan; leading_diamond = "$([char]0xE0C7)"; trailing_diamond = "$([char]0xE0C6)"; options = [ordered]@{ branch_icon = '' }; template = ' git({{ .HEAD }}) ' }
+                [ordered]@{ type = 'time'; style = 'diamond'; foreground = $bg; background = $purple; leading_diamond = "$([char]0xE0C7)"; trailing_diamond = "$([char]0xE0C6)"; options = [ordered]@{ time_format = '15:04' }; template = ' {{ .CurrentDate | date .Format }} ' }
+            ) }
+        }
+        'clean-detailed' {
+            # Faithful port of oh-my-posh's clean-detailed theme.
+            [ordered]@{ type = 'prompt'; alignment = 'left'; newline = $true; segments = @(
+                [ordered]@{ type = 'os'; style = 'diamond'; foreground = $bg; background = $fg; leading_diamond = "$([char]0xE0B2)"; trailing_diamond = "<transparent,$fg>$([char]0xE0B2)</>"; options = [ordered]@{ macos = "$([char]0xF179) "; ubuntu = "$([char]0xF31B) "; windows = "$([char]0xE62A) " }; template = " {{ if .WSL }}WSL at {{ end }}{{.Icon}}" }
+                [ordered]@{ type = 'shell'; style = 'diamond'; foreground = $bg; background = $fg; leading_diamond = "$([char]0xE0B2)"; trailing_diamond = "<transparent,$fg>$([char]0xE0B2)</>"; template = "$([char]0xF489) {{ .Name }}" }
+                [ordered]@{ type = 'sysinfo'; style = 'diamond'; foreground = $bg; background = $blue; leading_diamond = "$([char]0xE0B2)"; trailing_diamond = "<transparent,$blue>$([char]0xE0B2)</>"; template = "$([char]0xE266) MEM: {{ round .PhysicalPercentUsed .Precision }}% | {{ (div ((sub .PhysicalTotalMemory .PhysicalAvailableMemory)|float64) 1073741824.0) }}/{{ (div .PhysicalTotalMemory 1073741824.0) }}GB $([char]0xE266) " }
+                [ordered]@{ type = 'executiontime'; style = 'diamond'; foreground = $bg; background = $purple; leading_diamond = "$([char]0xE0B2)"; trailing_diamond = "$([char]0xE0B0)"; options = [ordered]@{ style = 'roundrock'; threshold = 0 }; template = ' {{ .FormattedMs }} ' }
+            ) }
+            [ordered]@{ type = 'prompt'; alignment = 'right'; segments = @(
+                [ordered]@{ type = 'git'; style = 'diamond'; foreground = $bg; background = $green; leading_diamond = "$([char]0xE0B2)"; trailing_diamond = "$([char]0xE0B0)"; options = [ordered]@{ branch_icon = "$([char]0xE725) "; fetch_status = $true; fetch_upstream_icon = $true }; template = " $gitFull " }
+            ) }
+            [ordered]@{ type = 'prompt'; alignment = 'left'; newline = $true; segments = @(
+                [ordered]@{ type = 'text'; style = 'plain'; foreground = $cyan; template = "$([char]0x256D)$([char]0x2500)" }
+                [ordered]@{ type = 'time'; style = 'plain'; foreground = $yellow; options = [ordered]@{ time_format = '15:04' }; template = " $([char]0x2665) {{ .CurrentDate | date .Format }} |" }
+                [ordered]@{ type = 'root'; style = 'plain'; foreground = $red; template = " $([char]0xF292) " }
+                [ordered]@{ type = 'path'; style = 'plain'; foreground = $blue; options = [ordered]@{ folder_icon = "$([char]0xF07B) "; folder_separator_icon = " $([char]0xF061) "; home_icon = "$([char]0xEB06) " }; template = ' {{ .Path }} ' }
+            ) }
+            [ordered]@{ type = 'prompt'; alignment = 'left'; newline = $true; segments = @(
+                [ordered]@{ type = 'status'; style = 'plain'; foreground = $purple; foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); options = [ordered]@{ always_enabled = $true }; template = "$([char]0x2570)$([char]0x2500) " }
+            ) }
+        }
+        'velvet' {
+            # Faithful port of oh-my-posh's velvet theme.
+            [ordered]@{ type = 'prompt'; alignment = 'left'; segments = @(
+                [ordered]@{ type = 'os'; style = 'diamond'; foreground = $bg; background = $purple; options = [ordered]@{ macos = "$([char]0xF179)"; windows = "$([char]0xF17A)"; linux = "$([char]0xF17C)"; ubuntu = "$([char]0xF31B)"; arch = "$([char]0xF303)"; debian = "$([char]0xF306)"; fedora = "$([char]0xF30A)"; manjaro = "$([char]0xF312)"; opensuse = "$([char]0xF314)" }; template = ' {{ if .WSL }}WSL at {{ end }}{{.Icon}} ' }
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $blue; options = [ordered]@{ style = 'agnoster_short'; max_depth = 3; folder_icon = '...'; folder_separator_icon = '/'; home_icon = '~' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $cyan; options = [ordered]@{ fetch_status = $true; fetch_upstream_icon = $true; branch_template = '{{ trunc 25 .Branch }}' }; template = " $gitFull " }
+                [ordered]@{ type = 'executiontime'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $yellow; options = [ordered]@{ always_enabled = $true }; template = ' {{ .FormattedMs }} ' }
+                [ordered]@{ type = 'status'; style = 'diamond'; trailing_diamond = "$([char]0xE0B4)"; foreground = $bg; background = $green; foreground_templates = @("{{ if gt .Code 0 }}$red{{ end }}"); options = [ordered]@{ always_enabled = $true }; template = " $([char]0xF08A){{ if gt .Code 0 }} {{.Code}}{{ end }} " }
+            ) }
+            [ordered]@{ type = 'rprompt'; alignment = 'right'; segments = @(
+                [ordered]@{ type = 'python'; style = 'diamond'; foreground = $yellow; background = $purple; leading_diamond = " $([char]0xE0B6)"; trailing_diamond = "$([char]0xE0B4)"; options = [ordered]@{ fetch_version = $false }; template = "$([char]0xE235){{ if .Error }}{{ .Error }}{{ else }}{{ if .Venv }}{{ .Venv }} {{ end }}{{ .Full }}{{ end }}" }
+                [ordered]@{ type = 'go'; style = 'diamond'; foreground = $cyan; background = $purple; leading_diamond = " $([char]0xE0B6)"; trailing_diamond = "$([char]0xE0B4)"; options = [ordered]@{ fetch_version = $false }; template = "$([char]0xE626){{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}" }
+                [ordered]@{ type = 'node'; style = 'diamond'; foreground = $green; background = $purple; leading_diamond = " $([char]0xE0B6)"; trailing_diamond = "$([char]0xE0B4)"; options = [ordered]@{ fetch_version = $false }; template = "$([char]0xE718){{ if .PackageManagerIcon }}{{ .PackageManagerIcon }} {{ end }}{{ .Full }}" }
+                [ordered]@{ type = 'ruby'; style = 'diamond'; foreground = $red; background = $purple; leading_diamond = " $([char]0xE0B6)"; trailing_diamond = "$([char]0xE0B4)"; options = [ordered]@{ fetch_version = $false }; template = "$([char]0xE791){{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}" }
+                [ordered]@{ type = 'java'; style = 'diamond'; foreground = $red; background = $purple; leading_diamond = " $([char]0xE0B6)"; trailing_diamond = "$([char]0xE0B4)"; options = [ordered]@{ fetch_version = $false }; template = "$([char]0xE738){{ if .Error }}{{ .Error }}{{ else }}{{ .Full }}{{ end }}" }
+            ) }
+            [ordered]@{ type = 'prompt'; alignment = 'left'; newline = $true; segments = @(
+                [ordered]@{ type = 'time'; style = 'diamond'; foreground = $bg; background = $purple; trailing_diamond = "$([char]0xE0B4)"; options = [ordered]@{ time_format = '15:04:05' }; template = ' {{ .CurrentDate | date .Format }} ' }
+            ) }
         }
         'pure' {
             (& $line @((& $pathSeg $blue '{{ .Path }}')))
@@ -118,18 +190,32 @@ function New-PoshPaletteOmpConfig {
         default {  # classic
             & $line @(
                 (& $pathSeg $blue ' {{ .Path }} ')
-                [ordered]@{ type = 'git'; style = 'plain'; foreground = $green; properties = [ordered]@{ fetch_status = $true }; template = '{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} ' }
+                [ordered]@{ type = 'git'; style = 'plain'; foreground = $green; options = [ordered]@{ fetch_status = $true }; template = '{{ .HEAD }}{{ if or (.Working.Changed) (.Staging.Changed) }}*{{ end }} ' }
                 (& $statSeg $purple '❯ ')
             )
         }
     })
 
-    [ordered]@{
+    $config = [ordered]@{
         '$schema'   = 'https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json'
-        version     = 2
+        version     = 4
         final_space = $true
         blocks      = @($blocks)
     }
+
+    # Top-level extras carried by the ported themes (console title + transient prompt).
+    switch ($Style) {
+        '1_shell' {
+            $config['console_title_template'] = '{{ .Folder }}'
+            $config['transient_prompt'] = [ordered]@{ background = 'transparent'; foreground = $fg; template = "$([char]0xE285) " }
+        }
+        'clean-detailed' {
+            $config['console_title_template'] = '{{ .Folder }}'
+            $config['transient_prompt'] = [ordered]@{ background = 'transparent'; foreground = $fg; template = "$([char]0xE285) " }
+        }
+        'velvet' { $config['console_title_template'] = '{{ .Shell }} - {{ .Folder }}' }
+    }
+    $config
 }
 
 # Write a generated config to the PoshPalette-managed prompt dir; return its path.

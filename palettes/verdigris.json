@@ -1,0 +1,21 @@
+{
+  "id": "verdigris",
+  "name": "Verdigris",
+  "psReadLine": {
+    "Command": "#5FBFB0",
+    "Parameter": "#8FD6B0",
+    "String": "#A8B86A",
+    "Operator": "#B98FB0",
+    "Variable": "#D9A441",
+    "Number": "#C97A45",
+    "Comment": "#6E6450",
+    "Error": "#D9604F",
+    "Default": "#E8DCC6",
+    "InlinePrediction": "#6E6450"
+  },
+  "psStyle": {
+    "Directory": "#5FBFB0",
+    "Error": "#D9604F",
+    "TableHeader": "#B98FB0"
+  }
+}

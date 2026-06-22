@@ -4,10 +4,10 @@
   "description": "Deep burgundy and royal purple finished with gold.",
   "scheme": "velvet-court",
   "palette": "velvet-court",
-  "prompt": "auto-smoothie",
+  "prompt": "auto-spaceship",
   "font": "jetbrains",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,
-  "order": 6
+  "order": 12
 }

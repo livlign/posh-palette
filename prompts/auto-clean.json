@@ -1,0 +1,7 @@
+{
+  "id": "auto-clean",
+  "name": "Auto · Clean Detailed",
+  "generate": true,
+  "style": "clean-detailed",
+  "note": "Palette-aware take on oh-my-posh's clean-detailed: a plain two-line prompt (time · path · detailed git) with no powerline fills. A Nerd Font shows the change glyphs."
+}

@@ -1,0 +1,21 @@
+{
+  "id": "graphite",
+  "name": "Graphite",
+  "psReadLine": {
+    "Command": "#8FB0C8",
+    "Parameter": "#A9C2CE",
+    "String": "#A7C0A0",
+    "Operator": "#B6A9C4",
+    "Variable": "#C9C2A0",
+    "Number": "#C9B79A",
+    "Comment": "#7E8590",
+    "Error": "#D98A8A",
+    "Default": "#D2D6DC",
+    "InlinePrediction": "#7E8590"
+  },
+  "psStyle": {
+    "Directory": "#8FB0C8",
+    "Error": "#D98A8A",
+    "TableHeader": "#B6A9C4"
+  }
+}

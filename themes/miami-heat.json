@@ -4,10 +4,10 @@
   "description": "Vaporwave neon magenta and cyan over deep violet.",
   "scheme": "miami-heat",
   "palette": "miami-heat",
-  "prompt": "auto-atomic",
+  "prompt": "auto-smoothie",
   "font": "victormono",
   "fontSize": 11,
   "opacity": 100,
   "acrylic": false,
-  "order": 3
+  "order": 9
 }

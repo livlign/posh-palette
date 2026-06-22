@@ -1,0 +1,13 @@
+{
+  "id": "daybreak",
+  "name": "Daybreak",
+  "description": "Soft warm paper with gentle, low-glare accents.",
+  "scheme": "daybreak",
+  "palette": "daybreak",
+  "prompt": "auto-pure",
+  "font": "geistmono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 5
+}

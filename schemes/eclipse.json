@@ -1,0 +1,26 @@
+{
+  "id": "eclipse",
+  "name": "Eclipse",
+  "colors": {
+    "background": "#0E1116",
+    "foreground": "#DCE3ED",
+    "cursorColor": "#F0C674",
+    "selectionBackground": "#25324A",
+    "black": "#0A0D12",
+    "red": "#F26D6D",
+    "green": "#8DD86F",
+    "yellow": "#E8C46A",
+    "blue": "#6CB6FF",
+    "purple": "#C8A6FF",
+    "cyan": "#5BD6C0",
+    "white": "#B7C0CE",
+    "brightBlack": "#5C6675",
+    "brightRed": "#FF8C8C",
+    "brightGreen": "#A6E58A",
+    "brightYellow": "#F2D58A",
+    "brightBlue": "#8CC8FF",
+    "brightPurple": "#D8BFFF",
+    "brightCyan": "#7BE3CF",
+    "brightWhite": "#F4F8FD"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "id": "verdigris",
+  "name": "Verdigris",
+  "description": "Oxidized copper and patina green over dark bronze.",
+  "scheme": "verdigris",
+  "palette": "verdigris",
+  "prompt": "auto-twoline",
+  "font": "ibmplex",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 8
+}

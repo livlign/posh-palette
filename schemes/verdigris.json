@@ -1,0 +1,26 @@
+{
+  "id": "verdigris",
+  "name": "Verdigris",
+  "colors": {
+    "background": "#14110B",
+    "foreground": "#E8DCC6",
+    "cursorColor": "#CE8B45",
+    "selectionBackground": "#2A2417",
+    "black": "#221C12",
+    "red": "#D9604F",
+    "green": "#A8B86A",
+    "yellow": "#D9A441",
+    "blue": "#5FBFB0",
+    "purple": "#B98FB0",
+    "cyan": "#8FD6B0",
+    "white": "#BFB29A",
+    "brightBlack": "#6E6450",
+    "brightRed": "#D9604F",
+    "brightGreen": "#A8B86A",
+    "brightYellow": "#C97A45",
+    "brightBlue": "#5FBFB0",
+    "brightPurple": "#B98FB0",
+    "brightCyan": "#8FD6B0",
+    "brightWhite": "#E8DCC6"
+  }
+}

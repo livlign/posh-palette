@@ -1,0 +1,26 @@
+{
+  "id": "daybreak",
+  "name": "Daybreak",
+  "colors": {
+    "background": "#F3EFE8",
+    "foreground": "#44413B",
+    "cursorColor": "#9E5630",
+    "selectionBackground": "#E2DACA",
+    "black": "#44413B",
+    "red": "#B23A2A",
+    "green": "#467026",
+    "yellow": "#7E6111",
+    "blue": "#2C6E7A",
+    "purple": "#7A4C96",
+    "cyan": "#1F7068",
+    "white": "#6E6B62",
+    "brightBlack": "#8C8579",
+    "brightRed": "#C24A38",
+    "brightGreen": "#5E8C38",
+    "brightYellow": "#9E5630",
+    "brightBlue": "#357E8C",
+    "brightPurple": "#8A5CA6",
+    "brightCyan": "#2A8078",
+    "brightWhite": "#2E2C27"
+  }
+}

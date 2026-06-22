@@ -1,0 +1,13 @@
+{
+  "id": "prism",
+  "name": "Prism",
+  "description": "Deep midnight navy lit by azure, cyan and starlight gold.",
+  "scheme": "prism",
+  "palette": "prism",
+  "prompt": "auto-atomic",
+  "font": "martianmono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 4
+}

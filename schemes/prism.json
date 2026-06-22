@@ -1,0 +1,26 @@
+{
+  "id": "prism",
+  "name": "Prism",
+  "colors": {
+    "background": "#0B1326",
+    "foreground": "#D7E3F4",
+    "cursorColor": "#6FD3FF",
+    "selectionBackground": "#1E2C49",
+    "black": "#060C18",
+    "red": "#FF7A93",
+    "green": "#7FD9B0",
+    "yellow": "#F2D58A",
+    "blue": "#5AB0FF",
+    "purple": "#9DA8FF",
+    "cyan": "#58D6E8",
+    "white": "#B6C4DC",
+    "brightBlack": "#5E6F90",
+    "brightRed": "#FF9AAD",
+    "brightGreen": "#9CE6C6",
+    "brightYellow": "#F0A878",
+    "brightBlue": "#82C6FF",
+    "brightPurple": "#B7BFFF",
+    "brightCyan": "#7FE4F2",
+    "brightWhite": "#EAF1FB"
+  }
+}

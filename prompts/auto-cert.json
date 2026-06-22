@@ -1,0 +1,7 @@
+{
+  "id": "auto-cert",
+  "name": "Auto · Cert",
+  "generate": true,
+  "style": "cert",
+  "note": "Palette-aware take on oh-my-posh's cert: a single line of rounded diamond pills (user · path · git · time). Needs a Nerd Font for the diamond caps."
+}
