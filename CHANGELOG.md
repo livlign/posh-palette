@@ -5,6 +5,27 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.1]
+
+### Fixed
+- **Generated prompts now actually honor their per-segment settings.** Every
+  `auto-*` prompt wrote segment settings under an `options` key, but oh-my-posh
+  reads them from `properties` — so they were silently ignored on every style.
+  This surfaced as two visible bugs and several invisible ones:
+  - **Prism (atomic) showed two git branch glyphs** — `branch_icon` never took
+    effect, so `.HEAD`'s default `` rendered on top of the template's explicit
+    one. Now a single icon.
+  - **Eclipse (two-line) injected a stray Nerd Font branch glyph** despite the
+    style promising "no Nerd Font required", and so didn't match its preview.
+    Now renders `● <branch>` cleanly.
+  - Also restores `fetch_status` (the changed-files → red coloring never fired),
+    path `folder` style, `time_format`, and every other segment option across
+    all 15 prompt styles.
+- **Preview now matches the rendered prompt for the two-line, arrow and
+  powerline styles** — the two-line and arrow previews were missing the time
+  segment, and the powerline preview showed a `❯` chevron where the real prompt
+  ends in a `✓`/`✗` status symbol.
+
 ## [0.6.0]
 
 ### Added
