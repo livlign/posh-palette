@@ -5,6 +5,21 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.3]
+
+### Fixed
+- **Raised contrast on hard-to-read syntax colours in five CF-authored themes.**
+  Daybreak's purple slot read as a faint lilac on the warm paper background, so
+  it was retuned to a deep wine-magenta; its dim brightGreen and brightBlue were
+  also deepened. An audit of every theme then surfaced the same class of issue
+  in Matcha Zen (green, cyan, yellow, brightYellow), Frostbyte (cyan), Cyberpunk
+  (purple) and Synthwave (red). Each colour keeps its hue and only shifts
+  lightness to clear WCAG AA (5:1) against its own background. Scheme, palette
+  (PSReadLine/PSStyle) and the `docs/` gallery swatches were updated together.
+  Faithful upstream ports (Solarized, Catppuccin, Gruvbox, Nord, GitHub, Rosé
+  Pine Dawn, Campbell) were left as published. Re-apply a theme to pick up the
+  new colours.
+
 ## [0.6.2]
 
 ### Changed
