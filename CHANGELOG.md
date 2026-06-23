@@ -5,6 +5,24 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.2]
+
+### Changed
+- **Re-tuned the six lead theme palettes for Windows Terminal rendering.** They
+  were calibrated on macOS, where heavier grayscale anti-aliasing and display
+  colour management make the same hex values read richer; on Windows Terminal
+  the soft accents looked washed out and the backgrounds flat. Accent chroma is
+  lifted in OKLCH (with a floor so Graphite stays near-monochrome) for the dark
+  themes, and the light themes (Daybreak, Porcelain) are deepened rather than
+  saturated. Every syntax colour was re-verified against WCAG AA. Re-apply a
+  theme to pick up the new colours.
+- **Redesigned the landing page and theme gallery** (`docs/`) into one cohesive,
+  production-grade look: a single committed palette across page and terminal, a
+  refined dark developer-product style (Hanken Grotesk + Cascadia Code), a
+  one-screen hero with a polished PowerShell preview, an aligned install/CTA
+  block, and a re-skinned gallery that keeps every theme's real colours, prompt
+  shape and font.
+
 ## [0.6.1]
 
 ### Fixed
