@@ -60,10 +60,10 @@ function Get-PoshPalettePromptParts {
     if ($Theme.prompt.generated) {
         switch -Wildcard ($Theme.prompt.name) {
             '*minimal*'   { return @($sc.purple, '❯ ') }
-            '*twoline*'   { return @($sc.cyan, '╭ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '● main ', $sc.cyan, '╰', $sc.purple, '❯ ') }
-            '*powerline*' { return @($sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.purple, ' ❯ ') }
+            '*twoline*'   { return @($sc.cyan, '╭─ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '● main ', $sc.yellow, '12:27 ', $sc.cyan, '╰─', $sc.purple, '❯ ') }
+            '*powerline*' { return @($sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.cyan, ' ✓ ') }
             '*robby*'     { return @($sc.cyan, '❯❯ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, 'git:(main) ', $sc.yellow, '18:50 ') }
-            '*arrow*'     { return @($sc.blue, 'C:\proj\ccbit ', $sc.cyan, 'on ', $sc.green, '● main ', $sc.purple, '❯ ') }
+            '*arrow*'     { return @($sc.blue, 'C:\proj\ccbit ', $sc.cyan, 'on ', $sc.green, '● main ', $sc.yellow, '12:27 ', $sc.purple, '❯ ') }
             '*lambda*'    { return @($sc.purple, 'λ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '→ ') }
             '*spaceship*' { return @($sc.blue, 'C:\proj\ccbit ', $sc.cyan, 'on ', $sc.purple, '⎇ main ', $sc.yellow, '12:27 ', $sc.green, '➜ ') }
             '*atomic*'    { return @($sc.purple, '⚡ ', $sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.purple, ' ❯ ') }

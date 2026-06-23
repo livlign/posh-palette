@@ -5,6 +5,45 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.2]
+
+### Changed
+- **Re-tuned the six lead theme palettes for Windows Terminal rendering.** They
+  were calibrated on macOS, where heavier grayscale anti-aliasing and display
+  colour management make the same hex values read richer; on Windows Terminal
+  the soft accents looked washed out and the backgrounds flat. Accent chroma is
+  lifted in OKLCH (with a floor so Graphite stays near-monochrome) for the dark
+  themes, and the light themes (Daybreak, Porcelain) are deepened rather than
+  saturated. Every syntax colour was re-verified against WCAG AA. Re-apply a
+  theme to pick up the new colours.
+- **Redesigned the landing page and theme gallery** (`docs/`) into one cohesive,
+  production-grade look: a single committed palette across page and terminal, a
+  refined dark developer-product style (Hanken Grotesk + Cascadia Code), a
+  one-screen hero with a polished PowerShell preview, an aligned install/CTA
+  block, and a re-skinned gallery that keeps every theme's real colours, prompt
+  shape and font.
+
+## [0.6.1]
+
+### Fixed
+- **Generated prompts now actually honor their per-segment settings.** Every
+  `auto-*` prompt wrote segment settings under an `options` key, but oh-my-posh
+  reads them from `properties` — so they were silently ignored on every style.
+  This surfaced as two visible bugs and several invisible ones:
+  - **Prism (atomic) showed two git branch glyphs** — `branch_icon` never took
+    effect, so `.HEAD`'s default `` rendered on top of the template's explicit
+    one. Now a single icon.
+  - **Eclipse (two-line) injected a stray Nerd Font branch glyph** despite the
+    style promising "no Nerd Font required", and so didn't match its preview.
+    Now renders `● <branch>` cleanly.
+  - Also restores `fetch_status` (the changed-files → red coloring never fired),
+    path `folder` style, `time_format`, and every other segment option across
+    all 15 prompt styles.
+- **Preview now matches the rendered prompt for the two-line, arrow and
+  powerline styles** — the two-line and arrow previews were missing the time
+  segment, and the powerline preview showed a `❯` chevron where the real prompt
+  ends in a `✓`/`✗` status symbol.
+
 ## [0.6.0]
 
 ### Added
