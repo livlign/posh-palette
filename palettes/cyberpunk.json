@@ -5,7 +5,7 @@
     "Command": "#00B0FF",
     "Parameter": "#00FFF7",
     "String": "#00FF9C",
-    "Operator": "#D300C5",
+    "Operator": "#E300D4",
     "Variable": "#FCEE0A",
     "Number": "#FF8A00",
     "Comment": "#6C6A9E",
@@ -16,6 +16,6 @@
   "psStyle": {
     "Directory": "#00B0FF",
     "Error": "#FF2E97",
-    "TableHeader": "#D300C5"
+    "TableHeader": "#E300D4"
   }
 }
