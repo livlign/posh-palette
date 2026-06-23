@@ -5,6 +5,8 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.6.0]
+
 ### Added
 - **A six-theme "style drift" now leads the catalog (positions 1–6)**, designed
   to showcase the full range on first scroll — each with a distinct background,
