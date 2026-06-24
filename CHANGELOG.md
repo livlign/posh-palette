@@ -5,7 +5,7 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-## [0.6.3]
+## [0.6.4]
 
 ### Fixed
 - **Detail mode now starts from your current theme, not Eclipse.** The interactive
@@ -22,6 +22,20 @@ This project follows [Semantic Versioning](https://semver.org/).
   was never recognised and the "font is not installed" warning showed every time.
   The check now compares with whitespace stripped from both sides, fixing it for
   every multi-word face.
+
+### Changed
+- **Reverted 0.6.3's theme-colour retune.** 0.6.3 deepened the syntax colours of
+  several original themes to chase hard-to-read text, but the cause turned out to
+  be the terminal client's own light/dark theme, not the PoshPalette schemes. The
+  affected themes (Daybreak, Matcha Zen, Frostbyte, Porcelain, Cyberpunk,
+  Synthwave) are restored to their original colours.
+
+## [0.6.3]
+
+### Changed
+- Deepened the syntax colours of several original themes (Daybreak, Matcha Zen,
+  Frostbyte, Porcelain, Cyberpunk, Synthwave) for contrast. Superseded by 0.6.4,
+  which reverts this.
 
 ## [0.6.2]
 

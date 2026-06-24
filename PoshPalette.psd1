@@ -1,6 +1,6 @@
 @{
     RootModule        = 'PoshPalette.psm1'
-    ModuleVersion     = '0.6.3'
+    ModuleVersion     = '0.6.4'
     GUID              = '7c9e6a1b-4f2d-4b8e-9a3c-1d5f8b2e0a47'
     Author            = 'PoshPalette contributors'
     Copyright         = '(c) PoshPalette contributors. MIT licensed.'
