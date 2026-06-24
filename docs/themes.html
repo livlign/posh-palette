@@ -465,7 +465,7 @@
       case "robby":
         return `<div class="ln prompt"><span class="param">❯❯</span> <span class="cmd">${D}</span> <span class="com">git:(</span><span class="str">main</span><span class="com">)</span> <span class="var">12:27</span>${cmd}</div>`;
       case "arrow":
-        return `<div class="ln prompt"><span class="cmd">${D}</span> <span class="com">on</span> <span class="str">● main</span> <span class="var">12:27</span> <span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="cmd">${D}</span> <span class="param">on</span> <span class="str">● main</span> <span class="var">12:27</span> <span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
       case "lambda":
         return `<div class="ln prompt"><span class="op">λ</span> <span class="cmd">${P}</span> <span class="str">→</span>${cmd}</div>`;
       case "pure":
@@ -473,7 +473,7 @@
       case "twoline":
         return `<div class="ln prompt"><span class="com">╭─</span> <span class="cmd">${D}</span> <span class="str">● main</span> <span class="var">12:27</span></div><div class="ln prompt"><span class="com">╰─</span><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
       case "spaceship":
-        return `<div class="ln prompt"><span class="cmd">${P}</span> <span class="com">on</span> <span class="op">⎇ main</span> <span class="var">12:27</span> <span style="color:${c("--c-str")}">➜</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="cmd">${P}</span> <span class="param">on</span> <span class="op">⎇ main</span> <span class="var">12:27</span> <span style="color:${c("--c-str")}">➜</span>${cmd}</div>`;
       case "atomic": {
         const segs = [["--c-cmd",P],["--c-str","main"]];
         let h = `<span style="color:${c("--c-accent")}">⚡</span> <span class="pl">`;
@@ -508,9 +508,9 @@
       }
       case "1_shell":
         // colored text (no fills) over two lines: user on time branch, then { path }
-        return `<div class="ln prompt"><span style="color:${c("--c-var")}">user</span> <span class="com">on</span> <span style="color:${c("--c-param")}">12:27</span> <span class="str">main</span></div><div class="ln prompt"><span class="str">{</span> <span class="cmd">${D}</span> <span class="str">}</span> <span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="err">user</span> <span style="color:${c("--c-fg")}">on</span> <span class="op">12:27</span> <span class="param">main</span></div><div class="ln prompt"><span class="param">{</span> <span class="cmd">${D}</span> <span class="param">}</span> <span class="str">❯</span>${cmd}</div>`;
       case "clean-detailed":
-        return `<div class="ln prompt"><span class="com">╭─</span> <span class="var">12:27</span> <span class="cmd">${P}</span> <span class="str">main</span> <span class="com">✚1</span></div><div class="ln prompt"><span class="com">╰─</span><span style="color:${c("--c-accent")}">❯</span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="com">╭─</span> <span class="var">♥ 12:27 |</span> <span class="cmd">${P}</span> <span class="str">● main</span></div><div class="ln prompt"><span class="com">╰─</span>${cmd}</div>`;
       case "velvet": {
         // flat OS block + rounded powerline path/git + status cap
         const segs = [["--c-var","⊞"],["--c-cmd",P],["--c-str","main"],["--c-op","✓"]];
