@@ -61,6 +61,10 @@ function Get-PoshPalettePromptParts {
         switch -Wildcard ($Theme.prompt.name) {
             '*minimal*'   { return @($sc.purple, '❯ ') }
             '*twoline*'   { return @($sc.cyan, '╭─ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '● main ', $sc.yellow, '12:27 ', $sc.cyan, '╰─', $sc.purple, '❯ ') }
+            '*clean*'     { return @($sc.cyan, '╭─ ', $sc.yellow, '♥ 12:27 | ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '● main ', $sc.purple, '╰─ ') }
+            '*1shell*'    { return @($sc.red, 'user ', $sc.foreground, 'on ', $sc.purple, 'Mon 3:04 PM ', $sc.cyan, '● main ', $sc.blue, 'C:\proj\ccbit ') }
+            '*cert*'      { return @($sc.red, ' user ', $sc.green, ' C:\proj\ccbit ', $sc.cyan, ' git(main) ', $sc.purple, ' 12:27 ') }
+            '*velvet*'    { return @($sc.blue, ' C:\proj\ccbit ', $sc.cyan, ' main ', $sc.yellow, ' 12ms ', $sc.green, ' ✓ ', $sc.purple, ' 12:27 ') }
             '*powerline*' { return @($sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.cyan, ' ✓ ') }
             '*robby*'     { return @($sc.cyan, '❯❯ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, 'git:(main) ', $sc.yellow, '18:50 ') }
             '*arrow*'     { return @($sc.blue, 'C:\proj\ccbit ', $sc.cyan, 'on ', $sc.green, '● main ', $sc.yellow, '12:27 ', $sc.purple, '❯ ') }
