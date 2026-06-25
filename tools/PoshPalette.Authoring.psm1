@@ -157,11 +157,19 @@ function Test-PoshPaletteContrast {
         $schemeId = $Scheme; $paletteId = $Palette
     }
 
-    $scheme  = Get-PPLayer -Kind schemes  -Id $schemeId
-    $palette = Get-PPLayer -Kind palettes -Id $paletteId
-    $bg = $scheme.colors.background
+    # IMPORTANT: do not name these $scheme / $palette. PowerShell variable names
+    # are case-insensitive, so they would alias the [string] $Scheme / $Palette
+    # parameters of the 'Pair' set and coerce the parsed JSON object to its lossy
+    # string form ("@{id=...; colors=}"). $comp is safe because it has no twin.
+    $schemeObj  = Get-PPLayer -Kind schemes  -Id $schemeId
+    $paletteObj = Get-PPLayer -Kind palettes -Id $paletteId
 
-    foreach ($role in $palette.psReadLine.PSObject.Properties) {
+    if (-not $schemeObj.colors.PSObject.Properties['background']) {
+        throw "scheme '$schemeId' has no colors.background (props: $($schemeObj.colors.PSObject.Properties.Name -join ', '))"
+    }
+    $bg = $schemeObj.colors.background
+
+    foreach ($role in $paletteObj.psReadLine.PSObject.Properties) {
         $color = $role.Value
         if (-not $color) { continue }
         $ratio = Get-PPContrastRatio $color $bg
@@ -236,8 +244,10 @@ function New-PoshPalettePalette {
     )
     Assert-Pansies   # we round-trip colors through Pansies' RgbColor for validation
 
-    $scheme = Get-PPLayer -Kind schemes -Id $Scheme
-    $c  = $scheme.colors
+    # Not $scheme: it would alias the [string] $Scheme parameter and stringify
+    # the parsed object (see note in Test-PoshPaletteContrast).
+    $schemeObj = Get-PPLayer -Kind schemes -Id $Scheme
+    $c  = $schemeObj.colors
     $bg = $c.background
     $fg = $c.foreground
 
@@ -256,7 +266,7 @@ function New-PoshPalettePalette {
     $psstyle = [ordered]@{}
     foreach ($r in $script:PsStyleFromAnsi.Keys) { $psstyle[$r] = & $pick $r $script:PsStyleFromAnsi[$r] }
 
-    if (-not $Name) { $Name = $scheme.name }
+    if (-not $Name) { $Name = $schemeObj.name }
     [ordered]@{ id = $Id; name = $Name; psReadLine = $psrl; psStyle = $psstyle } |
         ConvertTo-Json -Depth 8
 }
