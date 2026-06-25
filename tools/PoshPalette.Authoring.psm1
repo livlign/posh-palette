@@ -159,7 +159,19 @@ function Test-PoshPaletteContrast {
 
     $scheme  = Get-PPLayer -Kind schemes  -Id $schemeId
     $palette = Get-PPLayer -Kind palettes -Id $paletteId
-    $bg = $scheme.colors.background
+
+    # Colors may be nested under .colors (our format) or flat at the top level.
+    # Access via PSObject so StrictMode never crashes on a missing property; if
+    # the expected shape is absent, throw a diagnostic naming what we actually got.
+    $schemeColors = if ($scheme.PSObject.Properties['colors']) { $scheme.colors } else { $scheme }
+    if (-not $schemeColors.PSObject.Properties['background']) {
+        throw "scheme '$schemeId' has no background color. Root='$script:Root'; top-level props=[$($scheme.PSObject.Properties.Name -join ', ')]"
+    }
+    $bg = $schemeColors.background
+
+    if (-not $palette.PSObject.Properties['psReadLine']) {
+        throw "palette '$paletteId' has no psReadLine block. top-level props=[$($palette.PSObject.Properties.Name -join ', ')]"
+    }
 
     foreach ($role in $palette.psReadLine.PSObject.Properties) {
         $color = $role.Value

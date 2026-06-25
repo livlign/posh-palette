@@ -25,7 +25,10 @@ Describe 'WCAG contrast core' {
 
 Describe 'Bundled theme legibility' {
     It 'discovered themes to lint' {
-        $themeIds.Count | Should -BeGreaterThan 0
+        # Re-derive at run time: top-level $themeIds is a discovery-scope variable,
+        # not in scope inside the It body in Pester v5.
+        $count = (Get-ChildItem (Join-Path (Split-Path $PSScriptRoot -Parent) 'themes') -Filter *.json).Count
+        $count | Should -BeGreaterThan 0
     }
 
     It 'every syntax color clears the readability floor: <_>' -ForEach $themeIds {
