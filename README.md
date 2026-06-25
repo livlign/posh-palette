@@ -1,7 +1,7 @@
 # Posh Palette
 
 <p align="center">
-  <img src="assets/posh-palette-session.gif" alt="Posh Palette: browsing the theme gallery and applying a look live in the terminal" width="100%">
+  <img src="assets/posh-palette-demo.gif" alt="Posh Palette: browsing the theme gallery and applying a look live in the terminal" width="100%">
 </p>
 
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/PoshPalette?logo=powershell&label=PowerShell%20Gallery)](https://www.powershellgallery.com/packages/PoshPalette)
@@ -27,19 +27,23 @@ once, without leaving your terminal.
 
 ## Install
 
-PoshPalette needs **PowerShell 7.2 or newer** (the modern, cross-platform
-PowerShell, `pwsh`), not the built-in Windows PowerShell 5.1. Check with
-`$PSVersionTable.PSVersion`.
+**Prerequisite:** PowerShell 7.2+ — the modern, cross-platform `pwsh`, not the
+built-in Windows PowerShell 5.1 (check with `$PSVersionTable.PSVersion`). Don't
+have it yet? `winget install Microsoft.PowerShell`, then start `pwsh`.
 
 ```powershell
-winget install Microsoft.PowerShell      # if you don't have PowerShell 7 yet
-pwsh                                      # start PowerShell 7 (not "powershell")
 Install-Module PoshPalette -Scope CurrentUser
 palette
 ```
 
 In Windows Terminal, set the default profile to **PowerShell** (7.x) rather than
 **Windows PowerShell** so new tabs use it automatically.
+
+> **oh-my-posh is optional.** Only the prompt layer uses it — the other three
+> layers apply without it. The first time you pick a theme whose prompt needs it,
+> PoshPalette offers to install it for you (per-user via `winget`, no admin), then
+> you re-open pwsh to see the prompt. To install it yourself ahead of time:
+> `winget install JanDeDobbeleer.OhMyPosh -s winget`.
 
 ## Update
 
@@ -140,7 +144,7 @@ Install-PoshPaletteFont CascadiaCode   # or a raw Nerd Font name
 
 ## Bundled themes
 
-**41 themes**, from muted dev classics to neon and retro CRT. Browse them all in
+**47 themes**, from muted dev classics to neon and retro CRT. Browse them all in
 the [theme gallery](https://livlign.github.io/posh-palette/themes.html).
 
 - **Drift set (featured):** `eclipse`, `graphite`, `driftwood`, `prism`,
@@ -176,14 +180,20 @@ layer commands all share one path.
 
 > **Note on prompts:** every bundled prompt is **generated from the active scheme**,
 > so the prompt always matches your colors and always loads (no external oh-my-posh
-> theme files needed). Pick a style: **`auto`** (classic), **`auto-minimal`**,
-> **`auto-powerline`**, **`auto-robby`** (`❯❯ folder git:(branch) time`),
-> **`auto-twoline`**, **`auto-arrow`**, **`auto-lambda`**, **`auto-pure`**,
-> **`auto-spaceship`**, **`auto-atomic`**, **`auto-smoothie`**, **`auto-1shell`**,
-> **`auto-cert`**, **`auto-clean`**, or **`auto-velvet`**.
+> theme files needed).
+
+Pick a style by name — pass any to `Set-PoshPalettePrompt`, or choose it in Detail
+mode (`auto` is the classic default):
+
+`auto` · `auto-minimal` · `auto-powerline` · `auto-robby` · `auto-twoline` ·
+`auto-arrow` · `auto-lambda` · `auto-pure` · `auto-spaceship` · `auto-atomic` ·
+`auto-smoothie` · `auto-1shell` · `auto-cert` · `auto-clean` · `auto-velvet`
+
 > Prefer a specific oh-my-posh community theme? Pass its name to
 > `Set-PoshPalettePrompt` (or type it in Detail mode) and it'll be used if you have
-> it installed under `POSH_THEMES_PATH`.
+> it installed under `POSH_THEMES_PATH`. Either way, applying a prompt-bearing theme
+> offers to install oh-my-posh if it's missing (per-user via `winget`, no admin) —
+> see **Install**.
 
 ## Contribute
 
@@ -217,9 +227,6 @@ Invoke-Pester ./tests
 
 ## Status
 
-Stable and **published to the PowerShell Gallery** (`Install-Module PoshPalette`).
-35 bundled themes, the full 4-layer apply engine, live preview, search/filter,
-scheme import, a setup doctor, and an auto-updating community catalog all ship
-today. See [CHANGELOG.md](CHANGELOG.md) for release history.
-
-**Next:** expand the prompt template library; grow the community catalog.
+Stable and **published to the PowerShell Gallery** — everything described above
+ships today. See [CHANGELOG.md](CHANGELOG.md) for release history. Issues and
+theme PRs welcome.

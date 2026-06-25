@@ -14,7 +14,10 @@
 function New-PoshPaletteOmpConfig {
     param(
         [Parameter(Mandatory)] $Colors,
-        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet')] [string] $Style = 'classic'
+        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula')] [string] $Style = 'classic',
+        # Optional fixed segment-fill ramp for the 'dracula' style (a designed
+        # gradient). When absent, that style falls back to scheme accent colors.
+        [string[]] $Gradient
     )
 
     $get = {
@@ -23,6 +26,7 @@ function New-PoshPaletteOmpConfig {
         if ([string]::IsNullOrWhiteSpace($v)) { $fallback } else { $v }
     }
     $bg     = & $get 'background' '#1A1B26'
+    $black  = & $get 'black'  '#15161E'
     $blue   = & $get 'blue'   '#7AA2F7'
     $green  = & $get 'green'  '#9ECE6A'
     $red    = & $get 'red'    '#F7768E'
@@ -114,6 +118,59 @@ function New-PoshPaletteOmpConfig {
                 [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = "$([char]0xE0B4)"; foreground = $bg; background = $cyan; background_templates = @("{{ if or (.Working.Changed) (.Staging.Changed) }}$yellow{{ end }}"); properties = [ordered]@{ fetch_status = $true }; template = " {{ .HEAD }} " }
                 (& $statSeg $purple "$([char]0x276F) ")
             )
+        }
+        'avit' {
+            # Port of oh-my-posh's avit: path + branch, then a colored arrow line.
+            (& $line @(
+                (& $pathSeg $fg '{{ .Path }} ')
+                (& $gitSeg  $yellow '{{ .HEAD }} ')
+                (& $statSeg $red '{{ if gt .Code 0 }}x{{ reason .Code }} {{ end }}')
+            ))
+            (& $line @((& $textSeg $blue "$([char]0x279C) ")) $true)   # arrow
+        }
+        'darkblood' {
+            # Port of oh-my-posh's darkblood: box-drawing frame, accent brackets.
+            (& $line @(
+                [ordered]@{ type = 'session'; style = 'plain'; foreground = $fg; template = "<$red>$([char]0x250F)[</>{{ .UserName }}<$red>]</>" }
+                [ordered]@{ type = 'git'; style = 'plain'; foreground = $fg; properties = [ordered]@{ fetch_status = $true; branch_icon = '' }; template = " <$red>[</>{{ .HEAD }}<$red>]</>" }
+                [ordered]@{ type = 'status'; style = 'plain'; foreground = $fg; properties = [ordered]@{ always_enabled = $true }; template = "{{ if gt .Code 0 }} <$red>[</>x{{ reason .Code }}<$red>]</>{{ end }}" }
+            ))
+            (& $line @(
+                [ordered]@{ type = 'path'; style = 'plain'; foreground = $fg; properties = [ordered]@{ style = 'folder' }; template = "<$red>$([char]0x2517)[</>{{ .Path }}<$red>]></> " }
+            ) $true)
+        }
+        'tokyonight' {
+            # Port of oh-my-posh's tokyonight_storm: arrow + path + branch, language
+            # versions on the right, a triangle prompt on the next line.
+            (& $line @(
+                (& $textSeg $blue "$([char]0x279C) ")                 # ➜
+                (& $pathSeg $purple '{{ .Path }} ')
+                (& $textSeg $cyan "$([char]0x26A1) ")                 # ⚡
+                (& $gitSeg  $cyan '({{ .HEAD }})')
+                (& $statSeg $red "{{ if gt .Code 0 }} $([char]0x2717){{ end }}")  # ✗
+            ))
+            [ordered]@{ type = 'rprompt'; alignment = 'right'; segments = @(
+                [ordered]@{ type = 'node'; style = 'plain'; foreground = $green; properties = [ordered]@{ fetch_version = $true }; template = "$([char]0xE718) {{ .Full }} " }
+                [ordered]@{ type = 'go'; style = 'plain'; foreground = $cyan; properties = [ordered]@{ fetch_version = $true }; template = "$([char]0xE626) {{ .Full }} " }
+                [ordered]@{ type = 'python'; style = 'plain'; foreground = $yellow; properties = [ordered]@{ fetch_version = $true }; template = "$([char]0xE235) {{ .Full }}" }
+            ) }
+            (& $line @((& $textSeg $green "$([char]0x25B6) ")) $true)  # ▶
+        }
+        'dracula' {
+            # Port of oh-my-posh's dracula: a powerline chain with an aws cap. Segment
+            # fills come from -Gradient (a designed ramp) when given, else scheme accents.
+            $grad = if ($Gradient -and $Gradient.Count -ge 5) { $Gradient } else { @($blue, $purple, $red, $cyan, $yellow) }
+            $pl = "$([char]0xE0B0)"
+            (& $line @(
+                [ordered]@{ type = 'session'; style = 'diamond'; leading_diamond = "$([char]0xE0B6)"; foreground = $black; background = $grad[0]; template = '{{ .UserName }} ' }
+                [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = $pl; foreground = $black; background = $grad[1]; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = $pl; foreground = $black; background = $grad[2]; properties = [ordered]@{ fetch_status = $true; branch_icon = "$([char]0xE725) " }; template = ' {{ .HEAD }} ' }
+                [ordered]@{ type = 'node'; style = 'powerline'; powerline_symbol = $pl; foreground = $black; background = $grad[3]; properties = [ordered]@{ fetch_version = $true }; template = " $([char]0xE718) {{ .Full }} " }
+                [ordered]@{ type = 'time'; style = 'diamond'; trailing_diamond = "$pl"; foreground = $black; background = $grad[4]; properties = [ordered]@{ time_format = '15:04' }; template = " $([char]0x2665) {{ .CurrentDate | date .Format }} " }
+            ))
+            [ordered]@{ type = 'rprompt'; alignment = 'right'; segments = @(
+                [ordered]@{ type = 'aws'; style = 'diamond'; leading_diamond = "$([char]0xE0B6)"; trailing_diamond = "$([char]0xE0B4)"; foreground = $black; background = $grad[4]; template = " $([char]0xE7AD) {{ .Profile }}{{ if .Region }}@{{ .Region }}{{ end }} " }
+            ) }
         }
         '1_shell' {
             # Faithful port of oh-my-posh's 1_shell theme (colored text, no fills).

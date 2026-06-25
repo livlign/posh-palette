@@ -1,0 +1,21 @@
+{
+  "id": "patina",
+  "name": "Patina",
+  "psReadLine": {
+    "Command": "#5FC9B0",
+    "Parameter": "#7FD0C0",
+    "String": "#9FC08C",
+    "Operator": "#D7B45A",
+    "Variable": "#C8A24A",
+    "Number": "#D98E5A",
+    "Comment": "#5C7068",
+    "Error": "#D9603F",
+    "Default": "#DCE5DE",
+    "InlinePrediction": "#5C7068"
+  },
+  "psStyle": {
+    "Directory": "#5FC9B0",
+    "Error": "#D9603F",
+    "TableHeader": "#E0C36A"
+  }
+}

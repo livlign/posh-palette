@@ -1,0 +1,7 @@
+{
+  "id": "auto-avit",
+  "name": "Auto · Avit",
+  "generate": true,
+  "style": "avit",
+  "note": "Palette-aware port of oh-my-posh's avit: path + branch on one line, a coloured prompt arrow on the next. No Nerd Font required."
+}

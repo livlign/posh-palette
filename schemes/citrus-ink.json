@@ -1,0 +1,26 @@
+{
+  "id": "citrus-ink",
+  "name": "Citrus Ink",
+  "colors": {
+    "background": "#0B1413",
+    "foreground": "#EAF0E2",
+    "cursorColor": "#B8E62E",
+    "selectionBackground": "#1F302D",
+    "black": "#14201E",
+    "red": "#FF6B5B",
+    "green": "#5FD3A0",
+    "yellow": "#E6C84A",
+    "blue": "#C2EF45",
+    "purple": "#F2B441",
+    "cyan": "#CFE89A",
+    "white": "#EAF0E2",
+    "brightBlack": "#4F6B5E",
+    "brightRed": "#FF8174",
+    "brightGreen": "#72D8AB",
+    "brightYellow": "#F2A23E",
+    "brightBlue": "#B8E62E",
+    "brightPurple": "#B8E62E",
+    "brightCyan": "#D5EBA6",
+    "brightWhite": "#FFFFFF"
+  }
+}

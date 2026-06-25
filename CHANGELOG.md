@@ -5,6 +5,31 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.7.0]
+
+### Added
+- **Six new themes, leading the catalog:** Opaline (iridescent pearl on deep
+  indigo), Patina (aged brass & verdigris), Oxblood (wine, sienna & antique
+  gold), Citrus Ink (chartreuse & amber), Letterpress (a light editorial theme)
+  and Aubade (a light dawn-gradient theme). Each pairs a hand-tuned scheme +
+  palette with an oh-my-posh prompt, and all six clear the WCAG contrast gate.
+- **Four new generated prompt styles** ported from oh-my-posh community themes:
+  `avit`, `darkblood`, `tokyonight` and `dracula` — the last driven by a designed
+  colour gradient carried on the prompt definition. All are palette-aware.
+- **oh-my-posh auto-install:** applying a theme whose prompt needs oh-my-posh now
+  offers to install it (per-user via winget, no admin) rather than silently
+  skipping the prompt layer.
+- **Authoring tools (`tools/`, dev-only):** a dependency-free WCAG contrast linter
+  — now a CI gate (`tests/Contrast.Tests.ps1`) — plus Pansies-based scheme and
+  palette generators. The shipped module stays zero-dependency.
+
+### Changed
+- **Richer in-terminal live preview:** the picker's preview panel is now wider and
+  framed like a real terminal window (titlebar + traffic lights), and draws each
+  theme's real prompt shape — including git status, language versions and cloud
+  segments for the themes whose oh-my-posh config actually uses them.
+- **Gallery** updated for the six new themes (now 47 total).
+
 ## [0.6.4]
 
 ### Fixed

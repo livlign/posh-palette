@@ -1,0 +1,13 @@
+{
+  "id": "aubade",
+  "name": "Aubade",
+  "description": "A pastel dawn gradient across the prompt — sky to lilac to rose to peach to gold, on warm white. A light theme.",
+  "scheme": "aubade",
+  "palette": "aubade",
+  "prompt": "auto-dracula",
+  "font": "cascadia",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 6
+}

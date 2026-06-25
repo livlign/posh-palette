@@ -1,0 +1,26 @@
+{
+  "id": "patina",
+  "name": "Patina",
+  "colors": {
+    "background": "#0E1613",
+    "foreground": "#DCE5DE",
+    "cursorColor": "#E0C36A",
+    "selectionBackground": "#23302B",
+    "black": "#16201C",
+    "red": "#D9603F",
+    "green": "#9FC08C",
+    "yellow": "#C8A24A",
+    "blue": "#5FC9B0",
+    "purple": "#D7B45A",
+    "cyan": "#7FD0C0",
+    "white": "#DCE5DE",
+    "brightBlack": "#5C7068",
+    "brightRed": "#DF785C",
+    "brightGreen": "#ABC89A",
+    "brightYellow": "#D98E5A",
+    "brightBlue": "#5FC9B0",
+    "brightPurple": "#E0C36A",
+    "brightCyan": "#8ED6C8",
+    "brightWhite": "#FFFFFF"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "letterpress",
+  "name": "Letterpress",
+  "colors": {
+    "background": "#F3ECDF",
+    "foreground": "#3A352C",
+    "cursorColor": "#2A5C8A",
+    "selectionBackground": "#E3D8C4",
+    "black": "#3A352C",
+    "red": "#B0202A",
+    "green": "#506B24",
+    "yellow": "#8A5E0A",
+    "blue": "#2A5C8A",
+    "purple": "#6E4B2E",
+    "cyan": "#176B5F",
+    "white": "#FBF8F1",
+    "brightBlack": "#8E886F",
+    "brightRed": "#B0202A",
+    "brightGreen": "#506B24",
+    "brightYellow": "#8A4FA0",
+    "brightBlue": "#2A5C8A",
+    "brightPurple": "#176B5F",
+    "brightCyan": "#176B5F",
+    "brightWhite": "#3A352C"
+  }
+}

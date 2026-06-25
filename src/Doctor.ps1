@@ -60,7 +60,7 @@ function Test-PoshPaletteSetup {
     $checks += if ($omp) {
         New-PoshPaletteCheck 'oh-my-posh (prompt)' 'Ok' $omp.Source
     } else {
-        New-PoshPaletteCheck 'oh-my-posh (prompt)' 'Warn' 'not on PATH' 'winget install JanDeDobbeleer.OhMyPosh - only needed for the prompt layer.'
+        New-PoshPaletteCheck 'oh-my-posh (prompt)' 'Warn' 'not on PATH' 'Only needed for the prompt layer - applying a prompt theme offers to install it (winget, no admin), or run: winget install JanDeDobbeleer.OhMyPosh -s winget.'
     }
 
     # POSH_THEMES_PATH (only matters for referenced, non-auto prompts)

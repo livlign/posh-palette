@@ -1,0 +1,13 @@
+{
+  "id": "oxblood",
+  "name": "Oxblood",
+  "description": "Wine, burnt sienna and antique gold on warm black — leather and cellar.",
+  "scheme": "oxblood",
+  "palette": "oxblood",
+  "prompt": "auto-darkblood",
+  "font": "iosevka",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 3
+}

@@ -1,0 +1,13 @@
+{
+  "id": "patina",
+  "name": "Patina",
+  "description": "Aged brass and verdigris on pine-black — quiet, expensive minimal.",
+  "scheme": "patina",
+  "palette": "patina",
+  "prompt": "auto-avit",
+  "font": "ibmplex",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 2
+}

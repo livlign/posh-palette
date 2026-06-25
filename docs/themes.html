@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Theme gallery · Posh Palette</title>
-<meta name="description" content="Browse all 41 bundled Posh Palette themes. Each card previews real colors, font and prompt shape, with a command to install one.">
+<meta name="description" content="Browse all 47 bundled Posh Palette themes. Each card previews real colors, font and prompt shape, with a command to install one.">
 <link rel="canonical" href="https://livlign.github.io/posh-palette/themes.html">
 <meta name="author" content="livlign">
 <meta name="theme-color" content="#0A0D12">
@@ -12,7 +12,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Posh Palette">
 <meta property="og:title" content="Theme gallery · Posh Palette">
-<meta property="og:description" content="Browse all 41 bundled Posh Palette themes. Each card previews real colors, font and prompt shape, with a command to install one.">
+<meta property="og:description" content="Browse all 47 bundled Posh Palette themes. Each card previews real colors, font and prompt shape, with a command to install one.">
 <meta property="og:url" content="https://livlign.github.io/posh-palette/themes.html">
 <meta property="og:image" content="https://livlign.github.io/posh-palette/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -20,7 +20,7 @@
 <meta property="og:image:alt" content="Posh Palette theme gallery">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Theme gallery · Posh Palette">
-<meta name="twitter:description" content="Browse all 41 bundled Posh Palette themes: colors, fonts and prompt shapes.">
+<meta name="twitter:description" content="Browse all 47 bundled Posh Palette themes: colors, fonts and prompt shapes.">
 <meta name="twitter:image" content="https://livlign.github.io/posh-palette/og-image.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
@@ -199,7 +199,7 @@
 
 <section class="intro wrap">
   <span class="kicker">Theme gallery</span>
-  <h1>Browse all <span class="g">41 themes.</span></h1>
+  <h1>Browse all <span class="g">47 themes.</span></h1>
   <p class="sub">Every theme that ships with Posh Palette, shown in its real colors, prompt shape, and font. Copy a command to install one, or fork any as a small JSON file.</p>
 </section>
 
@@ -233,6 +233,18 @@
 
 <script>
   const THEMES = {
+    "opaline":{name:"Opaline",variant:"Pearl",dark:true,desc:"Iridescent pearl on deep indigo.",
+      "--c-bg":"#131121","--c-fg":"#ECE9F7","--c-cur":"#FFB3D6","--c-cmd":"#8FB4FF","--c-param":"#5FE3D8","--c-str":"#86E6B4","--c-op":"#BE9BFF","--c-var":"#FFC2AE","--c-num":"#F4D27E","--c-com":"#6B678F","--c-err":"#FF6B92","--c-dir":"#B79BFF","--c-accent":"#FF9ED2","--c-glow":"rgba(255,158,210,.4)"},
+    "patina":{name:"Patina",variant:"Brass",dark:true,desc:"Aged brass and verdigris on pine-black.",
+      "--c-bg":"#0E1613","--c-fg":"#DCE5DE","--c-cur":"#E0C36A","--c-cmd":"#5FC9B0","--c-param":"#7FD0C0","--c-str":"#9FC08C","--c-op":"#D7B45A","--c-var":"#C8A24A","--c-num":"#D98E5A","--c-com":"#5C7068","--c-err":"#D9603F","--c-dir":"#5FC9B0","--c-accent":"#E0C36A","--c-glow":"rgba(224,195,106,.4)"},
+    "oxblood":{name:"Oxblood",variant:"Cellar",dark:true,desc:"Wine, sienna and antique gold on warm black.",
+      "--c-bg":"#140B0D","--c-fg":"#E8D2D4","--c-cur":"#E0483A","--c-cmd":"#D9743F","--c-param":"#E0A36A","--c-str":"#C9A24A","--c-op":"#E0556B","--c-var":"#E0B24A","--c-num":"#D9743F","--c-com":"#7A5458","--c-err":"#FF4D54","--c-dir":"#E86B72","--c-accent":"#C8324B","--c-glow":"rgba(200,50,75,.4)"},
+    "citrus-ink":{name:"Citrus Ink",variant:"Zest",dark:true,desc:"Chartreuse and amber on teal-ink.",
+      "--c-bg":"#0B1413","--c-fg":"#EAF0E2","--c-cur":"#B8E62E","--c-cmd":"#C2EF45","--c-param":"#CFE89A","--c-str":"#5FD3A0","--c-op":"#F2B441","--c-var":"#E6C84A","--c-num":"#F2A23E","--c-com":"#4F6B5E","--c-err":"#FF6B5B","--c-dir":"#B8E62E","--c-accent":"#B8E62E","--c-glow":"rgba(184,230,46,.4)"},
+    "letterpress":{name:"Letterpress",variant:"Oat",dark:false,desc:"Warm oat paper with editorial inks. Light.",
+      "--c-bg":"#F3ECDF","--c-fg":"#3A352C","--c-cur":"#2A5C8A","--c-cmd":"#2A5C8A","--c-param":"#176B5F","--c-str":"#506B24","--c-op":"#6E4B2E","--c-var":"#8A5E0A","--c-num":"#8A4FA0","--c-com":"#8E886F","--c-err":"#B0202A","--c-dir":"#2A5C8A","--c-accent":"#176B5F","--c-glow":"rgba(23,107,95,.3)"},
+    "aubade":{name:"Aubade",variant:"Dawn",dark:false,desc:"A pastel dawn gradient on warm white. Light.",segText:"#33293F",grad:["#A9CBF0","#C3B0EE","#ECAFD6","#F6B9AB","#F0D08A"],
+      "--c-bg":"#FBF6FB","--c-fg":"#3A3340","--c-cur":"#AE3F84","--c-cmd":"#4A3CC0","--c-param":"#AE3F84","--c-str":"#2E7D6E","--c-op":"#8A4BC0","--c-var":"#8C610C","--c-num":"#AE3F84","--c-com":"#9A8FA8","--c-err":"#C0303A","--c-dir":"#4A3CC0","--c-accent":"#F2D08A","--c-glow":"rgba(242,208,138,.4)"},
     "nebula-drift":{name:"Nebula Drift",variant:"Cosmos",dark:true,desc:"Deep-space indigo with violet, magenta and starlight cyan.",
       "--c-bg":"#0A0420","--c-fg":"#E2E0FA","--c-cur":"#D58BFF","--c-cmd":"#7C9BFF","--c-param":"#57E6F0","--c-str":"#66E6A8","--c-op":"#C77DFF","--c-var":"#FFCB6B","--c-num":"#FF9E64","--c-com":"#5C5A88","--c-err":"#FF5C8D","--c-dir":"#7C9BFF","--c-accent":"#D58BFF","--c-glow":"rgba(213,139,255,.4)"},
     "verdigris":{name:"Verdigris",variant:"Patina",dark:true,desc:"Oxidized copper and bronze, lit by patina green.",
@@ -373,7 +385,8 @@
   // prism (colorful) -> daybreak (soft light) -> porcelain (light). Each also has
   // a distinct prompt shape and font. Mirrors the 'order' field in themes/*.json
   // so the tool and this page agree.
-  const ORDER = ["eclipse","graphite","driftwood","prism","daybreak","porcelain",
+  const ORDER = ["opaline","patina","oxblood","citrus-ink","letterpress","aubade",
+    "eclipse","graphite","driftwood","prism","daybreak","porcelain",
     "nebula-drift","verdigris","miami-heat","forge-ember","matcha-zen",
     "velvet-court","acid-lime","frostbyte","halcyon",
     "tokyo-night","synthwave","catppuccin-latte","gruvbox","green-phosphor",
@@ -387,6 +400,8 @@
 
   // Each theme showcases a different oh-my-posh prompt SHAPE, not just colors.
   const PROMPT = {
+    "opaline":"1_shell", "patina":"avit", "oxblood":"darkblood",
+    "citrus-ink":"lambda", "letterpress":"tokyonight", "aubade":"dracula",
     "nebula-drift":"1_shell", "verdigris":"twoline", "miami-heat":"smoothie",
     "forge-ember":"powerline", "matcha-zen":"lambda", "velvet-court":"spaceship",
     "acid-lime":"robby", "frostbyte":"arrow", "halcyon":"pure", "eclipse":"twoline",
@@ -405,7 +420,8 @@
   const ACRYLIC = new Set();
   const STYLE_LABEL = { powerline:"powerline", robby:"chevron", pure:"minimal", lambda:"lambda",
     twoline:"two-line", arrow:"arrow", spaceship:"spaceship", atomic:"atomic", smoothie:"smoothie",
-    "1_shell":"diamond", cert:"diamond", "clean-detailed":"detailed", velvet:"velvet" };
+    "1_shell":"diamond", cert:"diamond", "clean-detailed":"detailed", velvet:"velvet",
+    avit:"two-line", darkblood:"framed", tokyonight:"versions", dracula:"powerline" };
   // Each theme also applies a font — a real differentiator the tool sets. The card
   // preview renders in that typeface (loaded as a web font, or the installed Nerd
   // Font if the visitor has it). FONTS: id -> [nerdFace, webFamily, label].
@@ -425,6 +441,8 @@
     monaspace:["MonaspiceNe Nerd Font","Monaspace Neon","Monaspace"]
   };
   const FONT = {
+    "opaline":"victormono", "patina":"ibmplex", "oxblood":"iosevka",
+    "citrus-ink":"jetbrains", "letterpress":"geistmono", "aubade":"cascadia",
     "nebula-drift":"martianmono", "verdigris":"ibmplex", "miami-heat":"victormono",
     "forge-ember":"firacode", "matcha-zen":"geistmono", "velvet-court":"jetbrains",
     "acid-lime":"cascadia", "frostbyte":"spacemono", "halcyon":"robotomono", "eclipse":"jetbrains",
@@ -509,6 +527,25 @@
       case "1_shell":
         // colored text (no fills) over two lines: user on time branch, then { path }
         return `<div class="ln prompt"><span class="err">user</span> <span style="color:${c("--c-fg")}">on</span> <span class="op">12:27</span> <span class="param">main</span></div><div class="ln prompt"><span class="param">{</span> <span class="cmd">${D}</span> <span class="param">}</span> <span class="str">❯</span>${cmd}</div>`;
+      case "avit": // path + branch, then a coloured arrow line
+        return `<div class="ln prompt"><span class="dir">${P}</span> <span class="var">main</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">➜</span>${cmd}</div>`;
+      case "darkblood": // box-drawing frame, accent brackets
+        return `<div class="ln prompt"><span style="color:${c("--c-accent")}">┏[</span><span class="dir">user</span><span style="color:${c("--c-accent")}">]</span> <span style="color:${c("--c-accent")}">[</span><span class="str">main</span><span style="color:${c("--c-accent")}">]</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">┗[</span><span class="cmd">${D}</span><span style="color:${c("--c-accent")}">]></span>${cmd}</div>`;
+      case "tokyonight": // arrow + path + branch, triangle prompt on next line
+        return `<div class="ln prompt"><span class="cmd">➜</span> <span class="op">${D}</span> <span class="param">(main)</span></div><div class="ln prompt"><span class="str">▶</span>${cmd}</div>`;
+      case "dracula": { // gradient powerline: user · path · branch · node · time
+        const ramp = t.grad || [c("--c-com"),c("--c-cmd"),c("--c-num"),c("--c-param"),c("--c-op")];
+        const stext = t.segText || c("--c-bg");
+        const labels = ["user",D,"main","node","12:27"];
+        let h = '<span class="pl">';
+        labels.forEach((lab,i)=>{
+          h += `<span class="seg" style="background:${ramp[i]};color:${stext}">${lab}</span>`;
+          const next = i<labels.length-1 ? ramp[i+1] : c("--c-bg");
+          h += `<span class="sep" style="border-left-color:${ramp[i]};background:${next}"></span>`;
+        });
+        h += "</span>";
+        return `<div class="ln prompt plline">${h}${cmd}</div>`;
+      }
       case "clean-detailed":
         return `<div class="ln prompt"><span class="com">╭─</span> <span class="var">♥ 12:27 |</span> <span class="cmd">${P}</span> <span class="str">● main</span></div><div class="ln prompt"><span class="com">╰─</span>${cmd}</div>`;
       case "velvet": {

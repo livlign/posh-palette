@@ -1,0 +1,21 @@
+{
+  "id": "letterpress",
+  "name": "Letterpress",
+  "psReadLine": {
+    "Command": "#2A5C8A",
+    "Parameter": "#176B5F",
+    "String": "#506B24",
+    "Operator": "#6E4B2E",
+    "Variable": "#8A5E0A",
+    "Number": "#8A4FA0",
+    "Comment": "#8E886F",
+    "Error": "#B0202A",
+    "Default": "#3A352C",
+    "InlinePrediction": "#8E886F"
+  },
+  "psStyle": {
+    "Directory": "#2A5C8A",
+    "Error": "#B0202A",
+    "TableHeader": "#176B5F"
+  }
+}

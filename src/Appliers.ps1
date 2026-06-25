@@ -212,6 +212,69 @@ function Set-PoshPaletteProfileLayer {
     try { . ([scriptblock]::Create($inner)) } catch { Write-Verbose "Live apply skipped: $_" }
 }
 
+# --- oh-my-posh dependency ----------------------------------------------------
+
+# Only the prompt layer needs the oh-my-posh binary, and only when the theme
+# actually drives it (a generated 'auto' prompt or a referenced community theme).
+function Test-PoshPaletteThemeUsesOhMyPosh {
+    param($Theme)
+    [bool]($Theme.prompt -and ($Theme.prompt.generated -or $Theme.prompt.ohMyPoshTheme))
+}
+
+# If this theme's prompt needs oh-my-posh and it isn't installed, offer to install
+# it (per-user via winget - no admin). The other three layers apply regardless, so
+# this is always optional: declining just leaves the prompt layer dormant until the
+# binary appears (the $PROFILE block is guarded with `if (Get-Command oh-my-posh)`).
+function Confirm-PoshPaletteOhMyPosh {
+    param($Theme)
+
+    if (-not (Test-PoshPaletteThemeUsesOhMyPosh $Theme)) { return }
+    if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) { return }
+
+    Write-Host ""
+    Write-Host "  This theme's prompt needs oh-my-posh, which isn't installed yet." -ForegroundColor Yellow
+    Write-Host "  (Terminal colors and input/output colors still apply without it.)" -ForegroundColor DarkGray
+
+    # No winget (older Windows, non-Windows): point at the official user-scope script.
+    if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+        Write-Host "  Install it (no admin needed), then re-open pwsh:" -ForegroundColor Gray
+        Write-Host "    Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))" -ForegroundColor Cyan
+        return
+    }
+
+    # Non-interactive (CI / piped input): never block on a prompt - just print it.
+    if (-not [Environment]::UserInteractive) {
+        Write-Host "  Install it (no admin needed) with:" -ForegroundColor Gray
+        Write-Host "    winget install JanDeDobbeleer.OhMyPosh -s winget" -ForegroundColor Cyan
+        return
+    }
+
+    $answer = Read-Host "  Install oh-my-posh now with winget? [Y/n]"
+    if ($answer -and $answer.Trim() -match '^(n|no)$') {
+        Write-Host "  Skipped. Install it later with:  winget install JanDeDobbeleer.OhMyPosh -s winget" -ForegroundColor DarkGray
+        return
+    }
+
+    Write-Host "  Installing oh-my-posh (per-user, no admin)..." -ForegroundColor Cyan
+    try {
+        # Plain per-user install - do NOT elevate; an admin winget puts it under
+        # Program Files and breaks the per-user PATH/POSH_THEMES_PATH expectation.
+        winget install JanDeDobbeleer.OhMyPosh --source winget --accept-source-agreements --accept-package-agreements
+    } catch {
+        Write-Host "  winget failed: $_" -ForegroundColor Red
+        Write-Host "  Install manually, then re-open pwsh:  winget install JanDeDobbeleer.OhMyPosh -s winget" -ForegroundColor DarkGray
+        return
+    }
+
+    if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) {
+        Write-Host "  oh-my-posh installed and on PATH." -ForegroundColor Green
+    } else {
+        # winget updates the user PATH (and POSH_THEMES_PATH) but the running
+        # session won't see them - the guarded $PROFILE block picks it up next launch.
+        Write-Host "  oh-my-posh installed. Re-open pwsh (or restart your terminal) so it lands on PATH and the prompt activates." -ForegroundColor Yellow
+    }
+}
+
 # --- Orchestrator -------------------------------------------------------------
 
 function Set-PoshPaletteTheme {
@@ -234,6 +297,9 @@ function Set-PoshPaletteTheme {
         Write-Host "  Windows Terminal settings.json not found - skipping Terminal layer." -ForegroundColor Yellow
         Write-Host "  (This is expected when not on Windows / Windows Terminal.)" -ForegroundColor DarkGray
     }
+
+    # Offer to install oh-my-posh if this theme's prompt needs it (skip on dry-run).
+    if (-not $DryRun) { Confirm-PoshPaletteOhMyPosh -Theme $Theme }
 
     if (-not $DryRun) { Backup-PoshPaletteFile $ProfilePath | Out-Null }
     Set-PoshPaletteProfileLayer -Theme $Theme -ProfilePath $ProfilePath -DryRun:$DryRun
