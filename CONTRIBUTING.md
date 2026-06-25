@@ -41,6 +41,21 @@ A `themes/*.json` composition looks like:
   (background, color, prompt shape, font) since they're the first thing a new user
   sees — keep that diversity in mind when slotting a new theme near the top.
 
+## Authoring helpers (color math)
+
+`tools/` holds an optional workbench for making and tweaking theme colors —
+contrast linting plus palette/scheme generators (the generators use the
+[Pansies](https://github.com/PoshCode/Pansies) module). It's author-only; the
+shipped module and end users never touch it. See [`tools/README.md`](tools/README.md).
+A quick legibility check before you open a PR:
+
+```powershell
+Import-Module ./tools/PoshPalette.Authoring.psm1
+Test-PoshPaletteContrast -Scheme my-scheme -Palette my-palette
+```
+
+CI runs that same contrast check (`tests/Contrast.Tests.ps1`) over every theme.
+
 ## Naming conventions
 
 The project/brand is **Posh Palette** (repo: `posh-palette`, kebab-case like
