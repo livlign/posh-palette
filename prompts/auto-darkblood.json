@@ -1,0 +1,7 @@
+{
+  "id": "auto-darkblood",
+  "name": "Auto · Darkblood",
+  "generate": true,
+  "style": "darkblood",
+  "note": "Palette-aware port of oh-my-posh's darkblood: a box-drawing frame, user and branch bracketed over a second path line. No Nerd Font required."
+}

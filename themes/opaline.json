@@ -1,0 +1,13 @@
+{
+  "id": "opaline",
+  "name": "Opaline",
+  "description": "Iridescent pearl on deep indigo — mother-of-pearl jewel-pastels.",
+  "scheme": "opaline",
+  "palette": "opaline",
+  "prompt": "auto-1shell",
+  "font": "victormono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 1
+}

@@ -1,0 +1,21 @@
+{
+  "id": "aubade",
+  "name": "Aubade",
+  "psReadLine": {
+    "Command": "#4A3CC0",
+    "Parameter": "#AE3F84",
+    "String": "#2E7D6E",
+    "Operator": "#8A4BC0",
+    "Variable": "#8C610C",
+    "Number": "#AE3F84",
+    "Comment": "#9A8FA8",
+    "Error": "#C0303A",
+    "Default": "#3A3340",
+    "InlinePrediction": "#9A8FA8"
+  },
+  "psStyle": {
+    "Directory": "#4A3CC0",
+    "Error": "#C0303A",
+    "TableHeader": "#F2D08A"
+  }
+}

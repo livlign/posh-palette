@@ -1,0 +1,7 @@
+{
+  "id": "auto-tokyonight",
+  "name": "Auto · Tokyo Night",
+  "generate": true,
+  "style": "tokyonight",
+  "note": "Palette-aware port of oh-my-posh's tokyonight_storm: arrow + path + branch, language versions on the right, a triangle prompt on the next line. Version icons need a Nerd Font."
+}

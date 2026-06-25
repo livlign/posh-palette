@@ -62,7 +62,6 @@ function Get-PoshPalettePromptParts {
             '*minimal*'   { return @($sc.purple, '❯ ') }
             '*twoline*'   { return @($sc.cyan, '╭─ ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '● main ', $sc.yellow, '12:27 ', $sc.cyan, '╰─', $sc.purple, '❯ ') }
             '*clean*'     { return @($sc.cyan, '╭─ ', $sc.yellow, '♥ 12:27 | ', $sc.blue, 'C:\proj\ccbit ', $sc.green, '● main ', $sc.purple, '╰─ ') }
-            '*1shell*'    { return @($sc.red, 'user ', $sc.foreground, 'on ', $sc.purple, 'Mon 3:04 PM ', $sc.cyan, '● main ', $sc.blue, 'C:\proj\ccbit ') }
             '*cert*'      { return @($sc.red, ' user ', $sc.green, ' C:\proj\ccbit ', $sc.cyan, ' git(main) ', $sc.purple, ' 12:27 ') }
             '*velvet*'    { return @($sc.blue, ' C:\proj\ccbit ', $sc.cyan, ' main ', $sc.yellow, ' 12ms ', $sc.green, ' ✓ ', $sc.purple, ' 12:27 ') }
             '*powerline*' { return @($sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.cyan, ' ✓ ') }
@@ -73,6 +72,16 @@ function Get-PoshPalettePromptParts {
             '*atomic*'    { return @($sc.purple, '⚡ ', $sc.blue, ' C:\proj\ccbit ', $sc.green, ' main ', $sc.purple, ' ❯ ') }
             '*smoothie*'  { return @($sc.purple, ' C:\proj\ccbit ', $sc.cyan, ' main ', $sc.purple, ' ❯ ') }
             '*pure*'      { return @($sc.blue, 'C:\proj\ccbit ', $sc.purple, '❯ ') }
+            # 1_shell: session + time + git with status counts, plus its sysinfo (MEM).
+            '*1shell*'    { return @($sc.yellow, 'user ', $sc.foreground, 'on ', $sc.purple, 'Mon 3:04 PM ', $sc.cyan, '⎇ main ', $sc.green, '↑1 ✚2 ', $sc.brightBlack, 'MEM 38% ', $sc.purple, '❯ ') }
+            # avit: path + branch only (its config has no versions/cloud).
+            '*avit*'      { return @($sc.blue, 'C:\proj\ccbit ', $sc.yellow, 'main ', $sc.cyan, '➜ ') }
+            # darkblood: framed user + branch only (no extra segments in its config).
+            '*darkblood*' { return @($sc.red, '┏[', $null, 'user', $sc.red, '] [', $null, 'main', $sc.red, '] ', $sc.red, '> ') }
+            # tokyonight_storm: path + branch, plus its language-version block.
+            '*tokyonight*'{ return @($sc.blue, '➜ ', $sc.purple, 'C:\proj\ccbit ', $sc.cyan, '(main) ', $sc.green, 'node 22.1 ', $sc.yellow, 'py 3.12 ', $sc.cyan, 'go 1.22 ') }
+            # dracula: session + path + branch + node version + time + aws cloud cap.
+            '*dracula*'   { return @($sc.cyan, 'user ', $sc.blue, 'C:\proj\ccbit ', $sc.purple, '⎇ main ', $sc.cyan, 'node 22.1 ', $sc.yellow, '12:27 ', $sc.green, 'aws default ') }
             default       { return @($sc.blue, 'C:\proj\ccbit ', $sc.green, 'main ', $sc.purple, '❯ ') }
         }
     }
@@ -84,9 +93,11 @@ function Get-PoshPalettePromptParts {
 # shows a representative prompt plus a few commands + output, all theme-colored.
 function Show-PoshPalettePreview {
     param($Theme, [int] $Left = 42, [int] $Top = 4)
-    $W = 48
     $bw = try { [Console]::BufferWidth } catch { 120 }
-    if ($bw -lt ($Left + $W + 1)) { return }   # not enough room for a side panel; skip cleanly
+    # Use the room available, up to a comfortable shell width, so the preview reads
+    # like a real terminal window instead of a cramped strip.
+    $W = [Math]::Min(74, $bw - $Left - 2)
+    if ($W -lt 40) { return }   # not enough room for a usable side panel; skip cleanly
 
     $sc = $Theme.terminal.scheme
     $pr = $Theme.psReadLine
@@ -98,33 +109,53 @@ function Show-PoshPalettePreview {
     $row = {
         param([object[]] $parts)
         $s = "$e[48;2;${bg}m"; $len = 0
-        for ($j = 0; $j -lt $parts.Count; $j += 2) {
+        for ($j = 0; $j -lt $parts.Count -and $len -lt $W; $j += 2) {
             $hex = $parts[$j]; if (-not $hex) { $hex = $sc.foreground }
-            $s += "$e[38;2;$(& $rgb $hex)m$($parts[$j + 1])"
-            $len += ('' + $parts[$j + 1]).Length
+            $txt = '' + $parts[$j + 1]
+            if ($len + $txt.Length -gt $W) { $txt = $txt.Substring(0, $W - $len) }   # clip to panel
+            $s += "$e[38;2;$(& $rgb $hex)m$txt"
+            $len += $txt.Length
         }
         if ($len -lt $W) { $s += (' ' * ($W - $len)) }
         $s + "$e[0m"
     }
 
-    # The prompt (drawn from scheme colors) followed by a typed command, on the bg.
-    $promptParts = Get-PoshPalettePromptParts $Theme
-    $promptStr = ' '; $promptVis = 1
-    for ($j = 0; $j -lt $promptParts.Count; $j += 2) {
-        $hex = $promptParts[$j]; if (-not $hex) { $hex = $sc.foreground }
-        $promptStr += "$e[38;2;$(& $rgb $hex)m$($promptParts[$j + 1])"
-        $promptVis += ('' + $promptParts[$j + 1]).Length
+    # Window chrome: a titlebar one shade off the background, with traffic lights, so
+    # the preview reads as a terminal window rather than loose colored text on a block.
+    $blendHex = {
+        param($a, $b, $t)
+        $a = $a.TrimStart('#'); $b = $b.TrimStart('#')
+        $m = { param($i) [int]([Convert]::ToInt32($a.Substring($i, 2), 16) + ([Convert]::ToInt32($b.Substring($i, 2), 16) - [Convert]::ToInt32($a.Substring($i, 2), 16)) * $t) }
+        '#{0:X2}{1:X2}{2:X2}' -f (& $m 0), (& $m 2), (& $m 4)
     }
+    $chrome   = & $rgb (& $blendHex $sc.background $sc.foreground 0.14)
+    $titleHex = & $blendHex $sc.background $sc.foreground 0.5
+    $crow = {
+        param([object[]] $parts)
+        $s = "$e[48;2;${chrome}m"; $len = 0
+        for ($j = 0; $j -lt $parts.Count -and $len -lt $W; $j += 2) {
+            $hex = $parts[$j]; if (-not $hex) { $hex = $sc.foreground }
+            $txt = '' + $parts[$j + 1]
+            if ($len + $txt.Length -gt $W) { $txt = $txt.Substring(0, $W - $len) }
+            $s += "$e[38;2;$(& $rgb $hex)m$txt"
+            $len += $txt.Length
+        }
+        if ($len -lt $W) { $s += (' ' * ($W - $len)) }
+        $s + "$e[0m"
+    }
+    $titlebar = & $crow @($titleHex, ' ', '#FF5F56', '● ', '#FFBD2E', '● ', '#27C93F', '● ', $titleHex, '  ~/dev/posh-palette')
+
+    # The prompt is drawn from the theme's own segments; render it (plus a typed
+    # command) through $row so it clips to the panel width instead of overflowing.
+    $promptParts = Get-PoshPalettePromptParts $Theme
     $prow = {
         param($cmdHex, $cmdText)
         if (-not $cmdHex) { $cmdHex = $sc.foreground }
-        $vis = $promptVis + ('' + $cmdText).Length
-        $s = "$e[48;2;${bg}m$promptStr$e[38;2;$(& $rgb $cmdHex)m$cmdText"
-        if ($vis -lt $W) { $s += (' ' * ($W - $vis)) }
-        $s + "$e[0m"
+        & $row (@($sc.foreground, ' ') + $promptParts + @($cmdHex, $cmdText))
     }
 
     $lines = @(
+        $titlebar
         (& $prow $pr.Command 'Get-ChildItem')
         (& $row  @($null, ''))
         (& $row  @($ps.TableHeader, 'Mode    LastWriteTime      Length Name'))

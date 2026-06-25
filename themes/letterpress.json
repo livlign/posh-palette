@@ -1,0 +1,13 @@
+{
+  "id": "letterpress",
+  "name": "Letterpress",
+  "description": "Warm oat paper with editorial inks — navy, madder, olive, ochre and teal. A light theme.",
+  "scheme": "letterpress",
+  "palette": "letterpress",
+  "prompt": "auto-tokyonight",
+  "font": "geistmono",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 5
+}

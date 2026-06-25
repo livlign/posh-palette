@@ -1,0 +1,26 @@
+{
+  "id": "oxblood",
+  "name": "Oxblood",
+  "colors": {
+    "background": "#140B0D",
+    "foreground": "#E8D2D4",
+    "cursorColor": "#E0483A",
+    "selectionBackground": "#3A2227",
+    "black": "#231417",
+    "red": "#FF4D54",
+    "green": "#C9A24A",
+    "yellow": "#E0B24A",
+    "blue": "#D9743F",
+    "purple": "#E0556B",
+    "cyan": "#E0A36A",
+    "white": "#E8D2D4",
+    "brightBlack": "#7A5458",
+    "brightRed": "#FF686E",
+    "brightGreen": "#CFAD60",
+    "brightYellow": "#D9743F",
+    "brightBlue": "#E86B72",
+    "brightPurple": "#C8324B",
+    "brightCyan": "#E4AE7C",
+    "brightWhite": "#FFFFFF"
+  }
+}

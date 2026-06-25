@@ -1,0 +1,26 @@
+{
+  "id": "aubade",
+  "name": "Aubade",
+  "colors": {
+    "background": "#FBF6FB",
+    "foreground": "#3A3340",
+    "cursorColor": "#AE3F84",
+    "selectionBackground": "#EBE2EE",
+    "black": "#33293F",
+    "red": "#C0303A",
+    "green": "#2E7D6E",
+    "yellow": "#8C610C",
+    "blue": "#4A3CC0",
+    "purple": "#8A4BC0",
+    "cyan": "#AE3F84",
+    "white": "#FFFFFF",
+    "brightBlack": "#9A8FA8",
+    "brightRed": "#C0303A",
+    "brightGreen": "#2E7D6E",
+    "brightYellow": "#AE3F84",
+    "brightBlue": "#4A3CC0",
+    "brightPurple": "#F2D08A",
+    "brightCyan": "#AE3F84",
+    "brightWhite": "#3A3340"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "id": "auto-dracula",
+  "name": "Auto · Dracula",
+  "generate": true,
+  "style": "dracula",
+  "gradient": ["#A9CBF0", "#C3B0EE", "#ECAFD6", "#F6B9AB", "#F0D08A"],
+  "note": "Palette-aware port of oh-my-posh's dracula: a powerline chain (user · path · branch · node · time) with an aws cap. Uses the prompt's gradient colours for the segment fills. Needs a Nerd Font for the powerline separators."
+}

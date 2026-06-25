@@ -1,0 +1,13 @@
+{
+  "id": "citrus-ink",
+  "name": "Citrus Ink",
+  "description": "Chartreuse and amber on teal-ink — punchy, confident duotone minimal.",
+  "scheme": "citrus-ink",
+  "palette": "citrus-ink",
+  "prompt": "auto-lambda",
+  "font": "jetbrains",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 4
+}

@@ -1,0 +1,21 @@
+{
+  "id": "oxblood",
+  "name": "Oxblood",
+  "psReadLine": {
+    "Command": "#D9743F",
+    "Parameter": "#E0A36A",
+    "String": "#C9A24A",
+    "Operator": "#E0556B",
+    "Variable": "#E0B24A",
+    "Number": "#D9743F",
+    "Comment": "#7A5458",
+    "Error": "#FF4D54",
+    "Default": "#E8D2D4",
+    "InlinePrediction": "#7A5458"
+  },
+  "psStyle": {
+    "Directory": "#E86B72",
+    "Error": "#FF4D54",
+    "TableHeader": "#C8324B"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "opaline",
+  "name": "Opaline",
+  "colors": {
+    "background": "#131121",
+    "foreground": "#ECE9F7",
+    "cursorColor": "#FFB3D6",
+    "selectionBackground": "#2C2748",
+    "black": "#201B33",
+    "red": "#FF6B92",
+    "green": "#86E6B4",
+    "yellow": "#FFC2AE",
+    "blue": "#8FB4FF",
+    "purple": "#BE9BFF",
+    "cyan": "#5FE3D8",
+    "white": "#ECE9F7",
+    "brightBlack": "#6B678F",
+    "brightRed": "#FF81A2",
+    "brightGreen": "#95E9BD",
+    "brightYellow": "#F4D27E",
+    "brightBlue": "#B79BFF",
+    "brightPurple": "#FF9ED2",
+    "brightCyan": "#72E6DD",
+    "brightWhite": "#FFFFFF"
+  }
+}

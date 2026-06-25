@@ -109,7 +109,10 @@ function Resolve-PoshPaletteTheme {
     # which generates a config from this scheme's colors so the prompt matches.
     $promptBlock = if ($prompt -and $prompt.generate) {
         $style = if ($prompt.style) { $prompt.style } else { 'classic' }
-        @{ generated = $true; name = "pp-$($prompt.id)"; config = (New-PoshPaletteOmpConfig $scheme.colors -Style $style) }
+        # A prompt may carry a fixed gradient ramp (e.g. the 'dracula' style); pass it through.
+        $ompArgs = @{ Style = $style }
+        if ($prompt.gradient) { $ompArgs['Gradient'] = $prompt.gradient }
+        @{ generated = $true; name = "pp-$($prompt.id)"; config = (New-PoshPaletteOmpConfig $scheme.colors @ompArgs) }
     } elseif ($prompt) {
         @{ ohMyPoshTheme = $prompt.ohMyPoshTheme }
     } else {

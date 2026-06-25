@@ -1,0 +1,21 @@
+{
+  "id": "opaline",
+  "name": "Opaline",
+  "psReadLine": {
+    "Command": "#8FB4FF",
+    "Parameter": "#5FE3D8",
+    "String": "#86E6B4",
+    "Operator": "#BE9BFF",
+    "Variable": "#FFC2AE",
+    "Number": "#F4D27E",
+    "Comment": "#6B678F",
+    "Error": "#FF6B92",
+    "Default": "#ECE9F7",
+    "InlinePrediction": "#6B678F"
+  },
+  "psStyle": {
+    "Directory": "#B79BFF",
+    "Error": "#FF6B92",
+    "TableHeader": "#FF9ED2"
+  }
+}

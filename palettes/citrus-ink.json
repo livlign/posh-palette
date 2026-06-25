@@ -1,0 +1,21 @@
+{
+  "id": "citrus-ink",
+  "name": "Citrus Ink",
+  "psReadLine": {
+    "Command": "#C2EF45",
+    "Parameter": "#CFE89A",
+    "String": "#5FD3A0",
+    "Operator": "#F2B441",
+    "Variable": "#E6C84A",
+    "Number": "#F2A23E",
+    "Comment": "#4F6B5E",
+    "Error": "#FF6B5B",
+    "Default": "#EAF0E2",
+    "InlinePrediction": "#4F6B5E"
+  },
+  "psStyle": {
+    "Directory": "#B8E62E",
+    "Error": "#FF6B5B",
+    "TableHeader": "#B8E62E"
+  }
+}
