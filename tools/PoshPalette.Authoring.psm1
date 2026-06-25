@@ -165,7 +165,10 @@ function Test-PoshPaletteContrast {
     # the expected shape is absent, throw a diagnostic naming what we actually got.
     $schemeColors = if ($scheme.PSObject.Properties['colors']) { $scheme.colors } else { $scheme }
     if (-not $schemeColors.PSObject.Properties['background']) {
-        throw "scheme '$schemeId' has no background color. Root='$script:Root'; top-level props=[$($scheme.PSObject.Properties.Name -join ', ')]"
+        $st = "" + $scheme
+        throw ("scheme '$schemeId' has no background color. type=$($scheme.GetType().FullName); " +
+               "root='$script:Root'; props=[$($scheme.PSObject.Properties.Name -join ', ')]; " +
+               "head=<<$($st.Substring(0,[Math]::Min(100,$st.Length)))>>")
     }
     $bg = $schemeColors.background
 
