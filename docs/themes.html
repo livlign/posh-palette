@@ -279,66 +279,250 @@
   <noscript>
     <style>
       .ns-fallback{margin-top:8px;color:var(--ink-dim);font:15px/1.6 var(--sans)}
-      .ns-fallback h2{color:var(--ink);font-size:24px;font-weight:800;margin:0 0 10px}
-      .ns-fallback p{max-width:60ch}
-      .ns-themes{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
-      .ns-themes li{padding:12px 14px;background:var(--surface);border:1px solid var(--hair);border-radius:var(--rad)}
-      .ns-themes strong{color:var(--ink)}
-      .ns-themes em{color:var(--ink-faint);font-style:normal}
-      .ns-themes code{font:13px var(--mono);color:var(--accent-2)}
+      .ns-fallback>p{max-width:60ch}
+      .ns-theme{padding:14px 16px;margin:12px 0 0;background:var(--surface);border:1px solid var(--hair);border-radius:var(--rad);scroll-margin-top:90px}
+      .ns-theme h2{color:var(--ink);font-size:18px;font-weight:700;margin:0 0 4px}
+      .ns-theme p{margin:2px 0}
+      .ns-theme em{color:var(--ink-faint);font-style:normal}
+      .ns-theme code{font:13px var(--mono);color:var(--accent-2)}
     </style>
     <div class="ns-fallback">
-      <h2>All 47 Posh Palette themes</h2>
       <p>The interactive gallery needs JavaScript. All 47 bundled themes are listed below — install any with <code>Install-PoshPaletteTheme &lt;name&gt;</code>.</p>
-      <ul class="ns-themes">
-        <li><strong>Opaline</strong> <em>(Pearl, dark)</em> — Iridescent pearl on deep indigo. <code>Install-PoshPaletteTheme opaline</code></li>
-        <li><strong>Patina</strong> <em>(Brass, dark)</em> — Aged brass and verdigris on pine-black. <code>Install-PoshPaletteTheme patina</code></li>
-        <li><strong>Oxblood</strong> <em>(Cellar, dark)</em> — Wine, sienna and antique gold on warm black. <code>Install-PoshPaletteTheme oxblood</code></li>
-        <li><strong>Citrus Ink</strong> <em>(Zest, dark)</em> — Chartreuse and amber on teal-ink. <code>Install-PoshPaletteTheme citrus-ink</code></li>
-        <li><strong>Letterpress</strong> <em>(Oat, light)</em> — Warm oat paper with editorial inks. <code>Install-PoshPaletteTheme letterpress</code></li>
-        <li><strong>Aubade</strong> <em>(Dawn, light)</em> — A pastel dawn gradient on warm white. <code>Install-PoshPaletteTheme aubade</code></li>
-        <li><strong>Eclipse</strong> <em>(Umbra, dark)</em> — Deep slate and soft white, tuned for marathon sessions without eye strain. <code>Install-PoshPaletteTheme eclipse</code></li>
-        <li><strong>Graphite</strong> <em>(Mono, dark)</em> — Near-monochrome graphite with a single steel-blue accent. <code>Install-PoshPaletteTheme graphite</code></li>
-        <li><strong>Driftwood</strong> <em>(Dune, dark)</em> — Warm neutral taupe with soft earthen tones. <code>Install-PoshPaletteTheme driftwood</code></li>
-        <li><strong>Prism</strong> <em>(Midnight, dark)</em> — Deep midnight navy lit by azure, cyan and starlight gold. <code>Install-PoshPaletteTheme prism</code></li>
-        <li><strong>Daybreak</strong> <em>(Haze, light)</em> — Soft warm paper with gentle, low-glare accents. <code>Install-PoshPaletteTheme daybreak</code></li>
-        <li><strong>Porcelain</strong> <em>(Bisque, light)</em> — Crisp cool white with clean, saturated accents. <code>Install-PoshPaletteTheme porcelain</code></li>
-        <li><strong>Nebula Drift</strong> <em>(Cosmos, dark)</em> — Deep-space indigo with violet, magenta and starlight cyan. <code>Install-PoshPaletteTheme nebula-drift</code></li>
-        <li><strong>Verdigris</strong> <em>(Patina, dark)</em> — Oxidized copper and bronze, lit by patina green. <code>Install-PoshPaletteTheme verdigris</code></li>
-        <li><strong>Miami Heat</strong> <em>(Vice, dark)</em> — Vaporwave neon — hot magenta and electric cyan on violet. <code>Install-PoshPaletteTheme miami-heat</code></li>
-        <li><strong>Forge Ember</strong> <em>(Molten, dark)</em> — Charcoal struck through with molten orange, red and amber. <code>Install-PoshPaletteTheme forge-ember</code></li>
-        <li><strong>Matcha Zen</strong> <em>(Garden, light)</em> — Matcha green on warm paper. Calm, light, legible. <code>Install-PoshPaletteTheme matcha-zen</code></li>
-        <li><strong>Velvet Court</strong> <em>(Regalia, dark)</em> — Deep burgundy and royal purple finished with gold. <code>Install-PoshPaletteTheme velvet-court</code></li>
-        <li><strong>Acid Lime</strong> <em>(Toxic, dark)</em> — Pitch black charged with acid lime and electric green. <code>Install-PoshPaletteTheme acid-lime</code></li>
-        <li><strong>Frostbyte</strong> <em>(Glacier, light)</em> — Icy blue-white with cold steel. A bright winter light theme. <code>Install-PoshPaletteTheme frostbyte</code></li>
-        <li><strong>Halcyon</strong> <em>(Twilight, dark)</em> — Dreamy twilight — dusty rose, periwinkle and soft gold. <code>Install-PoshPaletteTheme halcyon</code></li>
-        <li><strong>Tokyo Night</strong> <em>(Storm, dark)</em> — Clean dark blue, inspired by Tokyo at night. <code>Install-PoshPaletteTheme tokyo-night</code></li>
-        <li><strong>Synthwave '84</strong> <em>(Neon, dark)</em> — Neon pink and cyan on deep indigo. Pure 80s. <code>Install-PoshPaletteTheme synthwave</code></li>
-        <li><strong>Catppuccin</strong> <em>(Latte, light)</em> — Warm, low-glare light theme. Catppuccin for daytime. <code>Install-PoshPaletteTheme catppuccin-latte</code></li>
-        <li><strong>Gruvbox</strong> <em>(Dark, dark)</em> — Retro, earthy, easy on the eyes. <code>Install-PoshPaletteTheme gruvbox</code></li>
-        <li><strong>Green Phosphor</strong> <em>(CRT, dark)</em> — One color, all the way down. Old-school CRT. <code>Install-PoshPaletteTheme green-phosphor</code></li>
-        <li><strong>Solarized</strong> <em>(Dark, dark)</em> — The precision-engineered original. Tuned contrast. <code>Install-PoshPaletteTheme solarized-dark</code></li>
-        <li><strong>Dracula</strong> <em>(Vivid, dark)</em> — High-contrast neon on charcoal. The classic. <code>Install-PoshPaletteTheme dracula</code></li>
-        <li><strong>High Contrast</strong> <em>(AAA, dark)</em> — Maximum legibility. Pure black, bright primaries. <code>Install-PoshPaletteTheme high-contrast</code></li>
-        <li><strong>Rosé Pine</strong> <em>(Main, dark)</em> — Muted, cozy, all soho vibes. <code>Install-PoshPaletteTheme rose-pine</code></li>
-        <li><strong>Nord</strong> <em>(Polar, dark)</em> — Arctic, north-bluish muted palette. <code>Install-PoshPaletteTheme nord</code></li>
-        <li><strong>Monokai Pro</strong> <em>(Spectrum, dark)</em> — The legend, refined. Punchy pinks and limes. <code>Install-PoshPaletteTheme monokai-pro</code></li>
-        <li><strong>One Dark</strong> <em>(Atom, dark)</em> — The editor classic, brought to the shell. <code>Install-PoshPaletteTheme one-dark</code></li>
-        <li><strong>Cyberpunk</strong> <em>(Neon, dark)</em> — Acid yellow, hot magenta, electric cyan. Night City. <code>Install-PoshPaletteTheme cyberpunk</code></li>
-        <li><strong>Catppuccin</strong> <em>(Mocha, dark)</em> — Soothing pastel dark theme. The crowd favorite. <code>Install-PoshPaletteTheme catppuccin-mocha</code></li>
-        <li><strong>GitHub</strong> <em>(Dark, dark)</em> — The hub you already know, after dark. <code>Install-PoshPaletteTheme github-dark</code></li>
-        <li><strong>Everforest</strong> <em>(Dark, dark)</em> — Soft forest greens. Comfortable for long sessions. <code>Install-PoshPaletteTheme everforest</code></li>
-        <li><strong>Kanagawa</strong> <em>(Wave, dark)</em> — Inspired by Hokusai. Inky blues and washed paper. <code>Install-PoshPaletteTheme kanagawa</code></li>
-        <li><strong>Horizon</strong> <em>(Dark, dark)</em> — Warm coral sunset. Soft on a dark night. <code>Install-PoshPaletteTheme horizon</code></li>
-        <li><strong>Ayu</strong> <em>(Dark, dark)</em> — Inky background, one warm amber accent. <code>Install-PoshPaletteTheme ayu-dark</code></li>
-        <li><strong>Night Owl</strong> <em>(Deep, dark)</em> — Built for late nights. Deep ocean blue. <code>Install-PoshPaletteTheme night-owl</code></li>
-        <li><strong>Oxocarbon</strong> <em>(Dark, dark)</em> — IBM Carbon, after dark. Crisp pink and blue. <code>Install-PoshPaletteTheme oxocarbon</code></li>
-        <li><strong>GitHub</strong> <em>(Light, light)</em> — The hub you know, in broad daylight. <code>Install-PoshPaletteTheme github-light</code></li>
-        <li><strong>Solarized</strong> <em>(Light, light)</em> — The famous cream. Engineered for comfort. <code>Install-PoshPaletteTheme solarized-light</code></li>
-        <li><strong>Rosé Pine</strong> <em>(Dawn, light)</em> — Soho mornings. Warm, rosy, light. <code>Install-PoshPaletteTheme rose-pine-dawn</code></li>
-        <li><strong>Amber CRT</strong> <em>(Retro, dark)</em> — Warm amber glow. The terminal your dad used. <code>Install-PoshPaletteTheme amber-crt</code></li>
-        <li><strong>Campbell</strong> <em>(Default, dark)</em> — The Windows Terminal default. Your familiar home base. <code>Install-PoshPaletteTheme campbell</code></li>
-      </ul>
+        <section id="theme-opaline" class="ns-theme">
+          <h2>Opaline Pearl</h2>
+          <p>Iridescent pearl on deep indigo. <em>(Pearl · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme opaline</code></p>
+        </section>
+        <section id="theme-patina" class="ns-theme">
+          <h2>Patina Brass</h2>
+          <p>Aged brass and verdigris on pine-black. <em>(Brass · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme patina</code></p>
+        </section>
+        <section id="theme-oxblood" class="ns-theme">
+          <h2>Oxblood Cellar</h2>
+          <p>Wine, sienna and antique gold on warm black. <em>(Cellar · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme oxblood</code></p>
+        </section>
+        <section id="theme-citrus-ink" class="ns-theme">
+          <h2>Citrus Ink Zest</h2>
+          <p>Chartreuse and amber on teal-ink. <em>(Zest · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme citrus-ink</code></p>
+        </section>
+        <section id="theme-letterpress" class="ns-theme">
+          <h2>Letterpress Oat</h2>
+          <p>Warm oat paper with editorial inks. Light. <em>(Oat · light)</em></p>
+          <p><code>Install-PoshPaletteTheme letterpress</code></p>
+        </section>
+        <section id="theme-aubade" class="ns-theme">
+          <h2>Aubade Dawn</h2>
+          <p>A pastel dawn gradient on warm white. Light. <em>(Dawn · light)</em></p>
+          <p><code>Install-PoshPaletteTheme aubade</code></p>
+        </section>
+        <section id="theme-eclipse" class="ns-theme">
+          <h2>Eclipse Umbra</h2>
+          <p>Deep slate and soft white, tuned for marathon sessions without eye strain. <em>(Umbra · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme eclipse</code></p>
+        </section>
+        <section id="theme-graphite" class="ns-theme">
+          <h2>Graphite Mono</h2>
+          <p>Near-monochrome graphite with a single steel-blue accent. <em>(Mono · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme graphite</code></p>
+        </section>
+        <section id="theme-driftwood" class="ns-theme">
+          <h2>Driftwood Dune</h2>
+          <p>Warm neutral taupe with soft earthen tones. <em>(Dune · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme driftwood</code></p>
+        </section>
+        <section id="theme-prism" class="ns-theme">
+          <h2>Prism Midnight</h2>
+          <p>Deep midnight navy lit by azure, cyan and starlight gold. <em>(Midnight · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme prism</code></p>
+        </section>
+        <section id="theme-daybreak" class="ns-theme">
+          <h2>Daybreak Haze</h2>
+          <p>Soft warm paper with gentle, low-glare accents. <em>(Haze · light)</em></p>
+          <p><code>Install-PoshPaletteTheme daybreak</code></p>
+        </section>
+        <section id="theme-porcelain" class="ns-theme">
+          <h2>Porcelain Bisque</h2>
+          <p>Crisp cool white with clean, saturated accents. <em>(Bisque · light)</em></p>
+          <p><code>Install-PoshPaletteTheme porcelain</code></p>
+        </section>
+        <section id="theme-nebula-drift" class="ns-theme">
+          <h2>Nebula Drift Cosmos</h2>
+          <p>Deep-space indigo with violet, magenta and starlight cyan. <em>(Cosmos · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme nebula-drift</code></p>
+        </section>
+        <section id="theme-verdigris" class="ns-theme">
+          <h2>Verdigris Patina</h2>
+          <p>Oxidized copper and bronze, lit by patina green. <em>(Patina · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme verdigris</code></p>
+        </section>
+        <section id="theme-miami-heat" class="ns-theme">
+          <h2>Miami Heat Vice</h2>
+          <p>Vaporwave neon — hot magenta and electric cyan on violet. <em>(Vice · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme miami-heat</code></p>
+        </section>
+        <section id="theme-forge-ember" class="ns-theme">
+          <h2>Forge Ember Molten</h2>
+          <p>Charcoal struck through with molten orange, red and amber. <em>(Molten · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme forge-ember</code></p>
+        </section>
+        <section id="theme-matcha-zen" class="ns-theme">
+          <h2>Matcha Zen Garden</h2>
+          <p>Matcha green on warm paper. Calm, light, legible. <em>(Garden · light)</em></p>
+          <p><code>Install-PoshPaletteTheme matcha-zen</code></p>
+        </section>
+        <section id="theme-velvet-court" class="ns-theme">
+          <h2>Velvet Court Regalia</h2>
+          <p>Deep burgundy and royal purple finished with gold. <em>(Regalia · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme velvet-court</code></p>
+        </section>
+        <section id="theme-acid-lime" class="ns-theme">
+          <h2>Acid Lime Toxic</h2>
+          <p>Pitch black charged with acid lime and electric green. <em>(Toxic · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme acid-lime</code></p>
+        </section>
+        <section id="theme-frostbyte" class="ns-theme">
+          <h2>Frostbyte Glacier</h2>
+          <p>Icy blue-white with cold steel. A bright winter light theme. <em>(Glacier · light)</em></p>
+          <p><code>Install-PoshPaletteTheme frostbyte</code></p>
+        </section>
+        <section id="theme-halcyon" class="ns-theme">
+          <h2>Halcyon Twilight</h2>
+          <p>Dreamy twilight — dusty rose, periwinkle and soft gold. <em>(Twilight · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme halcyon</code></p>
+        </section>
+        <section id="theme-tokyo-night" class="ns-theme">
+          <h2>Tokyo Night Storm</h2>
+          <p>Clean dark blue, inspired by Tokyo at night. <em>(Storm · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme tokyo-night</code></p>
+        </section>
+        <section id="theme-synthwave" class="ns-theme">
+          <h2>Synthwave &#x27;84 Neon</h2>
+          <p>Neon pink and cyan on deep indigo. Pure 80s. <em>(Neon · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme synthwave</code></p>
+        </section>
+        <section id="theme-catppuccin-latte" class="ns-theme">
+          <h2>Catppuccin Latte</h2>
+          <p>Warm, low-glare light theme. Catppuccin for daytime. <em>(Latte · light)</em></p>
+          <p><code>Install-PoshPaletteTheme catppuccin-latte</code></p>
+        </section>
+        <section id="theme-gruvbox" class="ns-theme">
+          <h2>Gruvbox Dark</h2>
+          <p>Retro, earthy, easy on the eyes. <em>(Dark · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme gruvbox</code></p>
+        </section>
+        <section id="theme-green-phosphor" class="ns-theme">
+          <h2>Green Phosphor CRT</h2>
+          <p>One color, all the way down. Old-school CRT. <em>(CRT · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme green-phosphor</code></p>
+        </section>
+        <section id="theme-solarized-dark" class="ns-theme">
+          <h2>Solarized Dark</h2>
+          <p>The precision-engineered original. Tuned contrast. <em>(Dark · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme solarized-dark</code></p>
+        </section>
+        <section id="theme-dracula" class="ns-theme">
+          <h2>Dracula Vivid</h2>
+          <p>High-contrast neon on charcoal. The classic. <em>(Vivid · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme dracula</code></p>
+        </section>
+        <section id="theme-high-contrast" class="ns-theme">
+          <h2>High Contrast AAA</h2>
+          <p>Maximum legibility. Pure black, bright primaries. <em>(AAA · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme high-contrast</code></p>
+        </section>
+        <section id="theme-rose-pine" class="ns-theme">
+          <h2>Rosé Pine</h2>
+          <p>Muted, cozy, all soho vibes. <em>(Main · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme rose-pine</code></p>
+        </section>
+        <section id="theme-nord" class="ns-theme">
+          <h2>Nord Polar</h2>
+          <p>Arctic, north-bluish muted palette. <em>(Polar · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme nord</code></p>
+        </section>
+        <section id="theme-monokai-pro" class="ns-theme">
+          <h2>Monokai Pro Spectrum</h2>
+          <p>The legend, refined. Punchy pinks and limes. <em>(Spectrum · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme monokai-pro</code></p>
+        </section>
+        <section id="theme-one-dark" class="ns-theme">
+          <h2>One Dark Atom</h2>
+          <p>The editor classic, brought to the shell. <em>(Atom · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme one-dark</code></p>
+        </section>
+        <section id="theme-cyberpunk" class="ns-theme">
+          <h2>Cyberpunk Neon</h2>
+          <p>Acid yellow, hot magenta, electric cyan. Night City. <em>(Neon · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme cyberpunk</code></p>
+        </section>
+        <section id="theme-catppuccin-mocha" class="ns-theme">
+          <h2>Catppuccin Mocha</h2>
+          <p>Soothing pastel dark theme. The crowd favorite. <em>(Mocha · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme catppuccin-mocha</code></p>
+        </section>
+        <section id="theme-github-dark" class="ns-theme">
+          <h2>GitHub Dark</h2>
+          <p>The hub you already know, after dark. <em>(Dark · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme github-dark</code></p>
+        </section>
+        <section id="theme-everforest" class="ns-theme">
+          <h2>Everforest Dark</h2>
+          <p>Soft forest greens. Comfortable for long sessions. <em>(Dark · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme everforest</code></p>
+        </section>
+        <section id="theme-kanagawa" class="ns-theme">
+          <h2>Kanagawa Wave</h2>
+          <p>Inspired by Hokusai. Inky blues and washed paper. <em>(Wave · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme kanagawa</code></p>
+        </section>
+        <section id="theme-horizon" class="ns-theme">
+          <h2>Horizon Dark</h2>
+          <p>Warm coral sunset. Soft on a dark night. <em>(Dark · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme horizon</code></p>
+        </section>
+        <section id="theme-ayu-dark" class="ns-theme">
+          <h2>Ayu Dark</h2>
+          <p>Inky background, one warm amber accent. <em>(Dark · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme ayu-dark</code></p>
+        </section>
+        <section id="theme-night-owl" class="ns-theme">
+          <h2>Night Owl Deep</h2>
+          <p>Built for late nights. Deep ocean blue. <em>(Deep · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme night-owl</code></p>
+        </section>
+        <section id="theme-oxocarbon" class="ns-theme">
+          <h2>Oxocarbon Dark</h2>
+          <p>IBM Carbon, after dark. Crisp pink and blue. <em>(Dark · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme oxocarbon</code></p>
+        </section>
+        <section id="theme-github-light" class="ns-theme">
+          <h2>GitHub Light</h2>
+          <p>The hub you know, in broad daylight. <em>(Light · light)</em></p>
+          <p><code>Install-PoshPaletteTheme github-light</code></p>
+        </section>
+        <section id="theme-solarized-light" class="ns-theme">
+          <h2>Solarized Light</h2>
+          <p>The famous cream. Engineered for comfort. <em>(Light · light)</em></p>
+          <p><code>Install-PoshPaletteTheme solarized-light</code></p>
+        </section>
+        <section id="theme-rose-pine-dawn" class="ns-theme">
+          <h2>Rosé Pine Dawn</h2>
+          <p>Soho mornings. Warm, rosy, light. <em>(Dawn · light)</em></p>
+          <p><code>Install-PoshPaletteTheme rose-pine-dawn</code></p>
+        </section>
+        <section id="theme-amber-crt" class="ns-theme">
+          <h2>Amber CRT Retro</h2>
+          <p>Warm amber glow. The terminal your dad used. <em>(Retro · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme amber-crt</code></p>
+        </section>
+        <section id="theme-campbell" class="ns-theme">
+          <h2>Campbell</h2>
+          <p>The Windows Terminal default. Your familiar home base. <em>(Default · dark)</em></p>
+          <p><code>Install-PoshPaletteTheme campbell</code></p>
+        </section>
     </div>
   </noscript>
 </div>
