@@ -13,10 +13,11 @@
     AliasesToExport   = @('palette')
     PrivateData       = @{
         PSData = @{
-            Tags         = @('terminal','theme','powershell','windows-terminal','psreadline','oh-my-posh','prompt','colorscheme')
+            Tags         = @('terminal','theme','powershell','pwsh','windows-terminal','psreadline','oh-my-posh','prompt','colorscheme','color-scheme','tui','nerd-fonts')
             LicenseUri   = 'https://github.com/livlign/posh-palette/blob/main/LICENSE'
             ProjectUri   = 'https://github.com/livlign/posh-palette'
-            ReleaseNotes = 'https://github.com/livlign/posh-palette/blob/main/CHANGELOG.md'
+            IconUri      = 'https://livlign.github.io/posh-palette/icon-256.png'
+            ReleaseNotes = 'v0.7.0: six new themes (Drift set), oh-my-posh prompt ports, richer live preview. 47 bundled themes. Full history in CHANGELOG.md.'
         }
     }
 }

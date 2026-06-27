@@ -1,7 +1,7 @@
 # Posh Palette
 
 <p align="center">
-  <img src="assets/posh-palette-demo.gif" alt="Posh Palette: browsing the theme gallery and applying a look live in the terminal" width="100%">
+  <img src="assets/posh-palette-session.gif" alt="Posh Palette: browsing the theme gallery and applying a look live in the terminal" width="100%">
 </p>
 
 [![PowerShell Gallery](https://img.shields.io/powershellgallery/v/PoshPalette?logo=powershell&label=PowerShell%20Gallery)](https://www.powershellgallery.com/packages/PoshPalette)
@@ -12,6 +12,12 @@
 An interactive theme picker for **PowerShell + Windows Terminal**. Browse a
 gallery of looks, preview them live, and apply one across all **4 layers** at
 once, without leaving your terminal.
+
+<p align="center">
+  <a href="https://livlign.github.io/posh-palette/themes.html"><img src="assets/theme-montage.png" alt="A montage of twelve Posh Palette themes — Eclipse, Tokyo Night, Dracula, Nord, Synthwave '84, Forge Ember, Gruvbox, Everforest, Catppuccin Latte, Matcha Zen, Amber CRT and Porcelain — each shown as a small terminal preview" width="100%"></a>
+</p>
+
+> **47 themes** from dark dev classics to neon and retro CRT — [browse the full gallery →](https://livlign.github.io/posh-palette/themes.html)
 
 > **Platform:** the Windows Terminal layer (scheme, background, opacity, font) is
 > Windows-only. The PSReadLine, `$PSStyle`, and oh-my-posh layers run in any
