@@ -1,6 +1,6 @@
 @{
     RootModule        = 'PoshPalette.psm1'
-    ModuleVersion     = '0.7.0'
+    ModuleVersion     = '0.8.0'
     GUID              = '7c9e6a1b-4f2d-4b8e-9a3c-1d5f8b2e0a47'
     Author            = 'PoshPalette contributors'
     Copyright         = '(c) PoshPalette contributors. MIT licensed.'
@@ -17,7 +17,7 @@
             LicenseUri   = 'https://github.com/livlign/posh-palette/blob/main/LICENSE'
             ProjectUri   = 'https://github.com/livlign/posh-palette'
             IconUri      = 'https://livlign.github.io/posh-palette/icon-256.png'
-            ReleaseNotes = 'v0.7.0: six new themes (Drift set), oh-my-posh prompt ports, richer live preview. 47 bundled themes. Full history in CHANGELOG.md.'
+            ReleaseNotes = 'v0.8.0: applying a theme now detects Windows Terminal profiles that pin their own colorScheme/font/opacity (and so ignore the theme) and offers to clear them; missing fonts can be installed in-session; all confirmations use a unified up/down menu. Full history in CHANGELOG.md.'
         }
     }
 }

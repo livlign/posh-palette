@@ -213,3 +213,69 @@ function Set-JsoncArrayItemByName {
     $insert = "`n$indent$body$sep"
     return $Text.Substring(0, $ArrOpen + 1) + $insert + $Text.Substring($ArrOpen + 1)
 }
+
+# Delete a depth-1 member ("key": value) from the object at $ObjOpen, taking one
+# adjacent comma and the member's own line with it so the result stays tidy.
+# Returns the text unchanged if the key isn't present.
+function Remove-JsoncMember {
+    param([string] $Text, [int] $ObjOpen, [string] $Key)
+    $m = Find-JsoncMember $Text $ObjOpen $Key
+    if (-not $m) { return $Text }
+    $close = Find-JsoncBracketMatch $Text $ObjOpen
+
+    # Walk back from the value to the key's opening quote: value <- ws <- ':' <- ws <- "key".
+    $colon = $m.ValueStart - 1
+    while ($colon -gt $ObjOpen -and $Text[$colon] -ne ':') { $colon-- }
+    $keyEnd = $colon - 1
+    while ($keyEnd -gt $ObjOpen -and [char]::IsWhiteSpace($Text[$keyEnd])) { $keyEnd-- }
+    $keyStart = $Text.LastIndexOf('"', $keyEnd - 1)
+    if ($keyStart -lt 0) { return $Text }
+
+    $s = $keyStart; $e = $m.ValueEnd
+    # Consume one separating comma (trailing preferred, else leading).
+    $k = $e + 1
+    while ($k -lt $close -and [char]::IsWhiteSpace($Text[$k])) { $k++ }
+    if ($k -lt $close -and $Text[$k] -eq ',') {
+        $e = $k
+    } else {
+        $p = $s - 1
+        while ($p -gt $ObjOpen -and [char]::IsWhiteSpace($Text[$p])) { $p-- }
+        if ($p -gt $ObjOpen -and $Text[$p] -eq ',') { $s = $p }
+    }
+    # Swallow the now-blank line's leading indent + newline.
+    $ls = $s - 1
+    while ($ls -gt $ObjOpen -and ($Text[$ls] -eq ' ' -or $Text[$ls] -eq "`t")) { $ls-- }
+    if ($ls -ge $ObjOpen -and $Text[$ls] -eq "`n") { $s = $ls }
+
+    return $Text.Substring(0, $s) + $Text.Substring($e + 1)
+}
+
+# Find the open-brace offset of the first object in the array at $ArrOpen whose
+# string member $Key equals $Value. Returns -1 if none match.
+function Find-JsoncArrayObjectByMember {
+    param([string] $Text, [int] $ArrOpen, [string] $Key, [string] $Value)
+    $close = Find-JsoncBracketMatch $Text $ArrOpen
+    $i = $ArrOpen + 1; $inStr = $false; $esc = $false
+    while ($i -lt $close) {
+        $c = $Text[$i]
+        $next = if ($i + 1 -lt $close) { $Text[$i + 1] } else { [char]0 }
+        if ($inStr) {
+            if ($esc) { $esc = $false } elseif ($c -eq '\') { $esc = $true } elseif ($c -eq '"') { $inStr = $false }
+            $i++; continue
+        }
+        if ($c -eq '/' -and $next -eq '/') { while ($i -lt $close -and $Text[$i] -ne "`n") { $i++ }; continue }
+        if ($c -eq '/' -and $next -eq '*') { $i += 2; while ($i -lt $close -and -not ($Text[$i] -eq '*' -and $Text[$i + 1] -eq '/')) { $i++ }; $i += 2; continue }
+        if ($c -eq '"') { $inStr = $true; $i++; continue }
+        if ($c -eq '{') {
+            $objEnd = Find-JsoncBracketMatch $Text $i
+            $nm = Find-JsoncMember $Text $i $Key
+            if ($nm) {
+                $val = $Text.Substring($nm.ValueStart, $nm.ValueEnd - $nm.ValueStart + 1).Trim().Trim('"')
+                if ($val -eq $Value) { return $i }
+            }
+            $i = $objEnd + 1; continue
+        }
+        $i++
+    }
+    return -1
+}
