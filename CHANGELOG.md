@@ -5,6 +5,25 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.0]
+
+### Added
+- **Profile-override handling:** applying a theme now detects Windows Terminal
+  profiles that pin their own `colorScheme`, `font`, `opacity` or `useAcrylic`
+  (PoshPalette writes the theme to `profiles.defaults`, so such a profile would
+  silently keep its old look). When any are found it asks, via an up/down menu,
+  whether to clear them on just your default profile, on all profiles, or leave
+  them be. Honest about exactly which keys each profile shadows.
+- **In-session font install:** when a theme's font isn't installed, PoshPalette
+  offers to download and install it (per-user via the nerd-fonts release, no
+  admin) and set it right away, instead of only printing a manual command.
+
+### Changed
+- **Unified confirmations:** every interactive prompt (profile overrides, font
+  install, oh-my-posh install) now uses one up/down + Enter menu - no typed
+  yes/no input. Non-interactive runs (CI, piped input) fall back to the safe,
+  non-destructive choice.
+
 ## [0.7.0]
 
 ### Added

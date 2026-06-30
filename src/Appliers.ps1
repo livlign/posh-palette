@@ -47,6 +47,68 @@ function Get-PoshPaletteTerminalEdits {
     }
 }
 
+# Menu (up/down + Enter) asking whether to install a missing font.
+# Returns 'Install' or 'Keep'.
+function Show-PoshPaletteFontInstallMenu {
+    param([Parameter(Mandatory)][string] $Face)
+    $options = @(
+        [pscustomobject]@{ Action = 'Install'; Title = "Install '$Face' now"
+            Desc = 'Download and install it (per-user, no admin), then set it as your font.' }
+        [pscustomobject]@{ Action = 'Keep'; Title = 'Keep my current font'
+            Desc = 'Apply the theme but leave the terminal font as it is.' }
+    )
+    $header = {
+        Write-Host "  This theme uses '$Face', which isn't installed." -ForegroundColor Yellow
+        Write-Host ""
+    }.GetNewClosure()
+    Show-PoshPaletteChoice -Options $options -RenderHeader $header
+}
+
+# When a theme's font isn't installed, offer to install it in-session (per-user,
+# no admin) and keep it. Returns $true if the font is available afterwards (so the
+# caller applies it), $false to fall back to the current terminal font.
+function Confirm-PoshPaletteFontInstall {
+    param([Parameter(Mandatory)][string] $Face)
+
+    # Non-Windows can't read the font registry, so Test-* returns $true there and
+    # we never reach this; on Windows, bail early if it's already present.
+    if (Test-PoshPaletteFontInstalled $Face) { return $true }
+
+    # Need the catalog id to know which Nerd Font asset to fetch.
+    $fontId = (Get-PoshPaletteFonts | Where-Object { $_.face -eq $Face -or $_.name -eq $Face } | Select-Object -First 1).id
+
+    $interactive = [Environment]::UserInteractive -and -not [Console]::IsInputRedirected
+    if (-not $interactive -or -not $fontId) {
+        Write-Host "  Font '$Face' is not installed - keeping your current terminal font." -ForegroundColor Yellow
+        if ($fontId) { Write-Host "  Install it with:  Install-PoshPaletteFont $fontId" -ForegroundColor DarkGray }
+        else { Write-Host "  Install a matching Nerd Font, then set it as your terminal font." -ForegroundColor DarkGray }
+        return $false
+    }
+
+    $choice = Show-PoshPaletteFontInstallMenu -Face $Face
+    if ($choice -ne 'Install') {
+        Write-Host "  Keeping your current terminal font. Install later with:  Install-PoshPaletteFont $fontId" -ForegroundColor DarkGray
+        return $false
+    }
+
+    try {
+        Install-PoshPaletteFont $fontId
+    } catch {
+        Write-Host "  Font install failed: $_" -ForegroundColor Red
+        Write-Host "  Keeping your current terminal font." -ForegroundColor DarkGray
+        return $false
+    }
+
+    if (Test-PoshPaletteFontInstalled $Face) {
+        Write-Host "  '$Face' installed and set as your terminal font." -ForegroundColor Green
+    } else {
+        # Files copied but the registry hasn't caught up yet (rare). Apply anyway -
+        # Windows Terminal will pick it up, worst case after a restart.
+        Write-Host "  '$Face' installed and set. Restart the terminal if glyphs look off." -ForegroundColor Yellow
+    }
+    return $true
+}
+
 # Comment-preserving write: edit only the spans that change, so the user's
 # comments, key order, and formatting survive. Falls back to a parse->reserialize
 # round-trip if the file is too irregular to edit surgically.
@@ -57,20 +119,18 @@ function Set-PoshPaletteTerminalLayer {
     $schemeName = $edits.SchemeName
 
     # Don't set a font that isn't installed - that's what makes Windows Terminal
-    # pop the "Unable to find the following fonts" warning. Keep the user's font
-    # and point them at the installer instead.
+    # pop the "Unable to find the following fonts" warning. Offer to install it
+    # in-session; if the user declines (or it's unavailable), keep their font.
     $face = $edits.Defaults.font.face
     if ($face -and -not (Test-PoshPaletteFontInstalled $face)) {
-        # Suggest installing the font this theme actually needs - look up its id by
-        # face in the catalog rather than naming a fixed font.
-        $fontId = (Get-PoshPaletteFonts | Where-Object { $_.face -eq $face -or $_.name -eq $face } | Select-Object -First 1).id
-        Write-Host "  Font '$face' is not installed - keeping your current terminal font." -ForegroundColor Yellow
-        if ($fontId) {
-            Write-Host "  Install it with:  Install-PoshPaletteFont $fontId" -ForegroundColor DarkGray
-        } else {
-            Write-Host "  Install a matching Nerd Font, then set it as your terminal font." -ForegroundColor DarkGray
+        if ($DryRun) {
+            $fontId = (Get-PoshPaletteFonts | Where-Object { $_.face -eq $face -or $_.name -eq $face } | Select-Object -First 1).id
+            $hint = if ($fontId) { " (would offer to install '$fontId')" } else { '' }
+            Write-Host "  [dry-run] Font '$face' is not installed$hint." -ForegroundColor DarkGray
+            $edits.Defaults.Remove('font')
+        } elseif (-not (Confirm-PoshPaletteFontInstall $face)) {
+            $edits.Defaults.Remove('font')
         }
-        $edits.Defaults.Remove('font')
     }
 
     if ($DryRun) {
@@ -139,6 +199,177 @@ function Set-PoshPaletteTerminalLayer {
         $d.useAcrylic  = $edits.Defaults.useAcrylic
         if ($edits.Defaults.Contains('font')) { $d.font = @{ face = $edits.Defaults.font.face; size = $edits.Defaults.font.size } }
         Set-Content -Path $SettingsPath -Value ($settings | ConvertTo-Json -Depth 32) -Encoding utf8
+    }
+}
+
+# --- Per-profile overrides ----------------------------------------------------
+#
+# PoshPalette writes the theme to profiles.defaults. A profile that sets any of
+# these keys itself overrides the default, so it keeps its old look (color,
+# font, opacity, acrylic) no matter which theme you apply. These helpers find
+# such profiles and (on request) clear the overrides so the profile falls back
+# to the theme in defaults.
+$script:PPManagedProfileKeys = @('colorScheme', 'font', 'opacity', 'useAcrylic')
+
+# Friendlier labels for the keys, shown in the menu so it's clear what changes.
+function Format-PoshPaletteOverrideKeys {
+    param([string[]] $Keys)
+    $map = @{ colorScheme = 'color scheme'; font = 'font'; opacity = 'opacity'; useAcrylic = 'acrylic' }
+    (($Keys | ForEach-Object { if ($map.ContainsKey($_)) { $map[$_] } else { $_ } })) -join ', '
+}
+
+function Get-PoshPaletteProfileOverrides {
+    param([string] $SettingsPath)
+    if (-not $SettingsPath -or -not (Test-Path $SettingsPath)) { return @() }
+    $settings = try { ConvertFrom-Jsonc (Get-Content $SettingsPath -Raw) } catch { return @() }
+    $list = $settings.profiles.list
+    if (-not $list) { return @() }
+    $default = $settings.defaultProfile
+    @($list | ForEach-Object {
+        $names = $_.psobject.Properties.Name
+        $keys  = @($script:PPManagedProfileKeys | Where-Object { $names -contains $_ })
+        if ($keys.Count) {
+            [pscustomobject]@{
+                Name      = $_.name
+                Guid      = $_.guid
+                Keys      = $keys
+                IsDefault = ($_.guid -eq $default)
+            }
+        }
+    })
+}
+
+# Remove every managed key from the profiles whose guids are listed. Re-reads
+# offsets after each edit (removal shifts the text) and validates before writing.
+function Clear-PoshPaletteProfileOverrides {
+    param([string] $SettingsPath, [string[]] $Guids)
+    if (-not $Guids -or -not $Guids.Count) { return }
+    $text = Get-Content $SettingsPath -Raw
+    foreach ($g in $Guids) {
+        foreach ($key in $script:PPManagedProfileKeys) {
+            $rootOpen = $text.IndexOf('{')
+            $prof = Find-JsoncMember $text $rootOpen 'profiles'
+            if (-not $prof) { continue }
+            $profOpen = $text.IndexOf('{', $prof.ValueStart)
+            $listM = Find-JsoncMember $text $profOpen 'list'
+            if (-not $listM) { continue }
+            $arrOpen = $text.IndexOf('[', $listM.ValueStart)
+            $objOpen = Find-JsoncArrayObjectByMember $text $arrOpen 'guid' $g
+            if ($objOpen -ge 0) { $text = Remove-JsoncMember $text $objOpen $key }
+        }
+    }
+    try {
+        $null = ConvertFrom-Jsonc $text
+        Set-Content -Path $SettingsPath -Value $text -Encoding utf8
+    } catch {
+        Write-Verbose "Clearing profile overrides produced invalid JSON; leaving settings unchanged ($_)."
+    }
+}
+
+# Generic up/down + Enter chooser used by every interactive confirmation, so they
+# all look and behave the same (arrow keys, never typed input). $RenderHeader
+# prints whatever context belongs above the list (it runs after a Clear-Host, so
+# the menu owns the whole screen); $Options is an array of objects with Action and
+# Title, plus an optional Desc line. Returns the chosen Action.
+function Show-PoshPaletteChoice {
+    param(
+        [Parameter(Mandatory)] $Options,
+        [scriptblock] $RenderHeader,
+        [int] $Default = 0
+    )
+    $idx = [Math]::Max(0, [Math]::Min($Default, $Options.Count - 1))
+    [Console]::CursorVisible = $false
+    try {
+        while ($true) {
+            Clear-Host
+            Write-Host ""
+            if ($RenderHeader) { & $RenderHeader }
+            for ($i = 0; $i -lt $Options.Count; $i++) {
+                $sel = ($i -eq $idx)
+                $marker = if ($sel) { '>' } else { ' ' }
+                $color  = if ($sel) { 'Cyan' } else { 'Gray' }
+                Write-Host ("  {0} {1}" -f $marker, $Options[$i].Title) -ForegroundColor $color
+                if ($Options[$i].Desc) { Write-Host ("      {0}" -f $Options[$i].Desc) -ForegroundColor DarkGray }
+            }
+            Write-Host ""
+            Write-Host "  up/down move   ·   Enter select" -ForegroundColor DarkGray
+
+            $key = [Console]::ReadKey($true)
+            switch ($key.Key) {
+                'UpArrow'   { $idx = ($idx - 1 + $Options.Count) % $Options.Count }
+                'DownArrow' { $idx = ($idx + 1) % $Options.Count }
+                'Enter'     { return $Options[$idx].Action }
+            }
+        }
+    } finally { [Console]::CursorVisible = $true }
+}
+
+# Menu shown when per-profile overrides would shadow the theme.
+# Returns the chosen action: 'ThisProfile' | 'AllProfiles' | 'Keep'.
+function Show-PoshPaletteOverrideMenu {
+    param($Overrides, [string] $ThemeName)
+
+    $default = $Overrides | Where-Object IsDefault | Select-Object -First 1
+    $thisTitle = if ($default) { "This profile only  ($($default.Name))" } else { 'This profile only' }
+    $options = @(
+        [pscustomobject]@{ Action = 'ThisProfile'; Title = $thisTitle
+            Desc = "Clear the overrides on your default profile so it follows '$ThemeName'." }
+        [pscustomobject]@{ Action = 'AllProfiles'; Title = "All profiles ($($Overrides.Count))"
+            Desc = 'Clear the overrides on every profile below so all tabs follow the theme.' }
+        [pscustomobject]@{ Action = 'Keep'; Title = 'Leave them alone'
+            Desc = 'Apply to defaults only; these profiles keep their look (theme may not fully apply).' }
+    )
+
+    $nameWidth = (@($Overrides | ForEach-Object { $_.Name.Length }) + 0 | Measure-Object -Maximum).Maximum
+    $header = {
+        Write-Host "  These Windows Terminal profiles set their own look and will partly" -ForegroundColor Yellow
+        Write-Host "  ignore '$ThemeName':" -ForegroundColor Yellow
+        Write-Host ""
+        foreach ($o in $Overrides) {
+            $tag = if ($o.IsDefault) { '  (your default)' } else { '' }
+            Write-Host ("    - {0} -> {1}{2}" -f $o.Name.PadRight($nameWidth), (Format-PoshPaletteOverrideKeys $o.Keys), $tag) -ForegroundColor Gray
+        }
+        Write-Host ""
+        Write-Host "  How should PoshPalette handle them?" -ForegroundColor White
+        Write-Host ""
+    }.GetNewClosure()
+
+    Show-PoshPaletteChoice -Options $options -RenderHeader $header
+}
+
+# Decide and carry out the override handling for an apply. $Action 'Prompt' shows
+# the menu when a console is attached, else falls back to 'Keep' (never edits
+# profiles silently when no one can confirm).
+function Resolve-PoshPaletteProfileOverrides {
+    param([string] $SettingsPath, $Theme, [string] $Action, [switch] $Quiet)
+
+    $overrides = Get-PoshPaletteProfileOverrides -SettingsPath $SettingsPath
+    if (-not $overrides.Count) { return }
+
+    $interactive = [Environment]::UserInteractive -and -not [Console]::IsInputRedirected
+    if ($Action -eq 'Prompt') {
+        $Action = if ($interactive) { Show-PoshPaletteOverrideMenu -Overrides $overrides -ThemeName $Theme.name } else { 'Keep' }
+    }
+
+    switch ($Action) {
+        'ThisProfile' {
+            $guids = @($overrides | Where-Object IsDefault | ForEach-Object Guid)
+            if ($guids.Count) {
+                Clear-PoshPaletteProfileOverrides -SettingsPath $SettingsPath -Guids $guids
+                if (-not $Quiet) { Write-Host "  Cleared overrides on your default profile so it follows the theme." -ForegroundColor Green }
+            } elseif (-not $Quiet) {
+                Write-Host "  Your default profile already follows the theme; left the others as they are." -ForegroundColor DarkGray
+            }
+        }
+        'AllProfiles' {
+            Clear-PoshPaletteProfileOverrides -SettingsPath $SettingsPath -Guids @($overrides | ForEach-Object Guid)
+            if (-not $Quiet) { Write-Host "  Cleared overrides on $($overrides.Count) profile(s) so all tabs follow the theme." -ForegroundColor Green }
+        }
+        default {
+            if (-not $Quiet) {
+                Write-Host "  Left per-profile overrides in place - those profiles keep their own look." -ForegroundColor DarkGray
+            }
+        }
     }
 }
 
@@ -231,26 +462,34 @@ function Confirm-PoshPaletteOhMyPosh {
     if (-not (Test-PoshPaletteThemeUsesOhMyPosh $Theme)) { return }
     if (Get-Command oh-my-posh -ErrorAction SilentlyContinue) { return }
 
-    Write-Host ""
-    Write-Host "  This theme's prompt needs oh-my-posh, which isn't installed yet." -ForegroundColor Yellow
-    Write-Host "  (Terminal colors and input/output colors still apply without it.)" -ForegroundColor DarkGray
+    $intro = {
+        Write-Host "  This theme's prompt needs oh-my-posh, which isn't installed yet." -ForegroundColor Yellow
+        Write-Host "  (Terminal colors and input/output colors still apply without it.)" -ForegroundColor DarkGray
+    }
 
     # No winget (older Windows, non-Windows): point at the official user-scope script.
     if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
+        Write-Host ""; & $intro
         Write-Host "  Install it (no admin needed), then re-open pwsh:" -ForegroundColor Gray
         Write-Host "    Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))" -ForegroundColor Cyan
         return
     }
 
-    # Non-interactive (CI / piped input): never block on a prompt - just print it.
-    if (-not [Environment]::UserInteractive) {
+    # Non-interactive (CI / piped input): never block on a menu - just print it.
+    if (-not ([Environment]::UserInteractive -and -not [Console]::IsInputRedirected)) {
+        Write-Host ""; & $intro
         Write-Host "  Install it (no admin needed) with:" -ForegroundColor Gray
         Write-Host "    winget install JanDeDobbeleer.OhMyPosh -s winget" -ForegroundColor Cyan
         return
     }
 
-    $answer = Read-Host "  Install oh-my-posh now with winget? [Y/n]"
-    if ($answer -and $answer.Trim() -match '^(n|no)$') {
+    $choice = Show-PoshPaletteChoice -RenderHeader { & $intro; Write-Host "" }.GetNewClosure() -Options @(
+        [pscustomobject]@{ Action = 'Install'; Title = 'Install oh-my-posh now'
+            Desc = 'Install it with winget (per-user, no admin), then activate the prompt.' }
+        [pscustomobject]@{ Action = 'Skip'; Title = 'Skip for now'
+            Desc = 'Apply the theme now; the prompt activates once oh-my-posh is installed.' }
+    )
+    if ($choice -ne 'Install') {
         Write-Host "  Skipped. Install it later with:  winget install JanDeDobbeleer.OhMyPosh -s winget" -ForegroundColor DarkGray
         return
     }
@@ -284,7 +523,12 @@ function Set-PoshPaletteTheme {
         [string] $SettingsPath = (Get-WindowsTerminalSettingsPath),
         [string] $ProfilePath  = $PROFILE,
         [switch] $DryRun,
-        [switch] $Quiet   # the TUI shows its own confirmation panel instead
+        [switch] $Quiet,  # the TUI shows its own confirmation panel instead
+        # How to handle profiles that pin their own colorScheme (and so ignore the
+        # theme). 'Prompt' asks via an up/down menu when a console is attached, and
+        # falls back to 'Keep' when it can't (CI, piped input).
+        [ValidateSet('Prompt', 'ThisProfile', 'AllProfiles', 'Keep')]
+        [string] $ProfileOverride = 'Prompt'
     )
 
     if (-not $Quiet) { Write-Host "Applying '$($Theme.name)'..." -ForegroundColor Cyan }
@@ -293,6 +537,10 @@ function Set-PoshPaletteTheme {
         if (-not $DryRun) { Backup-PoshPaletteFile $SettingsPath | Out-Null }
         Set-PoshPaletteTerminalLayer -Theme $Theme -SettingsPath $SettingsPath -DryRun:$DryRun
         if (-not $Quiet) { Write-Host "  Terminal scheme applied (hot-reloads instantly)" -ForegroundColor Green }
+        # A per-profile colorScheme would shadow what we just wrote to defaults.
+        if (-not $DryRun) {
+            Resolve-PoshPaletteProfileOverrides -SettingsPath $SettingsPath -Theme $Theme -Action $ProfileOverride -Quiet:$Quiet
+        }
     } elseif (-not $Quiet) {
         Write-Host "  Windows Terminal settings.json not found - skipping Terminal layer." -ForegroundColor Yellow
         Write-Host "  (This is expected when not on Windows / Windows Terminal.)" -ForegroundColor DarkGray
