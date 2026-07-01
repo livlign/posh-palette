@@ -9,13 +9,13 @@
     "Variable": "#FEDE5D",
     "Number": "#FF8B39",
     "Comment": "#848BBD",
-    "Error": "#FE4450",
+    "Error": "#FE4955",
     "Default": "#F0EFF1",
     "InlinePrediction": "#5C6688"
   },
   "psStyle": {
     "Directory": "#03EDF9",
-    "Error": "#FE4450",
+    "Error": "#FE4955",
     "TableHeader": "#FF7EDB"
   }
 }

@@ -5,6 +5,19 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.1]
+
+### Changed
+- **Catalog-wide contrast pass:** every primary syntax color and table header
+  now clears WCAG AA (4.5:1) against its theme background, up from a hard floor
+  that let some colors sit near-invisible. The light themes were the worst
+  offenders (they reused bright, dark-background accents): Aubade, Catppuccin
+  Latte, GitHub Light, Rose Pine Dawn and Solarized Light had syntax colors as
+  low as 2:1. Each was darkened within its own hue, so themes stay recognizable
+  but readable. Intentionally dim roles (Comment, InlinePrediction) keep their
+  gentler floor; near-invisible ghost text on Nord and Tokyo Night was lifted to
+  a visible level.
+
 ## [0.8.0]
 
 ### Added

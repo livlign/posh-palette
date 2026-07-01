@@ -2,20 +2,20 @@
   "id": "rose-pine-dawn",
   "name": "Ros\u00e9 Pine Dawn",
   "psReadLine": {
-    "Command": "#56949F",
-    "Parameter": "#D7827E",
+    "Command": "#44757E",
+    "Parameter": "#C2423C",
     "String": "#286983",
-    "Operator": "#907AA9",
-    "Variable": "#EA9D34",
-    "Number": "#EA9D34",
+    "Operator": "#7E649B",
+    "Variable": "#9E6210",
+    "Number": "#9E6210",
     "Comment": "#9893A5",
-    "Error": "#B4637A",
+    "Error": "#AB526C",
     "Default": "#575279",
     "InlinePrediction": "#9893A5"
   },
   "psStyle": {
-    "Directory": "#56949F",
-    "Error": "#B4637A",
-    "TableHeader": "#907AA9"
+    "Directory": "#44757E",
+    "Error": "#AB526C",
+    "TableHeader": "#6E5A87"
   }
 }
