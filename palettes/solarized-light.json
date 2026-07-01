@@ -2,20 +2,20 @@
   "id": "solarized-light",
   "name": "Solarized Light",
   "psReadLine": {
-    "Command": "#268BD2",
-    "Parameter": "#2AA198",
-    "String": "#859900",
-    "Operator": "#D33682",
-    "Variable": "#B58900",
-    "Number": "#CB4B16",
+    "Command": "#2074AF",
+    "Parameter": "#217D76",
+    "String": "#667500",
+    "Operator": "#CD2D7A",
+    "Variable": "#8C6A00",
+    "Number": "#C24815",
     "Comment": "#93A1A1",
-    "Error": "#DC322F",
-    "Default": "#657B83",
+    "Error": "#D72724",
+    "Default": "#5E737A",
     "InlinePrediction": "#586E75"
   },
   "psStyle": {
-    "Directory": "#268BD2",
-    "Error": "#DC322F",
-    "TableHeader": "#D33682"
+    "Directory": "#2074AF",
+    "Error": "#D72724",
+    "TableHeader": "#CD2D7A"
   }
 }

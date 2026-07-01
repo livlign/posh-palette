@@ -2,20 +2,20 @@
   "id": "catppuccin-latte",
   "name": "Catppuccin Latte",
   "psReadLine": {
-    "Command": "#1E66F5",
-    "Parameter": "#179299",
-    "String": "#40A02B",
-    "Operator": "#EA76CB",
-    "Variable": "#DF8E1D",
-    "Number": "#FE640B",
+    "Command": "#145FF5",
+    "Parameter": "#13797E",
+    "String": "#327C21",
+    "Operator": "#C71F9A",
+    "Variable": "#976014",
+    "Number": "#BC4501",
     "Comment": "#9CA0B0",
     "Error": "#D20F39",
     "Default": "#4C4F69",
     "InlinePrediction": "#6C6F85"
   },
   "psStyle": {
-    "Directory": "#1E66F5",
+    "Directory": "#145FF5",
     "Error": "#D20F39",
-    "TableHeader": "#EA76CB"
+    "TableHeader": "#8839EF"
   }
 }

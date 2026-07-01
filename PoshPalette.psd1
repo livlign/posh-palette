@@ -1,6 +1,6 @@
 @{
     RootModule        = 'PoshPalette.psm1'
-    ModuleVersion     = '0.8.0'
+    ModuleVersion     = '0.8.1'
     GUID              = '7c9e6a1b-4f2d-4b8e-9a3c-1d5f8b2e0a47'
     Author            = 'PoshPalette contributors'
     Copyright         = '(c) PoshPalette contributors. MIT licensed.'
@@ -17,7 +17,7 @@
             LicenseUri   = 'https://github.com/livlign/posh-palette/blob/main/LICENSE'
             ProjectUri   = 'https://github.com/livlign/posh-palette'
             IconUri      = 'https://livlign.github.io/posh-palette/icon-256.png'
-            ReleaseNotes = 'v0.8.0: applying a theme now detects Windows Terminal profiles that pin their own colorScheme/font/opacity (and so ignore the theme) and offers to clear them; missing fonts can be installed in-session; all confirmations use a unified up/down menu. Full history in CHANGELOG.md.'
+            ReleaseNotes = 'v0.8.1: contrast pass across the theme catalog - every syntax color and table header now clears WCAG AA (4.5:1) against its background, with the worst offenders on the light themes (Aubade, Catppuccin Latte, GitHub Light, Rose Pine Dawn, Solarized Light) darkened within their own hue so they stay recognizable but readable. Full history in CHANGELOG.md.'
         }
     }
 }

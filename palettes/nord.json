@@ -5,17 +5,17 @@
     "Command": "#81A1C1",
     "Parameter": "#88C0D0",
     "String": "#A3BE8C",
-    "Operator": "#B48EAD",
+    "Operator": "#B691AF",
     "Variable": "#EBCB8B",
-    "Number": "#D08770",
+    "Number": "#D18A74",
     "Comment": "#616E88",
-    "Error": "#BF616A",
+    "Error": "#CF8990",
     "Default": "#D8DEE9",
-    "InlinePrediction": "#4C566A"
+    "InlinePrediction": "#6F7D98"
   },
   "psStyle": {
     "Directory": "#81A1C1",
-    "Error": "#BF616A",
-    "TableHeader": "#B48EAD"
+    "Error": "#CF8990",
+    "TableHeader": "#B691AF"
   }
 }
