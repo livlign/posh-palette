@@ -394,7 +394,12 @@ function New-PoshPaletteProfileBlock {
     [void]$sb.AppendLine('if ($PSStyle) {')
     if ($Theme.psStyle.Directory)   { [void]$sb.AppendLine("    `$PSStyle.FileInfo.Directory = `$PSStyle.Foreground.FromRgb('$($Theme.psStyle.Directory)')") }
     if ($Theme.psStyle.Error)       { [void]$sb.AppendLine("    `$PSStyle.Formatting.Error = `$PSStyle.Foreground.FromRgb('$($Theme.psStyle.Error)')") }
-    if ($Theme.psStyle.TableHeader) { [void]$sb.AppendLine("    `$PSStyle.Formatting.TableHeader = `$PSStyle.Foreground.FromRgb('$($Theme.psStyle.TableHeader)')") }
+    if ($Theme.psStyle.TableHeader) {
+        [void]$sb.AppendLine("    `$PSStyle.Formatting.TableHeader = `$PSStyle.Foreground.FromRgb('$($Theme.psStyle.TableHeader)')")
+        # PS 7.4+ styles calculated column headers (e.g. Length in a dir listing)
+        # with a separate green-by-default property; keep the header row uniform.
+        [void]$sb.AppendLine("    if (`$PSStyle.Formatting.PSObject.Properties['CustomTableHeaderLabel']) { `$PSStyle.Formatting.CustomTableHeaderLabel = `$PSStyle.Foreground.FromRgb('$($Theme.psStyle.TableHeader)') }")
+    }
     [void]$sb.AppendLine('}')
 
     # Layer 4: oh-my-posh prompt. A generated ('auto') prompt is written to a
