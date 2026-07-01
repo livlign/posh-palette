@@ -5,6 +5,16 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.8.2]
+
+### Fixed
+- **Uniform table headers:** on PowerShell 7.4+, calculated column headers (such
+  as `Length` in a `Get-ChildItem` listing) are styled by a separate
+  `CustomTableHeaderLabel` property that defaults to green, so they ignored the
+  theme's `TableHeader` color and rendered out of place. PoshPalette now sets
+  `CustomTableHeaderLabel` to the same color as `TableHeader` (guarded for older
+  hosts that lack the property), so the whole header row matches.
+
 ## [0.8.1]
 
 ### Changed
