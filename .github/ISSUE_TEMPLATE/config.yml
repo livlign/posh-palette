@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 🖼️ Browse the theme gallery
+    url: https://livlign.github.io/posh-palette/themes.html
+    about: See every bundled theme in its real colors before filing.
+  - name: 📖 Docs & usage
+    url: https://github.com/livlign/posh-palette#readme
+    about: Install, commands, and how the composition model works.
