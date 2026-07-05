@@ -222,6 +222,7 @@
   .cardcmd button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
   .empty{grid-column:1/-1;text-align:center;color:var(--ink-faint);padding:64px 0;font-family:var(--mono);font-size:14px}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
   .foot{position:relative;z-index:2;border-top:1px solid var(--hair);margin-top:72px;padding:38px 0 60px;
     display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
@@ -271,10 +272,11 @@
       <button data-f="dark" aria-pressed="false">Dark</button>
       <button data-f="light" aria-pressed="false">Light</button>
     </div>
-    <span class="count" id="count"></span>
+    <span class="count" id="count" role="status" aria-live="polite"></span>
   </div>
 
   <div class="grid" id="grid"></div>
+  <span id="sr-status" class="sr-only" role="status" aria-live="polite"></span>
 
   <noscript>
     <style>
@@ -902,9 +904,11 @@
         <button type="button" aria-label="Copy install command for ${t.name} ${t.variant}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button></div>`;
     el.querySelector("button").addEventListener("click", async (e)=>{
       const btn = e.currentTarget, lbl = btn.querySelector("span");
+      const status = document.getElementById("sr-status");
       try{ await navigator.clipboard.writeText(cmd);
         lbl.textContent="copied"; setTimeout(()=>lbl.textContent="copy",1400);
-      }catch{ lbl.textContent="✕"; }
+        if (status) status.textContent = "Copied install command for " + t.name + " " + t.variant;
+      }catch{ lbl.textContent="✕"; if (status) status.textContent = "Copy failed"; }
     });
     return el;
   }
