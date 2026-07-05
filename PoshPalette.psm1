@@ -10,6 +10,7 @@
 . "$PSScriptRoot/src/Remote.ps1"
 . "$PSScriptRoot/src/Fonts.ps1"
 . "$PSScriptRoot/src/Doctor.ps1"
+. "$PSScriptRoot/src/Osc.ps1"
 . "$PSScriptRoot/src/Tui.ps1"
 
 # Headless install by name: `Install-PoshPaletteTheme 'tokyo-night'`
@@ -38,4 +39,5 @@ Export-ModuleMember -Function Start-PoshPalette, Install-PoshPaletteTheme, Get-P
     Set-PoshPaletteTheme, Import-PoshPaletteTheme, Restore-PoshPalette, Reset-PoshPalette,
     Import-PoshPaletteScheme, Get-PoshPaletteRemoteCatalog, Save-PoshPaletteRemoteTheme, Update-PoshPaletteCatalog,
     Test-PoshPaletteSetup, Install-PoshPaletteFont,
-    Set-PoshPaletteScheme, Set-PoshPaletteColors, Set-PoshPalettePrompt, Set-PoshPaletteFont, Set-PoshPaletteLayer -Alias palette
+    Set-PoshPaletteScheme, Set-PoshPaletteColors, Set-PoshPalettePrompt, Set-PoshPaletteFont, Set-PoshPaletteLayer,
+    Set-PoshPaletteSchemeOsc, New-PoshPaletteOscSequence, Test-PoshPaletteOscTerminal -Alias palette
