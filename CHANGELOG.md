@@ -5,6 +5,19 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Fuller `$PSStyle` output theming.** Applying a theme now colors more of the
+  PowerShell session's output, all derived from the theme's existing palette so
+  no extra per-theme authoring is needed:
+  - **File-type colors** — `Get-ChildItem` listings get per-extension coloring
+    (code, config/data, docs, archives, media) plus executables and symlinks,
+    the PowerShell-native equivalent of `LS_COLORS`, matched to each theme.
+  - **Output streams** — Warning, Verbose and Debug now take theme colors
+    instead of the host defaults.
+
+  Each write is guarded, so older hosts or a stripped `$PSStyle` skip it cleanly.
+  The picker preview shows the file-type colors in its sample listing.
+
 ## [0.9.0]
 
 ### Added

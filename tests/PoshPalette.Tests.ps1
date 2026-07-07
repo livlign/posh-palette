@@ -25,6 +25,25 @@ Describe 'Bundled catalog' {
         }
     }
 
+    It 'derives $PSStyle output theming (streams + file types) into the profile block' {
+        $block = InModuleScope PoshPalette {
+            $t = Import-PoshPaletteTheme -NameOrPath 'eclipse'
+            New-PoshPaletteProfileBlock -Theme $t -DryRun
+        }
+        # Output streams derived from palette roles
+        $block | Should -Match 'Formatting\.Warning'
+        $block | Should -Match 'Formatting\.Verbose'
+        $block | Should -Match 'Formatting\.Debug'
+        # File-type coloring
+        $block | Should -Match 'FileInfo\.Executable'
+        $block | Should -Match 'FileInfo\.SymbolicLink'
+        $block | Should -Match 'FileInfo\.Extension'
+        $block | Should -Match "'\.ps1'="
+        $block | Should -Match "'\.json'="
+        # Uses eclipse's own palette colors (Command #6CB6FF for code files)
+        $block | Should -Match '#6CB6FF'
+    }
+
     It 'exposes the generated prompt styles, including the new ones' {
         # Get-PoshPaletteCatalog is internal, so reach it inside the module scope.
         $ids = InModuleScope PoshPalette { (Get-PoshPaletteCatalog -Kind prompts).Id }
