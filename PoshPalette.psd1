@@ -1,6 +1,6 @@
 @{
     RootModule        = 'PoshPalette.psm1'
-    ModuleVersion     = '0.8.2'
+    ModuleVersion     = '0.9.0'
     GUID              = '7c9e6a1b-4f2d-4b8e-9a3c-1d5f8b2e0a47'
     Author            = 'PoshPalette contributors'
     Copyright         = '(c) PoshPalette contributors. MIT licensed.'
@@ -17,7 +17,7 @@
             LicenseUri   = 'https://github.com/livlign/posh-palette/blob/main/LICENSE'
             ProjectUri   = 'https://github.com/livlign/posh-palette'
             IconUri      = 'https://livlign.github.io/posh-palette/icon-256.png'
-            ReleaseNotes = 'v0.8.2: table headers are now a single uniform color. PowerShell 7.4+ styles calculated column headers (e.g. Length in a dir listing) with a separate green-by-default property; PoshPalette now sets it alongside TableHeader so the whole header row matches the theme. Full history in CHANGELOG.md.'
+            ReleaseNotes = 'v0.9.0: experimental cross-terminal scheme colors via OSC escape sequences. New opt-in commands (Set-PoshPaletteSchemeOsc, New-PoshPaletteOscSequence, Test-PoshPaletteOscTerminal) apply a scheme''s 16 ANSI colors + fg/bg/cursor beyond Windows Terminal (WezTerm, macOS Terminal.app, kitty, and other OSC-capable terminals); per-session, additive, and it does not change the existing settings.json / $PROFILE appliers. Full history in CHANGELOG.md.'
         }
     }
 }

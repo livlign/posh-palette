@@ -123,6 +123,22 @@ Restore-PoshPalette -WhatIf         # show what it would do
 Restore-PoshPalette -KeepProfileBlock   # revert Terminal only
 ```
 
+### Colors beyond Windows Terminal (experimental)
+
+The scheme layer normally writes to Windows Terminal's `settings.json`. On other
+terminals (WezTerm, kitty, Alacritty, iTerm2, macOS Terminal.app, …) you can
+instead push a scheme's **colors** — the 16 ANSI colors plus foreground /
+background / cursor — straight to the running terminal via OSC escape sequences:
+
+```powershell
+Set-PoshPaletteSchemeOsc eclipse            # recolor the current session
+Set-PoshPaletteSchemeOsc eclipse -ShowBytes # print the escapes instead of applying
+Set-PoshPaletteSchemeOsc eclipse -Force     # try a terminal not on the known list
+```
+
+This is per-session (nothing is written to disk) — open a new session, or reset,
+to revert. Background image, opacity and font stay Windows-Terminal-only.
+
 ### Import & auto-update
 
 **Import a scheme** from the formats the community already publishes:
