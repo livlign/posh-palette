@@ -5,6 +5,8 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.10.0]
+
 ### Added
 - **Fuller PSReadLine syntax theming.** Applying a theme now also colors the
   `Keyword`, `Type`, `Member` and `ContinuationPrompt` roles. Left unset these
