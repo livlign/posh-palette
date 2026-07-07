@@ -5,6 +5,30 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.9.0]
+
+### Added
+- **Cross-terminal scheme colors via OSC (experimental).** A new opt-in applier
+  emits a scheme's 16 ANSI colors + foreground/background/cursor as OSC escape
+  sequences, so the scheme layer's *colors* now work beyond Windows Terminal —
+  verified on WezTerm and macOS Terminal.app, and applicable to kitty, Alacritty,
+  iTerm2 and other OSC-capable terminals. Three commands:
+  - `Set-PoshPaletteSchemeOsc <id>` — recolor the current session from a bundled
+    scheme (`-ShowBytes` to print the escapes, `-Force` to try an unrecognized
+    terminal).
+  - `New-PoshPaletteOscSequence` / `Test-PoshPaletteOscTerminal` — the underlying
+    render + terminal-detection helpers.
+
+  Colors are per-session (nothing is written to disk); revert by resetting on
+  terminals that support it, or opening a new session. Background image, opacity
+  and font remain Windows-Terminal-only. This is additive and does not change the
+  existing `settings.json` / `$PROFILE` appliers. See issue #12.
+
+### Internal
+- CI now guards against theme-gallery drift (`docs/themes.html` cards must match
+  `palettes/*.json`), plus new issue/PR templates and a screen-reader pass on the
+  gallery (filter/search results and the copy action are now announced).
+
 ## [0.8.2]
 
 ### Fixed
