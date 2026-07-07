@@ -1,0 +1,56 @@
+name: 🎨 Theme suggestion
+description: Suggest a new theme (or theme layer) for Posh Palette
+title: "[theme] "
+labels: ["theme"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Want to *contribute* a theme directly? It's usually just one JSON file —
+        see [CONTRIBUTING.md](../blob/main/CONTRIBUTING.md) and open a PR. Use this
+        form to suggest one, or to share a look you'd like added.
+  - type: input
+    id: name
+    attributes:
+      label: Theme name
+      placeholder: e.g. "Solarized Storm"
+    validations:
+      required: true
+  - type: dropdown
+    id: origin
+    attributes:
+      label: Original or port?
+      description: >
+        Ports of well-known schemes (Dracula, Nord, …) are welcome, but note we
+        only submit *original* schemes to upstream galleries.
+      options:
+        - Original design
+        - Port of an existing scheme
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: background
+    attributes:
+      label: Background
+      options:
+        - Dark
+        - Light
+    validations:
+      required: true
+  - type: textarea
+    id: colors
+    attributes:
+      label: Colors / reference
+      description: >
+        Hex values if you have them (background, foreground, and the 16 ANSI
+        colors), and/or a link or screenshot of the look you have in mind.
+      placeholder: |
+        background #0E1116, foreground #DCE3ED
+        red #FF6366, green #85DF5E, ...
+        or: a link to the original scheme / a screenshot
+  - type: textarea
+    id: notes
+    attributes:
+      label: Anything else
+      description: Mood, inspiration, matching prompt/font ideas, etc.

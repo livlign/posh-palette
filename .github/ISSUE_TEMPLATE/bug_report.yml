@@ -1,0 +1,63 @@
+name: 🐛 Bug report
+description: Something isn't applying or looking right
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what actually happened.
+    validations:
+      required: true
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Which layer?
+      description: Which part of the look is affected?
+      multiple: true
+      options:
+        - Windows Terminal (scheme / background / opacity / font)
+        - PSReadLine (the command line you type)
+        - $PSStyle (command output — dirs, errors, tables)
+        - oh-my-posh (the prompt)
+        - The picker / TUI itself
+        - Install / update / setup
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: ppversion
+    attributes:
+      label: PoshPalette version
+      description: "`(Get-Module PoshPalette -ListAvailable).Version`"
+      placeholder: "0.8.2"
+    validations:
+      required: true
+  - type: input
+    id: psversion
+    attributes:
+      label: PowerShell version
+      description: "`$PSVersionTable.PSVersion`"
+      placeholder: "7.4.1"
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: OS & terminal
+      placeholder: "Windows 11 + Windows Terminal 1.19 / macOS 14 + WezTerm"
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Install-PoshPaletteTheme eclipse
+        2. ...
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Test-PoshPaletteSetup output (optional)
+      description: Paste the output of `Test-PoshPaletteSetup` if relevant.
+      render: text

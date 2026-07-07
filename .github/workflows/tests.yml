@@ -40,3 +40,14 @@ jobs:
         with:
           name: pester-results-${{ matrix.os }}
           path: testresults.xml
+
+  gallery-sync:
+    name: Gallery sync
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      # Fails if docs/themes.html theme cards drift from palettes/*.json
+      # (the "site == reality" rule in CONTRIBUTING.md). Pure stdlib python3.
+      - name: Check gallery is in sync with palette JSON
+        run: python3 tools/check-gallery-sync.py

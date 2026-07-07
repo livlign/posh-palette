@@ -68,3 +68,10 @@ contain hyphens. Keep that split when adding docs or commands.
 The theme gallery (`docs/themes.html`) embeds a hand-maintained snapshot of every
 theme's colors. If you add or change a scheme/palette, update the matching entry on
 that page so the preview matches what actually gets applied (site == reality).
+
+CI enforces this: the **Gallery sync** check fails if any card's syntax colors
+drift from the palette JSON. Run it yourself before opening a PR:
+
+```bash
+python3 tools/check-gallery-sync.py
+```
