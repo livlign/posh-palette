@@ -67,6 +67,12 @@ module update needed (see **Use → New themes show up automatically**, below).
 
 ## Use
 
+Launch the interactive picker, apply a theme by name, or tweak one layer at a
+time. The rest — importing schemes, the auto-update catalog, the setup doctor,
+and font installs — is grouped below.
+
+### Apply a theme
+
 **Interactive (Simple or Detail mode):**
 ```powershell
 Start-PoshPalette     # or just: palette
@@ -74,7 +80,7 @@ Start-PoshPalette     # or just: palette
 - **Simple mode:** scroll a list of full themes, live preview on the right, Enter to apply.
 - **Detail mode:** choose each layer independently (scheme / prompt / input / output).
 
-**Apply a full theme by name:**
+**By name:**
 ```powershell
 Install-PoshPaletteTheme tokyo-night
 Install-PoshPaletteTheme catppuccin-mocha -DryRun   # preview without writing
@@ -101,6 +107,8 @@ tweaks stack: install a theme, then swap just its prompt, then just its font.
 
 Every command takes `-DryRun` to preview without writing.
 
+### Reset & revert
+
 **Reset to default** (stock Campbell scheme + Cascadia Mono + default prompt) for a
 clean, repeatable baseline, e.g. to demo before/after. Also in the menu as `[4] Reset`:
 ```powershell
@@ -114,6 +122,8 @@ Restore-PoshPalette                 # full revert to your previous state
 Restore-PoshPalette -WhatIf         # show what it would do
 Restore-PoshPalette -KeepProfileBlock   # revert Terminal only
 ```
+
+### Import & auto-update
 
 **Import a scheme** from the formats the community already publishes:
 ```powershell
@@ -135,6 +145,8 @@ Save-PoshPaletteRemoteTheme some-theme       # pull one on demand
 $env:POSHPALETTE_NO_AUTOUPDATE = 1           # disable the auto-check (e.g. offline / locked-down)
 ```
 
+### Check setup & fonts
+
 **Check your setup** (PowerShell, fonts, oh-my-posh, terminal: what's ready, what to fix):
 ```powershell
 Test-PoshPaletteSetup        # or: palette, then [3] Doctor
@@ -152,6 +164,11 @@ Install-PoshPaletteFont CascadiaCode   # or a raw Nerd Font name
 
 **47 themes**, from muted dev classics to neon and retro CRT. Browse them all in
 the [theme gallery](https://livlign.github.io/posh-palette/themes.html).
+
+> **Also upstream:** 22 of these are original schemes, now published to
+> [iTerm2-Color-Schemes](https://github.com/mbadolato/iTerm2-Color-Schemes) and
+> [windowsterminalthemes.dev](https://windowsterminalthemes.dev) — usable in any
+> terminal, not just via PoshPalette.
 
 - **Drift set (featured):** `eclipse`, `graphite`, `driftwood`, `prism`,
   `daybreak`, `porcelain` — six themes that lead the catalog as a deliberate
