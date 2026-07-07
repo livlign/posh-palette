@@ -119,6 +119,23 @@ function Resolve-PoshPaletteTheme {
         @{ ohMyPoshTheme = $Composition.prompt }   # typed-in oh-my-posh theme name
     }
 
+    # Fill the PSReadLine roles a palette doesn't set (Keyword/Type/Member/
+    # ContinuationPrompt). Left unset, PSReadLine uses its own *fixed* built-in
+    # colors (green keyword, gray type, white member) that clash with the theme.
+    # Derive them from the palette's own roles - which already clear the contrast
+    # gate - so they stay legible without per-theme authoring. An explicit value
+    # in the palette JSON always wins.
+    $psReadLine = ConvertTo-PoshPaletteHashtable $palette.psReadLine
+    $derived = @{
+        Keyword            = $psReadLine['Operator']
+        Type               = $psReadLine['Parameter']
+        Member             = $psReadLine['Default']
+        ContinuationPrompt = $psReadLine['Comment']
+    }
+    foreach ($role in $derived.Keys) {
+        if (-not $psReadLine.ContainsKey($role) -and $derived[$role]) { $psReadLine[$role] = $derived[$role] }
+    }
+
     $resolved = @{
         name     = $Composition.name
         terminal = @{
@@ -128,7 +145,7 @@ function Resolve-PoshPaletteTheme {
             useAcrylic = [bool]($Composition.acrylic ?? $false)
             scheme     = $schemeBlock
         }
-        psReadLine = (ConvertTo-PoshPaletteHashtable $palette.psReadLine)
+        psReadLine = $psReadLine
         psStyle    = (ConvertTo-PoshPaletteHashtable $palette.psStyle)
         prompt     = $promptBlock
     }

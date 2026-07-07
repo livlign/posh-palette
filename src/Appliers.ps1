@@ -400,6 +400,44 @@ function New-PoshPaletteProfileBlock {
         # with a separate green-by-default property; keep the header row uniform.
         [void]$sb.AppendLine("    if (`$PSStyle.Formatting.PSObject.Properties['CustomTableHeaderLabel']) { `$PSStyle.Formatting.CustomTableHeaderLabel = `$PSStyle.Foreground.FromRgb('$($Theme.psStyle.TableHeader)') }")
     }
+
+    # The rest of $PSStyle is derived from the palette's own syntax roles, so the
+    # whole session output matches the theme without extra per-theme authoring.
+    # Each write is guarded (property-exists / FileInfo present) so older hosts or
+    # a stripped $PSStyle skip it cleanly.
+    $prl = $Theme.psReadLine
+
+    # Output streams: Warning/Verbose/Debug (PS 7.2+ live under $PSStyle.Formatting).
+    $streams = [ordered]@{ Warning = $prl.Variable; Verbose = $prl.Parameter; Debug = $prl.Comment }
+    foreach ($k in $streams.Keys) {
+        $v = $streams[$k]
+        if ($v) {
+            [void]$sb.AppendLine("    if (`$PSStyle.Formatting.PSObject.Properties['$k']) { `$PSStyle.Formatting.$k = `$PSStyle.Foreground.FromRgb('$v') }")
+        }
+    }
+
+    # File-type colors: category -> palette role -> file extensions. Themes the
+    # Get-ChildItem listing (like LS_COLORS) using colors the theme already has.
+    $catColor = @{ code = $prl.Command; data = $prl.Variable; docs = $prl.Parameter; arch = $prl.Number; media = $prl.Operator }
+    $catExt = [ordered]@{
+        code  = '.ps1', '.psm1', '.psd1', '.cs', '.py', '.js', '.ts', '.go', '.rs', '.rb', '.java', '.c', '.cpp', '.h', '.sh'
+        data  = '.json', '.xml', '.yaml', '.yml', '.toml', '.ini', '.csv', '.config'
+        docs  = '.md', '.txt', '.rst', '.log', '.pdf'
+        arch  = '.zip', '.tar', '.gz', '.7z', '.rar', '.bz2'
+        media = '.png', '.jpg', '.jpeg', '.gif', '.svg', '.mp4', '.mp3', '.ico', '.webp'
+    }
+    $extPairs = foreach ($cat in $catExt.Keys) {
+        $col = $catColor[$cat]
+        if ($col) { foreach ($x in $catExt[$cat]) { "'$x'='$col'" } }
+    }
+    if ($extPairs) {
+        [void]$sb.AppendLine("    if (`$PSStyle.PSObject.Properties['FileInfo'] -and `$PSStyle.FileInfo) {")
+        if ($prl.String)    { [void]$sb.AppendLine("        `$PSStyle.FileInfo.Executable = `$PSStyle.Foreground.FromRgb('$($prl.String)')") }
+        if ($prl.Parameter) { [void]$sb.AppendLine("        `$PSStyle.FileInfo.SymbolicLink = `$PSStyle.Foreground.FromRgb('$($prl.Parameter)')") }
+        [void]$sb.AppendLine("        `$ppExt = @{ $($extPairs -join '; ') }")
+        [void]$sb.AppendLine('        foreach ($ppE in $ppExt.GetEnumerator()) { $PSStyle.FileInfo.Extension[$ppE.Key] = $PSStyle.Foreground.FromRgb($ppE.Value) }')
+        [void]$sb.AppendLine('    }')
+    }
     [void]$sb.AppendLine('}')
 
     # Layer 4: oh-my-posh prompt. A generated ('auto') prompt is written to a
