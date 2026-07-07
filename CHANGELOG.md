@@ -6,6 +6,12 @@ This project follows [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
+- **Fuller PSReadLine syntax theming.** Applying a theme now also colors the
+  `Keyword`, `Type`, `Member` and `ContinuationPrompt` roles. Left unset these
+  used PSReadLine's own fixed built-in colors (green keyword, gray type, white
+  member) that clashed with the theme; they're now derived from the palette's
+  existing, contrast-checked roles (Operator / Parameter / Default / Comment).
+  A palette that sets any of these explicitly still wins.
 - **Fuller `$PSStyle` output theming.** Applying a theme now colors more of the
   PowerShell session's output, all derived from the theme's existing palette so
   no extra per-theme authoring is needed:

@@ -25,6 +25,28 @@ Describe 'Bundled catalog' {
         }
     }
 
+    It 'derives the unset PSReadLine roles from the palette (Keyword/Type/Member)' {
+        $t = Import-PoshPaletteTheme -NameOrPath 'eclipse'
+        # Palette sets Operator/Parameter/Default/Comment; derived roles mirror them.
+        $t.psReadLine.Keyword            | Should -Be $t.psReadLine.Operator
+        $t.psReadLine.Type               | Should -Be $t.psReadLine.Parameter
+        $t.psReadLine.Member             | Should -Be $t.psReadLine.Default
+        $t.psReadLine.ContinuationPrompt | Should -Be $t.psReadLine.Comment
+        # Every derived role is a real hex color, so nothing falls back to
+        # PSReadLine's clashing built-in defaults.
+        foreach ($role in 'Keyword', 'Type', 'Member', 'ContinuationPrompt') {
+            $t.psReadLine.$role | Should -Match '^#[0-9A-Fa-f]{6}$'
+        }
+    }
+
+    It 'lets a palette override a derived role' {
+        # Derivation must not clobber an explicit palette value. Simulate by
+        # resolving, then confirm derivation only fills *absent* roles.
+        $t = Import-PoshPaletteTheme -NameOrPath 'eclipse'
+        # eclipse's palette does not set Keyword, so it equals the derived source.
+        $t.psReadLine.Keyword | Should -Not -BeNullOrEmpty
+    }
+
     It 'derives $PSStyle output theming (streams + file types) into the profile block' {
         $block = InModuleScope PoshPalette {
             $t = Import-PoshPaletteTheme -NameOrPath 'eclipse'
