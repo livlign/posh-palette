@@ -5,6 +5,15 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.0]
+
+### Added
+- **New theme: Snoot.** Salmon pink on near-black rosewood — the color of a
+  happy dog's nose — with muted mauve and sand supports so the pink stays the
+  hero. Ships the scheme (16 ANSI colors), palette (PSReadLine + `$PSStyle`) and
+  theme composition, over the `1_shell` prompt in Cascadia Code. The web gallery
+  card is added and in sync. Brings the catalog to 48 themes.
+
 ## [0.10.0]
 
 ### Added

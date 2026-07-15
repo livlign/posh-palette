@@ -17,7 +17,7 @@ once, without leaving your terminal.
   <a href="https://livlign.github.io/posh-palette/themes.html"><img src="assets/theme-montage.png" alt="A montage of twelve Posh Palette themes — Eclipse, Tokyo Night, Dracula, Nord, Synthwave '84, Forge Ember, Gruvbox, Everforest, Catppuccin Latte, Matcha Zen, Amber CRT and Porcelain — each shown as a small terminal preview" width="100%"></a>
 </p>
 
-> **47 themes** from dark dev classics to neon and retro CRT — [browse the full gallery →](https://livlign.github.io/posh-palette/themes.html)
+> **48 themes** from dark dev classics to neon and retro CRT — [browse the full gallery →](https://livlign.github.io/posh-palette/themes.html)
 
 > **Platform:** the Windows Terminal layer (scheme, background, opacity, font) is
 > Windows-only. The PSReadLine, `$PSStyle`, and oh-my-posh layers run in any
@@ -178,7 +178,7 @@ Install-PoshPaletteFont CascadiaCode   # or a raw Nerd Font name
 
 ## Bundled themes
 
-**47 themes**, from muted dev classics to neon and retro CRT. Browse them all in
+**48 themes**, from muted dev classics to neon and retro CRT. Browse them all in
 the [theme gallery](https://livlign.github.io/posh-palette/themes.html).
 
 > **Also upstream:** 22 of these are original schemes, now published to

@@ -544,6 +544,8 @@
   const THEMES = {
     "opaline":{name:"Opaline",variant:"Pearl",dark:true,desc:"Iridescent pearl on deep indigo.",
       "--c-bg":"#131121","--c-fg":"#ECE9F7","--c-cur":"#FFB3D6","--c-cmd":"#8FB4FF","--c-param":"#5FE3D8","--c-str":"#86E6B4","--c-op":"#BE9BFF","--c-var":"#FFC2AE","--c-num":"#F4D27E","--c-com":"#6B678F","--c-err":"#FF6B92","--c-dir":"#B79BFF","--c-accent":"#FF9ED2","--c-glow":"rgba(255,158,210,.4)"},
+    "snoot":{name:"Snoot",variant:"Boop",dark:true,desc:"Salmon pink on rosewood — a happy dog's nose.",
+      "--c-bg":"#140C0F","--c-fg":"#E7D6D2","--c-cur":"#FF8FA0","--c-cmd":"#FF8FA0","--c-param":"#B79A9E","--c-str":"#CBA98F","--c-op":"#FF8FA0","--c-var":"#D9B48C","--c-num":"#D9B48C","--c-com":"#6E5A5E","--c-err":"#FF6B7A","--c-dir":"#FF8FA0","--c-accent":"#FF7A90","--c-glow":"rgba(255,122,144,.4)"},
     "patina":{name:"Patina",variant:"Brass",dark:true,desc:"Aged brass and verdigris on pine-black.",
       "--c-bg":"#0E1613","--c-fg":"#DCE5DE","--c-cur":"#E0C36A","--c-cmd":"#5FC9B0","--c-param":"#7FD0C0","--c-str":"#9FC08C","--c-op":"#D7B45A","--c-var":"#C8A24A","--c-num":"#D98E5A","--c-com":"#5C7068","--c-err":"#D9603F","--c-dir":"#5FC9B0","--c-accent":"#E0C36A","--c-glow":"rgba(224,195,106,.4)"},
     "oxblood":{name:"Oxblood",variant:"Cellar",dark:true,desc:"Wine, sienna and antique gold on warm black.",
@@ -702,14 +704,14 @@
     "solarized-dark","dracula","high-contrast","rose-pine",
     "nord","monokai-pro","one-dark","cyberpunk","catppuccin-mocha","github-dark",
     "everforest","kanagawa","horizon","ayu-dark","night-owl","oxocarbon",
-    "github-light","solarized-light","rose-pine-dawn","amber-crt","campbell"];
+    "github-light","solarized-light","rose-pine-dawn","amber-crt","campbell","snoot"];
 
   const grid = document.getElementById("grid");
   const countEl = document.getElementById("count");
 
   // Each theme showcases a different oh-my-posh prompt SHAPE, not just colors.
   const PROMPT = {
-    "opaline":"1_shell", "patina":"avit", "oxblood":"darkblood",
+    "opaline":"1_shell", "snoot":"1_shell", "patina":"avit", "oxblood":"darkblood",
     "citrus-ink":"lambda", "letterpress":"tokyonight", "aubade":"dracula",
     "nebula-drift":"1_shell", "verdigris":"twoline", "miami-heat":"smoothie",
     "forge-ember":"powerline", "matcha-zen":"lambda", "velvet-court":"spaceship",
@@ -750,7 +752,7 @@
     monaspace:["MonaspiceNe Nerd Font","Monaspace Neon","Monaspace"]
   };
   const FONT = {
-    "opaline":"victormono", "patina":"ibmplex", "oxblood":"iosevka",
+    "opaline":"victormono", "snoot":"cascadia", "patina":"ibmplex", "oxblood":"iosevka",
     "citrus-ink":"jetbrains", "letterpress":"geistmono", "aubade":"cascadia",
     "nebula-drift":"martianmono", "verdigris":"ibmplex", "miami-heat":"victormono",
     "forge-ember":"firacode", "matcha-zen":"geistmono", "velvet-court":"jetbrains",
