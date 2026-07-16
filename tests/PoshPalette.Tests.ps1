@@ -13,8 +13,8 @@ Describe 'Bundled catalog' {
         (Get-PoshPaletteThemes).Count | Should -BeGreaterOrEqual 35
     }
 
-    It 'orders the curated themes first (order 1 leads)' {
-        (Get-PoshPaletteThemes)[0].Order | Should -Be 1
+    It 'orders the curated themes first (order 0 leads)' {
+        (Get-PoshPaletteThemes)[0].Order | Should -Be 0
     }
 
     It 'every bundled theme resolves end to end' {
@@ -80,6 +80,7 @@ Describe 'Bundled catalog' {
         $ids | Should -Contain 'auto-darkblood'
         $ids | Should -Contain 'auto-tokyonight'
         $ids | Should -Contain 'auto-dracula'
+        $ids | Should -Contain 'snoot'
     }
 }
 
@@ -98,7 +99,7 @@ Describe 'New-PoshPaletteOmpConfig' {
     It 'generates a valid v4 config for every style' {
         InModuleScope PoshPalette {
             $colors = (Get-PoshPaletteCatalogItem -Kind schemes -Id 'tokyo-night').colors
-            foreach ($style in 'powerline','twoline','robby','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula') {
+            foreach ($style in 'powerline','twoline','robby','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula','snoot') {
                 $cfg = New-PoshPaletteOmpConfig $colors -Style $style
                 $cfg.version | Should -Be 4
                 @($cfg.blocks).Count | Should -BeGreaterThan 0

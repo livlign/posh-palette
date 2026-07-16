@@ -4,7 +4,7 @@
   "description": "Salmon pink on near-black rosewood — the color of a happy dog's nose.",
   "scheme": "snoot",
   "palette": "snoot",
-  "prompt": "auto-1shell",
+  "prompt": "snoot",
   "font": "cascadia",
   "fontSize": 11,
   "opacity": 100,

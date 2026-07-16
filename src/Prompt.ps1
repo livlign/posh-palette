@@ -14,7 +14,7 @@
 function New-PoshPaletteOmpConfig {
     param(
         [Parameter(Mandatory)] $Colors,
-        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula')] [string] $Style = 'classic',
+        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula','snoot')] [string] $Style = 'classic',
         # Optional fixed segment-fill ramp for the 'dracula' style (a designed
         # gradient). When absent, that style falls back to scheme accent colors.
         [string[]] $Gradient
@@ -244,6 +244,22 @@ function New-PoshPaletteOmpConfig {
             (& $line @((& $pathSeg $blue '{{ .Path }}')))
             (& $line @((& $statSeg $purple '❯ ')) $true)
         }
+        'snoot' {
+            # Bespoke prompt for the Snoot theme: a nose glyph over a dd/MM/yyyy
+            # date line, then the full path and branch wrapped in brace pills.
+            # Salmon accents (red) with the branch flipping red when dirty.
+            $nose = [char]::ConvertFromUtf32(0xF015F)
+            (& $line @(
+                (& $textSeg $red "$nose ")
+                [ordered]@{ type = 'time'; style = 'plain'; foreground = $fg; properties = [ordered]@{ time_format = '02/01/2006 Monday 03:04 PM' }; template = '{{ .CurrentDate | date .Format }}' }
+            ))
+            (& $line @(
+                (& $textSeg $red "$([char]0xEEF7) <$fg>{</> ")
+                [ordered]@{ type = 'path'; style = 'plain'; foreground = $red; properties = [ordered]@{ style = 'full' }; template = '{{ .Path }}' }
+                [ordered]@{ type = 'git'; style = 'plain'; foreground = $purple; foreground_templates = @($chg); properties = [ordered]@{ fetch_status = $true; branch_icon = "$([char]0xE709) " }; template = ' {{ .HEAD }}' }
+                (& $textSeg $fg " } <$red>$([char]0xEE9A)</>")
+            ) $true)
+        }
         default {  # classic
             & $line @(
                 (& $pathSeg $blue ' {{ .Path }} ')
@@ -271,6 +287,10 @@ function New-PoshPaletteOmpConfig {
             $config['transient_prompt'] = [ordered]@{ background = 'transparent'; foreground = $fg; template = "$([char]0xE285) " }
         }
         'velvet' { $config['console_title_template'] = '{{ .Shell }} - {{ .Folder }}' }
+        'snoot' {
+            $config['console_title_template'] = '{{ .Folder }}'
+            $config['transient_prompt'] = [ordered]@{ background = 'transparent'; foreground = $red; template = "$([char]0xEE9A) " }
+        }
     }
     $config
 }

@@ -5,6 +5,15 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.12.0]
+
+### Added
+- **Bespoke Snoot prompt.** Snoot now ships its own `snoot` prompt style instead
+  of borrowing `1_shell`: a nose glyph over a `dd/MM/yyyy Weekday hh:mm AM/PM`
+  date line, then the full path and branch wrapped in salmon brace pills (the
+  branch flips salmon when the tree is dirty). Palette-aware, so the colors track
+  the active scheme, with a matching transient prompt and console title.
+
 ## [0.11.0]
 
 ### Added
