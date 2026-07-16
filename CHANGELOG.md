@@ -5,6 +5,15 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.0]
+
+### Changed
+- **Snoot prompt reworked into a single info line.** The date and path now share
+  one line (`cloud  dd/MM/yyyy Weekday hh:mm AM/PM | path  branch`) with a
+  git-branch marker, and the input drops to a dog + bone prompt on the next line.
+  Long paths collapse to their trailing folders (`agnoster_short`) so the info
+  line stays compact. The web gallery card mirrors the new shape and icons.
+
 ## [0.12.0]
 
 ### Added

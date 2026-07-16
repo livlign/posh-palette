@@ -711,7 +711,7 @@
 
   // Each theme showcases a different oh-my-posh prompt SHAPE, not just colors.
   const PROMPT = {
-    "opaline":"1_shell", "snoot":"1_shell", "patina":"avit", "oxblood":"darkblood",
+    "opaline":"1_shell", "snoot":"snoot", "patina":"avit", "oxblood":"darkblood",
     "citrus-ink":"lambda", "letterpress":"tokyonight", "aubade":"dracula",
     "nebula-drift":"1_shell", "verdigris":"twoline", "miami-heat":"smoothie",
     "forge-ember":"powerline", "matcha-zen":"lambda", "velvet-court":"spaceship",
@@ -732,7 +732,7 @@
   const STYLE_LABEL = { powerline:"powerline", robby:"chevron", pure:"minimal", lambda:"lambda",
     twoline:"two-line", arrow:"arrow", spaceship:"spaceship", atomic:"atomic", smoothie:"smoothie",
     "1_shell":"diamond", cert:"diamond", "clean-detailed":"detailed", velvet:"velvet",
-    avit:"two-line", darkblood:"framed", tokyonight:"versions", dracula:"powerline" };
+    avit:"two-line", darkblood:"framed", tokyonight:"versions", dracula:"powerline", snoot:"info line" };
   // Each theme also applies a font — a real differentiator the tool sets. The card
   // preview renders in that typeface (loaded as a web font, or the installed Nerd
   // Font if the visitor has it). FONTS: id -> [nerdFace, webFamily, label].
@@ -838,6 +838,9 @@
       case "1_shell":
         // colored text (no fills) over two lines: user on time branch, then { path }
         return `<div class="ln prompt"><span class="err">user</span> <span style="color:${c("--c-fg")}">on</span> <span class="op">12:27</span> <span class="param">main</span></div><div class="ln prompt"><span class="param">{</span> <span class="cmd">${D}</span> <span class="param">}</span> <span class="str">❯</span>${cmd}</div>`;
+      case "snoot":
+        // bespoke: cloud · date · | · path · git branch on one line, dog+bone prompt below
+        return `<div class="ln prompt"><span class="err"> </span> <span style="color:${c("--c-fg")}">16/07 Thu 12:27</span> <span style="color:${c("--c-fg")}">|</span> <span class="err">${P}</span> <span class="param"> main</span></div><div class="ln prompt"><span class="err">  </span>${cmd}</div>`;
       case "avit": // path + branch, then a coloured arrow line
         return `<div class="ln prompt"><span class="dir">${P}</span> <span class="var">main</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">➜</span>${cmd}</div>`;
       case "darkblood": // box-drawing frame, accent brackets
