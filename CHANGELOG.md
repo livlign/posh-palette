@@ -5,6 +5,14 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.1]
+
+### Fixed
+- **Snoot picker preview now matches its real prompt.** The in-shell theme picker
+  drew Snoot with the generic fallback prompt; it now shows the bespoke info line
+  (cloud + date | path + git branch) and the dog + bone prompt. Other themes are
+  unaffected (the case is additive).
+
 ## [0.13.0]
 
 ### Changed

@@ -82,6 +82,8 @@ function Get-PoshPalettePromptParts {
             '*tokyonight*'{ return @($sc.blue, '➜ ', $sc.purple, 'C:\proj\ccbit ', $sc.cyan, '(main) ', $sc.green, 'node 22.1 ', $sc.yellow, 'py 3.12 ', $sc.cyan, 'go 1.22 ') }
             # dracula: session + path + branch + node version + time + aws cloud cap.
             '*dracula*'   { return @($sc.cyan, 'user ', $sc.blue, 'C:\proj\ccbit ', $sc.purple, '⎇ main ', $sc.cyan, 'node 22.1 ', $sc.yellow, '12:27 ', $sc.green, 'aws default ') }
+            # snoot: bespoke info line (cloud + date | path + git branch), then a dog + bone prompt.
+            '*snoot*'     { return @($sc.red, "$([char]0xF0C2)  ", $sc.foreground, '16/07 Thu 12:27 | ', $sc.red, 'C:\proj\ccbit ', $sc.purple, "$([char]0xF418) main ", $sc.red, "$([char]0xEEF7) $([char]0xEE9A) ") }
             default       { return @($sc.blue, 'C:\proj\ccbit ', $sc.green, 'main ', $sc.purple, '❯ ') }
         }
     }
