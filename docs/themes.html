@@ -544,8 +544,8 @@
   const THEMES = {
     "opaline":{name:"Opaline",variant:"Pearl",dark:true,desc:"Iridescent pearl on deep indigo.",
       "--c-bg":"#131121","--c-fg":"#ECE9F7","--c-cur":"#FFB3D6","--c-cmd":"#8FB4FF","--c-param":"#5FE3D8","--c-str":"#86E6B4","--c-op":"#BE9BFF","--c-var":"#FFC2AE","--c-num":"#F4D27E","--c-com":"#6B678F","--c-err":"#FF6B92","--c-dir":"#B79BFF","--c-accent":"#FF9ED2","--c-glow":"rgba(255,158,210,.4)"},
-    "snoot":{name:"Snoot",variant:"Boop",dark:true,desc:"Salmon pink on rosewood — a happy dog's nose.",
-      "--c-bg":"#140C0F","--c-fg":"#E7D6D2","--c-cur":"#FF8FA0","--c-cmd":"#FF8FA0","--c-param":"#B79A9E","--c-str":"#CBA98F","--c-op":"#FF8FA0","--c-var":"#D9B48C","--c-num":"#D9B48C","--c-com":"#6E5A5E","--c-err":"#FF6B7A","--c-dir":"#FF8FA0","--c-accent":"#FF7A90","--c-glow":"rgba(255,122,144,.4)"},
+    "bong":{name:"Bong",variant:"Boop",dark:true,desc:"Apricot yellow on warm espresso — a happy dog's nose.",
+      "--c-bg":"#13100A","--c-fg":"#ECE1CD","--c-cur":"#F7C784","--c-cmd":"#F7C784","--c-param":"#B7A2A0","--c-str":"#C9AE8A","--c-op":"#F7C784","--c-var":"#D9B48C","--c-num":"#D9B48C","--c-com":"#6F6252","--c-err":"#F0685C","--c-dir":"#F7C784","--c-accent":"#F0B265","--c-glow":"rgba(247,199,132,.42)"},
     "patina":{name:"Patina",variant:"Brass",dark:true,desc:"Aged brass and verdigris on pine-black.",
       "--c-bg":"#0E1613","--c-fg":"#DCE5DE","--c-cur":"#E0C36A","--c-cmd":"#5FC9B0","--c-param":"#7FD0C0","--c-str":"#9FC08C","--c-op":"#D7B45A","--c-var":"#C8A24A","--c-num":"#D98E5A","--c-com":"#5C7068","--c-err":"#D9603F","--c-dir":"#5FC9B0","--c-accent":"#E0C36A","--c-glow":"rgba(224,195,106,.4)"},
     "oxblood":{name:"Oxblood",variant:"Cellar",dark:true,desc:"Wine, sienna and antique gold on warm black.",
@@ -696,7 +696,7 @@
   // prism (colorful) -> daybreak (soft light) -> porcelain (light). Each also has
   // a distinct prompt shape and font. Mirrors the 'order' field in themes/*.json
   // so the tool and this page agree.
-  const ORDER = ["snoot","opaline","patina","oxblood","citrus-ink","letterpress","aubade",
+  const ORDER = ["bong","opaline","patina","oxblood","citrus-ink","letterpress","aubade",
     "eclipse","graphite","driftwood","prism","daybreak","porcelain",
     "nebula-drift","verdigris","miami-heat","forge-ember","matcha-zen",
     "velvet-court","acid-lime","frostbyte","halcyon",
@@ -711,7 +711,7 @@
 
   // Each theme showcases a different oh-my-posh prompt SHAPE, not just colors.
   const PROMPT = {
-    "opaline":"1_shell", "snoot":"snoot", "patina":"avit", "oxblood":"darkblood",
+    "opaline":"1_shell", "bong":"bong", "patina":"avit", "oxblood":"darkblood",
     "citrus-ink":"lambda", "letterpress":"tokyonight", "aubade":"dracula",
     "nebula-drift":"1_shell", "verdigris":"twoline", "miami-heat":"smoothie",
     "forge-ember":"powerline", "matcha-zen":"lambda", "velvet-court":"spaceship",
@@ -732,7 +732,7 @@
   const STYLE_LABEL = { powerline:"powerline", robby:"chevron", pure:"minimal", lambda:"lambda",
     twoline:"two-line", arrow:"arrow", spaceship:"spaceship", atomic:"atomic", smoothie:"smoothie",
     "1_shell":"diamond", cert:"diamond", "clean-detailed":"detailed", velvet:"velvet",
-    avit:"two-line", darkblood:"framed", tokyonight:"versions", dracula:"powerline", snoot:"info line" };
+    avit:"two-line", darkblood:"framed", tokyonight:"versions", dracula:"powerline", bong:"info line" };
   // Each theme also applies a font — a real differentiator the tool sets. The card
   // preview renders in that typeface (loaded as a web font, or the installed Nerd
   // Font if the visitor has it). FONTS: id -> [nerdFace, webFamily, label].
@@ -752,7 +752,7 @@
     monaspace:["MonaspiceNe Nerd Font","Monaspace Neon","Monaspace"]
   };
   const FONT = {
-    "opaline":"victormono", "snoot":"cascadia", "patina":"ibmplex", "oxblood":"iosevka",
+    "opaline":"victormono", "bong":"cascadia", "patina":"ibmplex", "oxblood":"iosevka",
     "citrus-ink":"jetbrains", "letterpress":"geistmono", "aubade":"cascadia",
     "nebula-drift":"martianmono", "verdigris":"ibmplex", "miami-heat":"victormono",
     "forge-ember":"firacode", "matcha-zen":"geistmono", "velvet-court":"jetbrains",
@@ -838,9 +838,10 @@
       case "1_shell":
         // colored text (no fills) over two lines: user on time branch, then { path }
         return `<div class="ln prompt"><span class="err">user</span> <span style="color:${c("--c-fg")}">on</span> <span class="op">12:27</span> <span class="param">main</span></div><div class="ln prompt"><span class="param">{</span> <span class="cmd">${D}</span> <span class="param">}</span> <span class="str">❯</span>${cmd}</div>`;
-      case "snoot":
-        // bespoke: cloud · date · | · path · git branch on one line, dog+bone prompt below
-        return `<div class="ln prompt"><span class="err">☁︎ </span> <span style="color:${c("--c-fg")}">16/07 Thu 12:27</span> <span style="color:${c("--c-fg")}">|</span> <span class="err">${P}</span> <span class="param">⎇ main</span></div><div class="ln prompt"><span class="err">🐕️ 🦴️ </span>${cmd}</div>`;
+      case "bong":
+        // bespoke: cloud · date · | · path · git branch on one line, dog+bone prompt below.
+        // Accents pull the apricot hero (--c-dir), matching the real prompt's $yellow.
+        return `<div class="ln prompt"><span class="dir">☁︎ </span> <span style="color:${c("--c-fg")}">16/07 Thu 12:27</span> <span style="color:${c("--c-fg")}">|</span> <span class="dir">${P}</span> <span class="param">⎇ main</span></div><div class="ln prompt"><span class="dir">🐕️ 🦴️ </span>${cmd}</div>`;
       case "avit": // path + branch, then a coloured arrow line
         return `<div class="ln prompt"><span class="dir">${P}</span> <span class="var">main</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">➜</span>${cmd}</div>`;
       case "darkblood": // box-drawing frame, accent brackets

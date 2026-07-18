@@ -14,7 +14,7 @@
 function New-PoshPaletteOmpConfig {
     param(
         [Parameter(Mandatory)] $Colors,
-        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula','snoot')] [string] $Style = 'classic',
+        [ValidateSet('classic','minimal','powerline','robby','twoline','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula','bong')] [string] $Style = 'classic',
         # Optional fixed segment-fill ramp for the 'dracula' style (a designed
         # gradient). When absent, that style falls back to scheme accent colors.
         [string[]] $Gradient
@@ -244,23 +244,25 @@ function New-PoshPaletteOmpConfig {
             (& $line @((& $pathSeg $blue '{{ .Path }}')))
             (& $line @((& $statSeg $purple '❯ ')) $true)
         }
-        'snoot' {
-            # Bespoke prompt for the Snoot theme: a cloud glyph, the dd/MM/yyyy date,
+        'bong' {
+            # Bespoke prompt for the Bong theme: a cloud glyph, the dd/MM/yyyy date,
             # then the path and git-branch-marked branch on one line, with a dog + bone
-            # prompt on the next. Salmon accents (red). The git segment shows the branch
-            # only (no fetch_status), so no `git status` runs on every render. Long paths
-            # collapse to trailing folders to stay compact.
+            # prompt on the next. Apricot accents (yellow) - the hero lives in the yellow
+            # slot, freeing red for real errors (the status segment still flips to red on
+            # a non-zero exit code). The git segment shows the branch only (no
+            # fetch_status), so no `git status` runs on every render. Long paths collapse
+            # to trailing folders to stay compact.
             $cloud = [char]0xF0C2      # nf-fa-cloud
             $dog   = [char]0xEEF7      # nf-fa-dog
             $bone  = [char]0xEE9A      # nf-fa-bone
             (& $line @(
-                (& $textSeg $red "$cloud  ")
+                (& $textSeg $yellow "$cloud  ")
                 [ordered]@{ type = 'time'; style = 'plain'; foreground = $fg; properties = [ordered]@{ time_format = '02/01/2006 Monday 03:04 PM' }; template = '{{ .CurrentDate | date .Format }}' }
                 (& $textSeg $fg ' | ')
-                [ordered]@{ type = 'path'; style = 'plain'; foreground = $red; properties = [ordered]@{ style = 'agnoster_short'; max_depth = 3; folder_separator_icon = '\'; folder_icon = '..' }; template = '{{ .Path }}' }
+                [ordered]@{ type = 'path'; style = 'plain'; foreground = $yellow; properties = [ordered]@{ style = 'agnoster_short'; max_depth = 3; folder_separator_icon = '\'; folder_icon = '..' }; template = '{{ .Path }}' }
                 [ordered]@{ type = 'git'; style = 'plain'; foreground = $purple; properties = [ordered]@{ fetch_status = $false; branch_icon = "$([char]0xF418) " }; template = ' {{ .HEAD }}' }
             ))
-            (& $line @((& $statSeg $red "$dog $bone ")) $true)
+            (& $line @((& $statSeg $yellow "$dog $bone ")) $true)
         }
         default {  # classic
             & $line @(
@@ -289,9 +291,11 @@ function New-PoshPaletteOmpConfig {
             $config['transient_prompt'] = [ordered]@{ background = 'transparent'; foreground = $fg; template = "$([char]0xE285) " }
         }
         'velvet' { $config['console_title_template'] = '{{ .Shell }} - {{ .Folder }}' }
-        'snoot' {
+        'bong' {
             $config['console_title_template'] = '{{ .Folder }}'
-            $config['transient_prompt'] = [ordered]@{ background = 'transparent'; foreground = $red; template = "$([char]0xEE9A) " }
+            # Transient prompt keeps the full dog + bone marker (not just the bone) so
+            # submitted lines still read as Bong's prompt. Apricot, matching the accents.
+            $config['transient_prompt'] = [ordered]@{ background = 'transparent'; foreground = $yellow; template = "$([char]0xEEF7) $([char]0xEE9A) " }
         }
     }
     $config

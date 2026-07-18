@@ -1,0 +1,7 @@
+{
+  "id": "bong",
+  "name": "Bong",
+  "generate": true,
+  "style": "bong",
+  "note": "Bespoke Bong prompt: a cloud glyph over a dd/MM/yyyy weekday time line, then the full path and branch, with a dog + bone prompt below. Apricot accents. Needs a Nerd Font for the glyphs."
+}

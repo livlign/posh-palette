@@ -1,0 +1,26 @@
+{
+  "id": "bong",
+  "name": "Bong",
+  "colors": {
+    "background": "#13100A",
+    "foreground": "#ECE1CD",
+    "cursorColor": "#F7C784",
+    "selectionBackground": "#362A1B",
+    "black": "#221C13",
+    "red": "#F0685C",
+    "green": "#B4C47E",
+    "yellow": "#F7C784",
+    "blue": "#9FB6CC",
+    "purple": "#C8A0B4",
+    "cyan": "#7FC9BC",
+    "white": "#ECE1CD",
+    "brightBlack": "#6F6252",
+    "brightRed": "#FF836E",
+    "brightGreen": "#C6D492",
+    "brightYellow": "#FBD79A",
+    "brightBlue": "#B6CADD",
+    "brightPurple": "#DBB6C8",
+    "brightCyan": "#9CD9CD",
+    "brightWhite": "#FBF4E7"
+  }
+}

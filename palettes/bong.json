@@ -1,0 +1,21 @@
+{
+  "id": "bong",
+  "name": "Bong",
+  "psReadLine": {
+    "Command": "#F7C784",
+    "Parameter": "#B7A2A0",
+    "String": "#C9AE8A",
+    "Operator": "#F7C784",
+    "Variable": "#D9B48C",
+    "Number": "#D9B48C",
+    "Comment": "#6F6252",
+    "Error": "#F0685C",
+    "Default": "#ECE1CD",
+    "InlinePrediction": "#6F6252"
+  },
+  "psStyle": {
+    "Directory": "#F7C784",
+    "Error": "#F0685C",
+    "TableHeader": "#F0B265"
+  }
+}

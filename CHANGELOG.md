@@ -5,6 +5,26 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.14.0]
+
+### Changed
+- **Snoot is now "Bong", recolored around an apricot-yellow hero.** The theme
+  keeps its bespoke cloud/date/path prompt and dog + bone marker, but the salmon
+  pink hero (`#FF8FA0`) is replaced by apricot yellow (`#F7C784`) and the whole
+  palette moves with it: the ground shifts from red-leaning rosewood (`#140C0F`)
+  to a warmer espresso (`#13100A`), the foreground warms to `#ECE1CD`, and the
+  supporting colors cool off (teal `#7FC9BC`, slate blue, dusty mauve) so the
+  apricot stays the single loud note. The hero now occupies the scheme's `yellow`
+  slot instead of `red`, which hands `red` back to a true coral (`#F0685C`) so
+  errors read as errors again — including the prompt's status segment, which
+  still flips to red on a non-zero exit code. The rename touches the id, the
+  bundled scheme/palette/prompt/theme files, the `bong` prompt style, the web
+  gallery and the picker preview; the theme installs as
+  `Install-PoshPaletteTheme bong`.
+- **Bong's transient prompt keeps the full dog + bone marker.** Submitting a
+  command previously collapsed the prompt to just the bone glyph; it now redraws
+  the dog + bone together, so completed lines still read as Bong's prompt.
+
 ## [0.13.2]
 
 ### Fixed

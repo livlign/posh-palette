@@ -1,7 +1,0 @@
-{
-  "id": "snoot",
-  "name": "Snoot",
-  "generate": true,
-  "style": "snoot",
-  "note": "Bespoke Snoot prompt: a nose glyph over a dd/MM/yyyy weekday time line, then the full path and branch wrapped in salmon brace pills. Needs a Nerd Font for the glyphs."
-}

@@ -80,7 +80,7 @@ Describe 'Bundled catalog' {
         $ids | Should -Contain 'auto-darkblood'
         $ids | Should -Contain 'auto-tokyonight'
         $ids | Should -Contain 'auto-dracula'
-        $ids | Should -Contain 'snoot'
+        $ids | Should -Contain 'bong'
     }
 }
 
@@ -99,7 +99,7 @@ Describe 'New-PoshPaletteOmpConfig' {
     It 'generates a valid v4 config for every style' {
         InModuleScope PoshPalette {
             $colors = (Get-PoshPaletteCatalogItem -Kind schemes -Id 'tokyo-night').colors
-            foreach ($style in 'powerline','twoline','robby','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula','snoot') {
+            foreach ($style in 'powerline','twoline','robby','arrow','lambda','pure','spaceship','atomic','smoothie','1_shell','cert','clean-detailed','velvet','avit','darkblood','tokyonight','dracula','bong') {
                 $cfg = New-PoshPaletteOmpConfig $colors -Style $style
                 $cfg.version | Should -Be 4
                 @($cfg.blocks).Count | Should -BeGreaterThan 0

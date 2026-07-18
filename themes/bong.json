@@ -1,0 +1,13 @@
+{
+  "id": "bong",
+  "name": "Bong",
+  "description": "Apricot yellow on warm espresso — the color of a happy dog's nose.",
+  "scheme": "bong",
+  "palette": "bong",
+  "prompt": "bong",
+  "font": "cascadia",
+  "fontSize": 11,
+  "opacity": 100,
+  "acrylic": false,
+  "order": 0
+}
