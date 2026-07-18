@@ -5,6 +5,14 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.15.0]
+
+### Added
+- **The menu header shows the installed version.** `Start-PoshPalette` (the
+  `palette` alias) now prints `Posh Palette  v<version>` at the top, read from
+  the bundled manifest, so it's obvious which build is loaded — handy for
+  confirming an update actually took effect.
+
 ## [0.14.0]
 
 ### Changed

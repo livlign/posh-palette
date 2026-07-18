@@ -1,6 +1,6 @@
 @{
     RootModule        = 'PoshPalette.psm1'
-    ModuleVersion     = '0.14.0'
+    ModuleVersion     = '0.15.0'
     GUID              = '7c9e6a1b-4f2d-4b8e-9a3c-1d5f8b2e0a47'
     Author            = 'PoshPalette contributors'
     Copyright         = '(c) PoshPalette contributors. MIT licensed.'
@@ -17,7 +17,7 @@
             LicenseUri   = 'https://github.com/livlign/posh-palette/blob/main/LICENSE'
             ProjectUri   = 'https://github.com/livlign/posh-palette'
             IconUri      = 'https://livlign.github.io/posh-palette/icon-256.png'
-            ReleaseNotes = 'v0.14.0: the Snoot theme is renamed Bong and retuned around an apricot-yellow hero (#F7C784) on a warm espresso ground, with cooler teal/slate/mauve supports. The hero now lives in the yellow slot, freeing red for real errors, and the bespoke prompt''s dog + bone marker persists on submitted lines via the transient prompt. Full history in CHANGELOG.md.'
+            ReleaseNotes = 'v0.15.0: the Posh Palette menu header now shows the installed module version, so it''s clear which build is loaded after an update. (v0.14.0 renamed the Snoot theme to Bong and retuned it around an apricot-yellow hero on a warm espresso ground.) Full history in CHANGELOG.md.'
         }
     }
 }

@@ -678,7 +678,10 @@ function Start-PoshPalette {
             Clear-Host
             Write-Host ""
             Write-Host "  >_  " -ForegroundColor White -NoNewline
-            Write-Host "Posh Palette" -ForegroundColor White
+            Write-Host "Posh Palette" -ForegroundColor White -NoNewline
+            $ver = Get-PoshPaletteVersion
+            if ($ver) { Write-Host "  v$ver" -ForegroundColor DarkGray -NoNewline }
+            Write-Host ""
             Write-PPRule
             Write-Host "  Style all 4 layers: scheme · PSReadLine · `$PSStyle · prompt" -ForegroundColor DarkGray
             if ($script:PPNewThemes -gt 0) {

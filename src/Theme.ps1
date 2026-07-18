@@ -14,6 +14,17 @@
 function Get-PoshPaletteDataRoot { Split-Path $PSScriptRoot -Parent }
 function Get-PoshPaletteThemeRoot { Join-Path (Get-PoshPaletteDataRoot) 'themes' }
 
+# The installed module version, read once from the bundled manifest. Shown in the
+# TUI header so users can tell which build they're on (e.g. after an update).
+# Cached because it's read on every menu render.
+function Get-PoshPaletteVersion {
+    if ($script:PPVersion) { return $script:PPVersion }
+    $script:PPVersion = try {
+        (Import-PowerShellDataFile (Join-Path (Get-PoshPaletteDataRoot) 'PoshPalette.psd1')).ModuleVersion
+    } catch { $null }
+    $script:PPVersion
+}
+
 # Where auto-fetched community entries are cached. The catalog loaders read this
 # in addition to the bundled module dir, so new themes pulled from GitHub show up
 # without reinstalling. Kept under the user's home so it's always writable and
