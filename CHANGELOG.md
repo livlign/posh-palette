@@ -5,6 +5,22 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.2]
+
+### Fixed
+- **Snoot theme card renders on machines without a Nerd Font.** The gallery
+  preview embedded four Nerd Font private-use glyphs (cloud, git branch, dog,
+  bone) that fell through to tofu boxes on macOS and anywhere the font is not
+  installed. The preview now uses standard Unicode (`☁`, `⎇`) and emoji for the
+  dog + bone marker, so it renders everywhere. Only the web preview changed.
+
+### Changed
+- **Snoot's prompt no longer runs `git status` on every render.** Its git
+  segment showed the branch name only, so `fetch_status` was disabled — the
+  branch is still shown, without the per-render `git status` cost. The same
+  dead `fetch_status` was also removed from the darkblood and dracula ports,
+  which never displayed working-tree state; their output is unchanged.
+
 ## [0.13.1]
 
 ### Fixed

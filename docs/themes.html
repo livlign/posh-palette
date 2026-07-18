@@ -840,7 +840,7 @@
         return `<div class="ln prompt"><span class="err">user</span> <span style="color:${c("--c-fg")}">on</span> <span class="op">12:27</span> <span class="param">main</span></div><div class="ln prompt"><span class="param">{</span> <span class="cmd">${D}</span> <span class="param">}</span> <span class="str">❯</span>${cmd}</div>`;
       case "snoot":
         // bespoke: cloud · date · | · path · git branch on one line, dog+bone prompt below
-        return `<div class="ln prompt"><span class="err"> </span> <span style="color:${c("--c-fg")}">16/07 Thu 12:27</span> <span style="color:${c("--c-fg")}">|</span> <span class="err">${P}</span> <span class="param"> main</span></div><div class="ln prompt"><span class="err">  </span>${cmd}</div>`;
+        return `<div class="ln prompt"><span class="err">☁︎ </span> <span style="color:${c("--c-fg")}">16/07 Thu 12:27</span> <span style="color:${c("--c-fg")}">|</span> <span class="err">${P}</span> <span class="param">⎇ main</span></div><div class="ln prompt"><span class="err">🐕️ 🦴️ </span>${cmd}</div>`;
       case "avit": // path + branch, then a coloured arrow line
         return `<div class="ln prompt"><span class="dir">${P}</span> <span class="var">main</span></div><div class="ln prompt"><span style="color:${c("--c-accent")}">➜</span>${cmd}</div>`;
       case "darkblood": // box-drawing frame, accent brackets

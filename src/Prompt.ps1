@@ -132,7 +132,7 @@ function New-PoshPaletteOmpConfig {
             # Port of oh-my-posh's darkblood: box-drawing frame, accent brackets.
             (& $line @(
                 [ordered]@{ type = 'session'; style = 'plain'; foreground = $fg; template = "<$red>$([char]0x250F)[</>{{ .UserName }}<$red>]</>" }
-                [ordered]@{ type = 'git'; style = 'plain'; foreground = $fg; properties = [ordered]@{ fetch_status = $true; branch_icon = '' }; template = " <$red>[</>{{ .HEAD }}<$red>]</>" }
+                [ordered]@{ type = 'git'; style = 'plain'; foreground = $fg; properties = [ordered]@{ fetch_status = $false; branch_icon = '' }; template = " <$red>[</>{{ .HEAD }}<$red>]</>" }
                 [ordered]@{ type = 'status'; style = 'plain'; foreground = $fg; properties = [ordered]@{ always_enabled = $true }; template = "{{ if gt .Code 0 }} <$red>[</>x{{ reason .Code }}<$red>]</>{{ end }}" }
             ))
             (& $line @(
@@ -164,7 +164,7 @@ function New-PoshPaletteOmpConfig {
             (& $line @(
                 [ordered]@{ type = 'session'; style = 'diamond'; leading_diamond = "$([char]0xE0B6)"; foreground = $black; background = $grad[0]; template = '{{ .UserName }} ' }
                 [ordered]@{ type = 'path'; style = 'powerline'; powerline_symbol = $pl; foreground = $black; background = $grad[1]; properties = [ordered]@{ style = 'folder' }; template = ' {{ .Path }} ' }
-                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = $pl; foreground = $black; background = $grad[2]; properties = [ordered]@{ fetch_status = $true; branch_icon = "$([char]0xE725) " }; template = ' {{ .HEAD }} ' }
+                [ordered]@{ type = 'git'; style = 'powerline'; powerline_symbol = $pl; foreground = $black; background = $grad[2]; properties = [ordered]@{ fetch_status = $false; branch_icon = "$([char]0xE725) " }; template = ' {{ .HEAD }} ' }
                 [ordered]@{ type = 'node'; style = 'powerline'; powerline_symbol = $pl; foreground = $black; background = $grad[3]; properties = [ordered]@{ fetch_version = $true }; template = " $([char]0xE718) {{ .Full }} " }
                 [ordered]@{ type = 'time'; style = 'diamond'; trailing_diamond = "$pl"; foreground = $black; background = $grad[4]; properties = [ordered]@{ time_format = '15:04' }; template = " $([char]0x2665) {{ .CurrentDate | date .Format }} " }
             ))
@@ -247,8 +247,9 @@ function New-PoshPaletteOmpConfig {
         'snoot' {
             # Bespoke prompt for the Snoot theme: a cloud glyph, the dd/MM/yyyy date,
             # then the path and git-branch-marked branch on one line, with a dog + bone
-            # prompt on the next. Salmon accents (red); the branch flips red when the
-            # tree is dirty. Long paths collapse to trailing folders to stay compact.
+            # prompt on the next. Salmon accents (red). The git segment shows the branch
+            # only (no fetch_status), so no `git status` runs on every render. Long paths
+            # collapse to trailing folders to stay compact.
             $cloud = [char]0xF0C2      # nf-fa-cloud
             $dog   = [char]0xEEF7      # nf-fa-dog
             $bone  = [char]0xEE9A      # nf-fa-bone
@@ -257,7 +258,7 @@ function New-PoshPaletteOmpConfig {
                 [ordered]@{ type = 'time'; style = 'plain'; foreground = $fg; properties = [ordered]@{ time_format = '02/01/2006 Monday 03:04 PM' }; template = '{{ .CurrentDate | date .Format }}' }
                 (& $textSeg $fg ' | ')
                 [ordered]@{ type = 'path'; style = 'plain'; foreground = $red; properties = [ordered]@{ style = 'agnoster_short'; max_depth = 3; folder_separator_icon = '\'; folder_icon = '..' }; template = '{{ .Path }}' }
-                [ordered]@{ type = 'git'; style = 'plain'; foreground = $purple; foreground_templates = @($chg); properties = [ordered]@{ fetch_status = $true; branch_icon = "$([char]0xF418) " }; template = ' {{ .HEAD }}' }
+                [ordered]@{ type = 'git'; style = 'plain'; foreground = $purple; properties = [ordered]@{ fetch_status = $false; branch_icon = "$([char]0xF418) " }; template = ' {{ .HEAD }}' }
             ))
             (& $line @((& $statSeg $red "$dog $bone ")) $true)
         }
