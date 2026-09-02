@@ -5,6 +5,16 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- **The doctor no longer reports "none detected" for an installed Nerd Font.**
+  `Test-PoshPaletteSetup` matched the font registry on the spaced family name
+  (`Nerd Font`), but Windows names font keys after the font *file* title, which
+  drops the spaces — a normal install registers as
+  `JetBrainsMonoNerdFont-Bold (TrueType)` and read as bare. Detection now also
+  matches the squashed file titles and the `NF`/`NFM`/`NFP` short forms, the same
+  normalisation `Install-PoshPaletteFont` already used, and the check reports the
+  family it found instead of a bare "found".
+
 ## [0.15.0]
 
 ### Added

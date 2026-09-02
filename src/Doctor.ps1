@@ -10,18 +10,43 @@ function New-PoshPaletteCheck {
     [pscustomobject]@{ Name = $Name; Status = $Status; Detail = $Detail; Fix = $Fix }
 }
 
+# Does a font registry key name belong to a Nerd Font? Kept as a pure predicate
+# so it's testable off-Windows, where there is no font registry to read.
+#
+# Keys are named after the font *file* title, not the family, so a normal install
+# registers as 'JetBrainsMonoNerdFont-Bold (TrueType)' - no spaces - and matching
+# on the spaced family name alone reports a fully-installed font as missing.
+# Match both shapes: the spaced name for builds that register the family
+# ('CaskaydiaCove NFM', 'FiraCode Nerd Font Mono') and the squashed name for the
+# file titles. Same normalisation Test-PoshPaletteFontInstalled uses.
+function Test-PoshPaletteNerdFontName {
+    param([Parameter(Mandatory)] [AllowEmptyString()] [string] $Name)
+    $Name -match 'Nerd Font|\bNF[MP]?\b' -or ($Name -replace '\s', '') -match 'NerdFont|NF[MP]?-'
+}
+
+# The registry key of the first installed Nerd Font, or $null. Windows only.
+function Get-PoshPaletteNerdFontKey {
+    $keys = @('HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts',
+              'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts')
+    foreach ($k in $keys) {
+        if (-not (Test-Path $k)) { continue }
+        foreach ($name in (Get-ItemProperty $k).psobject.Properties.Name) {
+            if (Test-PoshPaletteNerdFontName $name) { return $name }
+        }
+    }
+    $null
+}
+
+# 'JetBrainsMonoNerdFont-Bold (TrueType)' -> 'JetBrainsMonoNerdFont'
+function Format-PoshPaletteFontFamily {
+    param([Parameter(Mandatory)] [AllowEmptyString()] [string] $KeyName)
+    (($KeyName -replace '\s*\((TrueType|OpenType)\)\s*$', '') -split '-')[0].Trim()
+}
+
 function Test-PoshPaletteFont {
     # Best-effort Nerd Font detection. Reliable only on Windows (font registry).
     if ($IsWindows -or $PSVersionTable.PSEdition -eq 'Desktop') {
-        $keys = @('HKCU:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts',
-                  'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Fonts')
-        foreach ($k in $keys) {
-            if (Test-Path $k) {
-                $names = (Get-ItemProperty $k).psobject.Properties.Name
-                if ($names -match 'Nerd Font|NF ') { return $true }
-            }
-        }
-        return $false
+        return [bool] (Get-PoshPaletteNerdFontKey)
     }
     return $null   # unknown off-Windows
 }
@@ -73,7 +98,7 @@ function Test-PoshPaletteSetup {
     # Nerd Font
     $font = Test-PoshPaletteFont
     $checks += if ($font -eq $true) {
-        New-PoshPaletteCheck 'Nerd Font installed' 'Ok' 'found'
+        New-PoshPaletteCheck 'Nerd Font installed' 'Ok' (Format-PoshPaletteFontFamily (Get-PoshPaletteNerdFontKey))
     } elseif ($font -eq $false) {
         New-PoshPaletteCheck 'Nerd Font installed' 'Warn' 'none detected' "Run Install-PoshPaletteFont jetbrains (or any font id) to download + install one."
     } else {
