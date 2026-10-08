@@ -5,6 +5,20 @@ This project follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- **Linux shells and terminals.** A native front end in `linux/` (`palette`,
+  Python 3.8+ stdlib only) applies the same catalog without PowerShell:
+  - terminal: Ghostty, kitty, Alacritty and foot via a managed block in their
+    config (scheme, font, size, opacity, blur); WezTerm gets a named color
+    scheme; every other terminal is recolored via OSC on each new shell;
+  - shells: bash, zsh, fish (plus ksh/mksh/dash for colors) get input colors
+    (zsh-syntax-highlighting / zsh-autosuggestions, `fish_color_*`, ble.sh),
+    `LS_COLORS` / `GREP_COLORS`, and the generated oh-my-posh prompt. A test
+    keeps the prompt identical to the pwsh generator for every style;
+  - the same Simple / Detail picker with live preview, per-layer commands,
+    `doctor`, `reset`, scheme import (adds Ghostty and kitty formats), Nerd Font
+    install via fontconfig, and the community catalog refresh.
+
 ### Fixed
 - **The doctor no longer reports "none detected" for an installed Nerd Font.**
   `Test-PoshPaletteSetup` matched the font registry on the spaced family name

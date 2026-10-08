@@ -41,6 +41,28 @@ jobs:
           name: pester-results-${{ matrix.os }}
           path: testresults.xml
 
+  linux-shells:
+    name: Linux shells (python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ['3.8', '3.13']
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      # zsh + fish so the generated init scripts get syntax- and run-checked;
+      # pwsh ships on the runner, so the prompt parity test runs too.
+      - name: Install shells
+        run: sudo apt-get update && sudo apt-get install -y zsh fish
+
+      - name: Run tests
+        run: python -m unittest discover -s linux/tests -t linux/tests -v
+
   gallery-sync:
     name: Gallery sync
     runs-on: ubuntu-latest

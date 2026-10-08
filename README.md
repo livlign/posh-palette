@@ -9,9 +9,10 @@
 [![License](https://img.shields.io/github/license/livlign/posh-palette)](LICENSE)
 [![tests](https://github.com/livlign/posh-palette/actions/workflows/tests.yml/badge.svg)](https://github.com/livlign/posh-palette/actions/workflows/tests.yml)
 
-An interactive theme picker for **PowerShell + Windows Terminal**. Browse a
-gallery of looks, preview them live, and apply one across all **4 layers** at
-once, without leaving your terminal.
+An interactive theme picker for **PowerShell + Windows Terminal**, and for
+**bash / zsh / fish on any Linux terminal**. Browse a gallery of looks, preview
+them live, and apply one across all **4 layers** at once, without leaving your
+terminal.
 
 <p align="center">
   <a href="https://livlign.github.io/posh-palette/themes.html"><img src="assets/theme-montage.png" alt="A montage of twelve Posh Palette themes — Eclipse, Tokyo Night, Dracula, Nord, Synthwave '84, Forge Ember, Gruvbox, Everforest, Catppuccin Latte, Matcha Zen, Amber CRT and Porcelain — each shown as a small terminal preview" width="100%"></a>
@@ -21,8 +22,9 @@ once, without leaving your terminal.
 
 > **Platform:** the Windows Terminal layer (scheme, background, opacity, font) is
 > Windows-only. The PSReadLine, `$PSStyle`, and oh-my-posh layers run in any
-> PowerShell 7 session, so on macOS/Linux you still get everything except the
-> Windows Terminal–specific bits.
+> PowerShell 7 session. **On Linux, use the native front end instead:**
+> [`linux/`](linux/README.md) applies the same themes to Ghostty, kitty,
+> Alacritty, foot, or any terminal via OSC, and to bash, zsh and fish.
 
 | Layer | What it colors | How it applies |
 |-------|----------------|----------------|
@@ -50,6 +52,22 @@ In Windows Terminal, set the default profile to **PowerShell** (7.x) rather than
 > PoshPalette offers to install it for you (per-user via `winget`, no admin), then
 > you re-open pwsh to see the prompt. To install it yourself ahead of time:
 > `winget install JanDeDobbeleer.OhMyPosh -s winget`.
+
+### Linux (bash / zsh / fish)
+
+No PowerShell needed: a small `python3` front end reads the same catalogs.
+
+```sh
+git clone https://github.com/livlign/posh-palette ~/Code/posh-palette
+~/Code/posh-palette/linux/install.sh   # links `palette` into ~/.local/bin
+palette
+```
+
+It themes Ghostty, kitty, Alacritty and foot through their config files, and any
+other terminal (GNOME Terminal, Konsole, WezTerm, …) via OSC escapes. In the shell
+it sets input colors (zsh-syntax-highlighting, fish, ble.sh), `LS_COLORS` /
+`GREP_COLORS`, and the same generated oh-my-posh prompt. See
+[linux/README.md](linux/README.md) for the commands and how it's wired.
 
 ## Update
 

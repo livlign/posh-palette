@@ -9,8 +9,8 @@ Each layer lives in its own folder and can be contributed on its own:
 
 | Folder | What it holds |
 |--------|---------------|
-| `schemes/` | a Windows Terminal color scheme (16 ANSI colors + bg/fg/cursor) |
-| `palettes/` | PSReadLine input colors + `$PSStyle` output colors |
+| `schemes/` | a terminal color scheme (16 ANSI colors + bg/fg/cursor), used for Windows Terminal and the Linux terminals |
+| `palettes/` | input colors + output colors (PSReadLine / `$PSStyle` in pwsh; zsh, fish, ble.sh and `LS_COLORS` on Linux) |
 | `prompts/` | an oh-my-posh prompt reference |
 | `themes/` | a **composition** that ties one entry from each layer together |
 
@@ -55,6 +55,12 @@ Test-PoshPaletteContrast -Scheme my-scheme -Palette my-palette
 ```
 
 CI runs that same contrast check (`tests/Contrast.Tests.ps1`) over every theme.
+
+Both front ends read the same files: the pwsh module and the Linux one in
+`linux/`. If you change how a prompt style is generated, update
+`src/Prompt.ps1` **and** `linux/posh_palette/prompt.py`. CI fails if the two
+generators produce different prompts. Run the Linux tests with
+`python3 -m unittest discover -s linux/tests -t linux/tests`.
 
 ## Naming conventions
 

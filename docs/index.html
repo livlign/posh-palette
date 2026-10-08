@@ -4,26 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="Z8JkQppZRktfbbcv64vp_kzjhsBKnnH48WPY7i8D1Yc">
-<title>Posh Palette — PowerShell &amp; Windows Terminal theme picker</title>
-<meta name="description" content="Posh Palette restyles your Windows Terminal color scheme, the commands you type, your output, and your oh-my-posh prompt together, with live preview right in the terminal. 48 themes, one command to install.">
+<title>Posh Palette — theme picker for PowerShell, Windows Terminal &amp; Linux shells</title>
+<meta name="description" content="Posh Palette restyles your terminal color scheme, the commands you type, your output, and your oh-my-posh prompt together, with live preview right in the terminal. PowerShell + Windows Terminal, or bash, zsh and fish on Ghostty, kitty, Alacritty and any Linux terminal. 48 themes.">
 <link rel="canonical" href="https://livlign.github.io/posh-palette/">
 <meta name="author" content="livlign">
 <meta name="theme-color" content="#0A0D12">
-<meta name="keywords" content="PowerShell theme, Windows Terminal theme, PSReadLine colors, oh-my-posh prompt, terminal color scheme, PowerShell module, pwsh, Nerd Font">
+<meta name="keywords" content="PowerShell theme, Windows Terminal theme, PSReadLine colors, oh-my-posh prompt, terminal color scheme, PowerShell module, pwsh, Nerd Font, Linux terminal theme, zsh theme, bash theme, fish theme, Ghostty theme, kitty theme, Alacritty theme, LS_COLORS">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Posh Palette">
-<meta property="og:title" content="Posh Palette — PowerShell &amp; Windows Terminal theme picker">
-<meta property="og:description" content="One picker for your Windows Terminal scheme, PSReadLine, $PSStyle and oh-my-posh prompt, with live preview. 48 themes, install in one command.">
+<meta property="og:title" content="Posh Palette — theme picker for PowerShell, Windows Terminal &amp; Linux shells">
+<meta property="og:description" content="One picker for your terminal scheme, input colors, output colors and oh-my-posh prompt, with live preview. PowerShell on Windows Terminal, or bash / zsh / fish on any Linux terminal. 48 themes.">
 <meta property="og:url" content="https://livlign.github.io/posh-palette/">
 <meta property="og:image" content="https://livlign.github.io/posh-palette/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Posh Palette: theme your whole PowerShell + Windows Terminal shell">
+<meta property="og:image:alt" content="Posh Palette: theme your whole shell, PowerShell or Linux">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Posh Palette — PowerShell &amp; Windows Terminal theme picker">
-<meta name="twitter:description" content="One picker for your Windows Terminal scheme, PSReadLine, $PSStyle and oh-my-posh prompt, with live preview. 48 themes.">
+<meta name="twitter:title" content="Posh Palette — theme picker for PowerShell, Windows Terminal &amp; Linux shells">
+<meta name="twitter:description" content="One picker for your terminal scheme, input colors, output colors and oh-my-posh prompt, with live preview. PowerShell or bash / zsh / fish. 48 themes.">
 <meta name="twitter:image" content="https://livlign.github.io/posh-palette/og-image.png">
 <script type="application/ld+json">
 {
@@ -32,7 +32,7 @@
   "name": "Posh Palette",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Windows, macOS, Linux",
-  "description": "Interactive theme picker for PowerShell + Windows Terminal. Browse, preview, and apply a look across all 4 layers (Terminal scheme, PSReadLine, $PSStyle, and oh-my-posh prompt) at once, with live preview and 48 bundled themes.",
+  "description": "Interactive theme picker for PowerShell + Windows Terminal and for bash, zsh and fish on Linux terminals (Ghostty, kitty, Alacritty, foot, or any terminal via OSC). Browse, preview, and apply a look across all 4 layers (terminal scheme, input colors, output colors, and oh-my-posh prompt) at once, with live preview and 48 bundled themes.",
   "url": "https://livlign.github.io/posh-palette/",
   "downloadUrl": "https://www.powershellgallery.com/packages/PoshPalette",
   "license": "https://github.com/livlign/posh-palette/blob/main/LICENSE",
@@ -125,6 +125,8 @@
   .runpill{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);
     border:1px solid var(--hair-2);border-radius:11px;padding:0 8px 0 18px;height:52px;font-family:var(--mono);font-size:14.5px}
   .runpill .rp-cmd{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .runpill.multi{height:auto;padding:11px 8px 11px 18px}
+  .runpill.multi .rp-cmd{white-space:normal;overflow-wrap:anywhere;text-align:left;line-height:1.6;font-size:13.5px}
   .runpill .pmt{color:var(--accent);font-weight:600}
   .runpill .cmd{color:var(--ink)}
   .runpill button{display:inline-flex;align-items:center;gap:6px;background:var(--raised);border:1px solid var(--hair-2);
@@ -301,8 +303,8 @@
 
 <main class="wrap" id="top">
   <section class="hero">
-    <span class="pill rv"><span class="d"></span>PowerShell · Windows Terminal · oh-my-posh</span>
-    <h1 class="rv" style="animation-delay:.06s">Turn the default PowerShell into one you <span class="this-b">actually want to look at.</span></h1>
+    <span class="pill rv"><span class="d"></span>PowerShell · Windows Terminal · Linux shells · oh-my-posh</span>
+    <h1 class="rv" style="animation-delay:.06s">Turn your default shell into one you <span class="this-b">actually want to look at.</span></h1>
     <p class="sub rv" style="animation-delay:.12s">One command restyles your color scheme, your prompt, and your output together. The whole shell, not just the prompt.</p>
 
     <div class="stage rv" style="animation-delay:.18s">
@@ -336,6 +338,13 @@
       </div>
     </div>
     <p class="req rv" style="animation-delay:.3s">Then run <b>palette</b> · requires <b>PowerShell 7.2+</b> (pwsh, not Windows PowerShell 5.1)</p>
+    <div class="actions rv" style="animation-delay:.34s">
+      <div class="runpill multi">
+        <span class="rp-cmd"><span class="pmt">$</span> <span class="cmd">git clone https://github.com/livlign/posh-palette</span><br><span class="pmt">$</span> <span class="cmd">posh-palette/linux/install.sh</span></span>
+        <button id="copyBtnLinux" type="button" aria-label="Copy Linux install command"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
+      </div>
+    </div>
+    <p class="req rv" style="animation-delay:.38s">On <b>Linux</b>: bash · zsh · fish on Ghostty, kitty, Alacritty, foot, or any terminal · needs only <b>python3</b> · <a href="https://github.com/livlign/posh-palette/blob/main/linux/README.md">Linux guide →</a></p>
   </section>
 </main>
 
@@ -353,30 +362,30 @@
   </div>
   <div class="grid4">
     <div class="card">
-      <span class="tag">Windows Terminal</span>
+      <span class="tag">Windows Terminal · Ghostty · kitty</span>
       <div class="demo"><div class="ansi">
         <i style="background:var(--t-err)"></i><i style="background:var(--t-str)"></i><i style="background:var(--t-var)"></i>
         <i style="background:var(--t-cmd)"></i><i style="background:var(--t-op)"></i><i style="background:var(--t-param)"></i>
         <i style="background:var(--t-num)"></i><i style="background:var(--term-fg)"></i>
       </div></div>
       <h3>Color scheme</h3>
-      <p>Background, foreground, and the 16 ANSI colors. Hot-reloads the instant it's applied.</p>
+      <p>Background, foreground, and the 16 ANSI colors, plus font and opacity. Recolors the terminal the instant it's applied.</p>
     </div>
     <div class="card">
-      <span class="tag">PSReadLine</span>
+      <span class="tag">PSReadLine · zsh · fish</span>
       <div class="demo"><span class="ln"><span class="c-cmd">Get-ChildItem</span> <span class="c-param">-Path</span> <span class="c-str">src</span> <span class="c-param">-Recurse</span></span></div>
       <h3>Typed commands</h3>
-      <p>Cmdlets, parameters, strings, and errors colored as you type them.</p>
+      <p>Commands, parameters, strings, and errors colored as you type them.</p>
     </div>
     <div class="card">
-      <span class="tag">$PSStyle</span>
+      <span class="tag">$PSStyle · LS_COLORS</span>
       <div class="demo">
         <div class="ln"><span class="c-op">Mode  LastWriteTime  Name</span></div>
         <div class="ln">d---- 6/20/2026   <span class="c-dir">schemes</span></div>
         <div class="ln"><span class="c-err">Get-Content:</span> not found</div>
       </div>
       <h3>Command output</h3>
-      <p>Table headers, directory names, and error text in the output stream.</p>
+      <p>Directory and file names, table headers, matches, and error text in your output.</p>
     </div>
     <div class="card">
       <span class="tag">oh-my-posh</span>
@@ -416,7 +425,7 @@
     <ul class="feats">
       <li><span class="ic">↑↓</span><div><h4>Arrow-key navigation</h4><p>Move through every menu and list; number and letter shortcuts still work.</p></div></li>
       <li><span class="ic">◧</span><div><h4>Live preview</h4><p>A mini shell renders in the theme's real colors and recolors as you scroll, before anything is written.</p></div></li>
-      <li><span class="ic">✓</span><div><h4>Doctor built in</h4><p>A preflight check for PowerShell, PSReadLine, oh-my-posh, a Nerd Font, and your terminal, with the fix for each.</p></div></li>
+      <li><span class="ic">✓</span><div><h4>Doctor built in</h4><p>A preflight check for your shell, oh-my-posh, a Nerd Font, and your terminal, with the fix for each.</p></div></li>
       <li><span class="ic">↵</span><div><h4>Clear confirmation</h4><p>After you apply, it tells you exactly what changed and what to do next.</p></div></li>
     </ul>
   </div>
@@ -442,7 +451,7 @@
       <p class="lead">It doesn't hold colors. It points at entries in per-layer catalogs. That's what lets you swap a single layer, and what makes every layer its own contribution.</p>
       <ul>
         <li><span class="k">schemes/</span><span>16 ANSI colors + background, foreground, cursor</span></li>
-        <li><span class="k">palettes/</span><span>PSReadLine input + <b>$PSStyle</b> output colors</span></li>
+        <li><span class="k">palettes/</span><span>input + output colors (PSReadLine / <b>$PSStyle</b>, zsh / fish / <b>LS_COLORS</b>)</span></li>
         <li><span class="k">prompts/</span><span>an oh-my-posh theme reference</span></li>
         <li><span class="k">fonts.json</span><span>the Nerd Fonts you can pick from</span></li>
       </ul>
@@ -472,7 +481,7 @@
       </div>
       <div class="ctas">
         <a class="btn btn-primary" href="https://www.powershellgallery.com/packages/PoshPalette">Get it on the Gallery</a>
-        <a class="btn btn-ghost" href="themes.html">Browse 48 themes</a>
+        <a class="btn btn-ghost" href="https://github.com/livlign/posh-palette/blob/main/linux/README.md">On Linux? bash · zsh · fish</a>
       </div>
     </div>
   </div>
@@ -487,7 +496,7 @@
     <a href="https://ohmyposh.dev">oh-my-posh</a>
     <a href="https://www.nerdfonts.com">Nerd Fonts</a>
   </div>
-  <div class="meta">built for the terminal · on the PowerShell Gallery · MIT</div>
+  <div class="meta">built for the terminal · on the PowerShell Gallery · runs on Linux shells · MIT</div>
 </footer>
 
 <script>
@@ -499,6 +508,7 @@
   }
   copy(document.getElementById("copyBtn"), "Install-Module PoshPalette");
   copy(document.getElementById("copyBtn2"), "Install-Module PoshPalette");
+  copy(document.getElementById("copyBtnLinux"), "git clone https://github.com/livlign/posh-palette && posh-palette/linux/install.sh");
 </script>
 </body>
 </html>
