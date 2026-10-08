@@ -35,6 +35,8 @@ terminal.
 
 ## Install
 
+### Windows / PowerShell
+
 **Prerequisite:** PowerShell 7.2+ — the modern, cross-platform `pwsh`, not the
 built-in Windows PowerShell 5.1 (check with `$PSVersionTable.PSVersion`). Don't
 have it yet? `winget install Microsoft.PowerShell`, then start `pwsh`.
@@ -88,6 +90,11 @@ module update needed (see **Use → New themes show up automatically**, below).
 Launch the interactive picker, apply a theme by name, or tweak one layer at a
 time. The rest — importing schemes, the auto-update catalog, the setup doctor,
 and font installs — is grouped below.
+
+> The commands below are the PowerShell ones. On Linux the same actions are
+> `palette apply <theme>`, `palette scheme|colors|prompt|font <id>`,
+> `palette reset`, `palette doctor`, `palette import`, `palette font-install`.
+> See [linux/README.md](linux/README.md).
 
 ### Apply a theme
 

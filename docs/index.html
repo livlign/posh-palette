@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-os="linux">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="Z8JkQppZRktfbbcv64vp_kzjhsBKnnH48WPY7i8D1Yc">
-<title>Posh Palette — theme picker for PowerShell, Windows Terminal &amp; Linux shells</title>
+<title>Posh Palette — theme your terminal and shell, on Linux or Windows</title>
 <meta name="description" content="Posh Palette restyles your terminal color scheme, the commands you type, your output, and your oh-my-posh prompt together, with live preview right in the terminal. PowerShell + Windows Terminal, or bash, zsh and fish on Ghostty, kitty, Alacritty and any Linux terminal. 48 themes.">
 <link rel="canonical" href="https://livlign.github.io/posh-palette/">
 <meta name="author" content="livlign">
@@ -13,7 +13,7 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Posh Palette">
-<meta property="og:title" content="Posh Palette — theme picker for PowerShell, Windows Terminal &amp; Linux shells">
+<meta property="og:title" content="Posh Palette — theme your terminal and shell, on Linux or Windows">
 <meta property="og:description" content="One picker for your terminal scheme, input colors, output colors and oh-my-posh prompt, with live preview. PowerShell on Windows Terminal, or bash / zsh / fish on any Linux terminal. 48 themes.">
 <meta property="og:url" content="https://livlign.github.io/posh-palette/">
 <meta property="og:image" content="https://livlign.github.io/posh-palette/og-image.png">
@@ -22,7 +22,7 @@
 <meta property="og:image:alt" content="Posh Palette: theme your whole shell, PowerShell or Linux">
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Posh Palette — theme picker for PowerShell, Windows Terminal &amp; Linux shells">
+<meta name="twitter:title" content="Posh Palette — theme your terminal and shell, on Linux or Windows">
 <meta name="twitter:description" content="One picker for your terminal scheme, input colors, output colors and oh-my-posh prompt, with live preview. PowerShell or bash / zsh / fish. 48 themes.">
 <meta name="twitter:image" content="https://livlign.github.io/posh-palette/og-image.png">
 <script type="application/ld+json">
@@ -40,6 +40,12 @@
   "author": { "@type": "Person", "name": "livlign" },
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
 }
+</script>
+<script>
+  (function(){ var os = null;
+    try{ os = localStorage.getItem("pp-os"); }catch(e){}
+    if(os !== "linux" && os !== "windows") os = /Win/i.test(navigator.userAgent) ? "windows" : "linux";
+    document.documentElement.dataset.os = os; })();
 </script>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -133,6 +139,18 @@
     color:var(--ink-dim);font-family:var(--mono);font-size:12px;border-radius:8px;padding:8px 11px;cursor:pointer;transition:.18s;flex:none}
   .runpill button:hover{color:var(--on-accent);background:var(--accent);border-color:var(--accent)}
   .ctas{display:flex;gap:12px}
+
+  /* platform switch: [data-os] on <html> shows one set of .os-linux / .os-win */
+  [data-os="linux"] .os-win,[data-os="windows"] .os-linux{display:none!important}
+  .os-switch{margin-top:26px;display:inline-flex;gap:4px;padding:4px;background:var(--surface);
+    border:1px solid var(--hair-2);border-radius:12px}
+  .os-switch button{font-family:var(--sans);font-size:14px;font-weight:600;color:var(--ink-dim);background:transparent;
+    border:0;border-radius:9px;padding:8px 16px;cursor:pointer;transition:.18s}
+  .os-switch button span{font-family:var(--mono);font-size:11.5px;font-weight:400;color:var(--ink-faint);margin-left:6px}
+  .os-switch button:hover{color:var(--ink)}
+  .os-switch button[aria-pressed="true"]{background:var(--raised);color:var(--ink);box-shadow:0 0 0 1px var(--hair-2) inset}
+  .os-switch button[aria-pressed="true"] span{color:var(--accent)}
+  @media (max-width:560px){.os-switch button span{display:none}}
   .ctas .btn{flex:1;justify-content:center}
   .req{margin-top:16px;font-family:var(--mono);font-size:13px;color:var(--ink-dim);line-height:1.5}
   .req b{color:var(--ink);font-weight:600}
@@ -166,7 +184,7 @@
     background-clip:text;color:transparent}
 
   /* single terminal centerpiece */
-  .stage{margin:30px auto 0;max-width:760px;width:100%;position:relative}
+  .stage{margin:22px auto 0;max-width:760px;width:100%;position:relative}
   .stage::before{content:"";position:absolute;inset:-10% -6% -16%;z-index:-1;
     background:radial-gradient(58% 60% at 50% 38%, var(--glow), transparent 70%)}
   .stage .term{box-shadow:0 44px 110px -46px var(--accent),0 30px 70px -42px rgba(0,0,0,.82)}
@@ -303,18 +321,33 @@
 
 <main class="wrap" id="top">
   <section class="hero">
-    <span class="pill rv"><span class="d"></span>PowerShell · Windows Terminal · Linux shells · oh-my-posh</span>
+    <span class="pill rv"><span class="d"></span>bash · zsh · fish · PowerShell · oh-my-posh</span>
     <h1 class="rv" style="animation-delay:.06s">Turn your default shell into one you <span class="this-b">actually want to look at.</span></h1>
-    <p class="sub rv" style="animation-delay:.12s">One command restyles your color scheme, your prompt, and your output together. The whole shell, not just the prompt.</p>
+    <p class="sub rv" style="animation-delay:.12s">One command restyles your terminal colors, your prompt, what you type, and what comes back. The whole shell, not just the prompt. On Linux and Windows.</p>
+
+    <div class="os-switch rv" style="animation-delay:.16s" role="group" aria-label="Choose your platform">
+      <button type="button" data-pick="linux" aria-pressed="true">Linux <span>bash · zsh · fish</span></button>
+      <button type="button" data-pick="windows" aria-pressed="false">Windows <span>PowerShell</span></button>
+    </div>
 
     <div class="stage rv" style="animation-delay:.18s">
       <div class="term">
         <div class="term-bar">
-          <div class="term-tab"><span class="dot" aria-hidden="true"></span>PowerShell</div>
+          <div class="term-tab"><span class="dot" aria-hidden="true"></span><span class="os-linux">zsh — Ghostty</span><span class="os-win">PowerShell</span></div>
           <span class="newtab" aria-hidden="true">+</span>
           <div class="term-ctl" aria-hidden="true"><span>─</span><span>▢</span><span>✕</span></div>
         </div>
-        <div class="term-body">
+        <div class="term-body os-linux">
+          <div class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">repo</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span> <span class="c-cmd">ls</span> <span class="c-param">-l</span> src</div>
+          <div class="ln">drwxr-xr-x  4.0K Jun 20 09:39 <span class="c-dir">components</span></div>
+          <div class="ln">-rwxr-xr-x  1.2K Jun 18 13:12 <span class="c-str">build.sh</span></div>
+          <div class="ln">-rw-r--r--  8.9K Jun 18 13:12 <span class="c-cmd">index.ts</span></div>
+          <div class="ln">-rw-r--r--  2.1K Jun 12 10:02 <span class="c-var">theme.json</span></div>
+          <div class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">repo</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span> <span class="c-cmd">git</span> commit <span class="c-param">-m</span> <span class="c-str">"ship it"</span> <span class="c-com"># done</span></div>
+          <div class="ln">[<span class="c-str">main</span> <span class="c-num">5d6e7f8</span>] ship it</div>
+          <div class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">repo</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span> <span class="cur" aria-hidden="true"></span></div>
+        </div>
+        <div class="term-body os-win">
           <div class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">repo</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span> <span class="c-cmd">Get-ChildItem</span> <span class="c-param">-Path</span> <span class="c-str">src</span></div>
           <div class="ln">&nbsp;</div>
           <div class="ln"><span class="c-op">Mode   LastWriteTime      Length Name</span></div>
@@ -328,23 +361,22 @@
     </div>
 
     <div class="actions rv" style="animation-delay:.24s">
-      <div class="runpill">
+      <div class="runpill multi os-linux">
+        <span class="rp-cmd"><span class="pmt">$</span> <span class="cmd">git clone https://github.com/livlign/posh-palette</span><br><span class="pmt">$</span> <span class="cmd">posh-palette/linux/install.sh</span></span>
+        <button type="button" data-copy="git clone https://github.com/livlign/posh-palette &amp;&amp; posh-palette/linux/install.sh" aria-label="Copy Linux install commands"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
+      </div>
+      <div class="runpill os-win">
         <span class="rp-cmd"><span class="pmt">PS&gt;</span> <span class="cmd">Install-Module PoshPalette</span></span>
-        <button id="copyBtn" type="button" aria-label="Copy install command"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
+        <button type="button" data-copy="Install-Module PoshPalette" aria-label="Copy install command"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
       </div>
       <div class="ctas">
-        <a class="btn btn-primary" href="https://www.powershellgallery.com/packages/PoshPalette">Get it on the Gallery</a>
+        <a class="btn btn-primary os-linux" href="https://github.com/livlign/posh-palette/blob/main/linux/README.md">Linux install guide</a>
+        <a class="btn btn-primary os-win" href="https://www.powershellgallery.com/packages/PoshPalette">Get it on the Gallery</a>
         <a class="btn btn-ghost" href="#layers">See how it works</a>
       </div>
     </div>
-    <p class="req rv" style="animation-delay:.3s">Then run <b>palette</b> · requires <b>PowerShell 7.2+</b> (pwsh, not Windows PowerShell 5.1)</p>
-    <div class="actions rv" style="animation-delay:.34s">
-      <div class="runpill multi">
-        <span class="rp-cmd"><span class="pmt">$</span> <span class="cmd">git clone https://github.com/livlign/posh-palette</span><br><span class="pmt">$</span> <span class="cmd">posh-palette/linux/install.sh</span></span>
-        <button id="copyBtnLinux" type="button" aria-label="Copy Linux install command"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
-      </div>
-    </div>
-    <p class="req rv" style="animation-delay:.38s">On <b>Linux</b>: bash · zsh · fish on Ghostty, kitty, Alacritty, foot, or any terminal · needs only <b>python3</b> · <a href="https://github.com/livlign/posh-palette/blob/main/linux/README.md">Linux guide →</a></p>
+    <p class="req rv os-linux" style="animation-delay:.3s">Then run <b>palette</b> · needs only <b>python3</b> · Ghostty, kitty, Alacritty, foot, or any terminal</p>
+    <p class="req rv os-win" style="animation-delay:.3s">Then run <b>palette</b> · requires <b>PowerShell 7.2+</b> (pwsh, not Windows PowerShell 5.1)</p>
   </section>
 </main>
 
@@ -362,7 +394,7 @@
   </div>
   <div class="grid4">
     <div class="card">
-      <span class="tag">Windows Terminal · Ghostty · kitty</span>
+      <span class="tag"><span class="os-linux">Ghostty · kitty · any terminal</span><span class="os-win">Windows Terminal</span></span>
       <div class="demo"><div class="ansi">
         <i style="background:var(--t-err)"></i><i style="background:var(--t-str)"></i><i style="background:var(--t-var)"></i>
         <i style="background:var(--t-cmd)"></i><i style="background:var(--t-op)"></i><i style="background:var(--t-param)"></i>
@@ -372,26 +404,34 @@
       <p>Background, foreground, and the 16 ANSI colors, plus font and opacity. Recolors the terminal the instant it's applied.</p>
     </div>
     <div class="card">
-      <span class="tag">PSReadLine · zsh · fish</span>
-      <div class="demo"><span class="ln"><span class="c-cmd">Get-ChildItem</span> <span class="c-param">-Path</span> <span class="c-str">src</span> <span class="c-param">-Recurse</span></span></div>
+      <span class="tag"><span class="os-linux">zsh · fish · ble.sh</span><span class="os-win">PSReadLine</span></span>
+      <div class="demo">
+        <span class="ln os-linux"><span class="c-cmd">git</span> commit <span class="c-param">-m</span> <span class="c-str">"ship it"</span></span>
+        <span class="ln os-win"><span class="c-cmd">Get-ChildItem</span> <span class="c-param">-Path</span> <span class="c-str">src</span> <span class="c-param">-Recurse</span></span>
+      </div>
       <h3>Typed commands</h3>
-      <p>Commands, parameters, strings, and errors colored as you type them.</p>
+      <p>Commands, flags, strings, and errors colored as you type them.</p>
     </div>
     <div class="card">
-      <span class="tag">$PSStyle · LS_COLORS</span>
-      <div class="demo">
+      <span class="tag"><span class="os-linux">LS_COLORS · GREP_COLORS</span><span class="os-win">$PSStyle</span></span>
+      <div class="demo os-linux">
+        <div class="ln">drwxr-xr-x <span class="c-dir">schemes</span></div>
+        <div class="ln">-rwxr-xr-x <span class="c-str">build.sh</span></div>
+        <div class="ln"><span class="c-cmd">app.ts</span>:<span class="c-num">12</span>: <span class="c-err">TODO</span> fix</div>
+      </div>
+      <div class="demo os-win">
         <div class="ln"><span class="c-op">Mode  LastWriteTime  Name</span></div>
         <div class="ln">d---- 6/20/2026   <span class="c-dir">schemes</span></div>
         <div class="ln"><span class="c-err">Get-Content:</span> not found</div>
       </div>
       <h3>Command output</h3>
-      <p>Directory and file names, table headers, matches, and error text in your output.</p>
+      <p>Directories, file types, grep matches, table headers, and error text in your output.</p>
     </div>
     <div class="card">
       <span class="tag">oh-my-posh</span>
       <div class="demo"><span class="ln"><span class="c-param">❯❯</span> <span class="c-cmd">posh-palette</span> <span class="c-com">git:(</span><span class="c-str">main</span><span class="c-com">)</span> <span class="c-var">12:27</span></span></div>
       <h3>Prompt</h3>
-      <p>Your prompt theme, kept in step with everything around it.</p>
+      <p>Generated from the scheme, so it always matches. The same prompt in bash, zsh, fish, and pwsh.</p>
     </div>
   </div>
 </section>
@@ -405,14 +445,14 @@
   <div class="show">
     <div class="term">
       <div class="term-bar">
-        <div class="term-tab"><span class="dot" aria-hidden="true"></span>PowerShell</div>
+        <div class="term-tab"><span class="dot" aria-hidden="true"></span><span class="os-linux">zsh — Ghostty</span><span class="os-win">PowerShell</span></div>
         <span class="newtab" aria-hidden="true">+</span>
         <div class="term-ctl" aria-hidden="true"><span>─</span><span>▢</span><span>✕</span></div>
       </div>
       <div class="term-body menu-body" aria-label="The palette menu">
         <div class="ln"><span class="menu-mark">&gt;_</span>  <span class="menu-name">Posh Palette</span></div>
         <div class="ln"><span class="menu-rule">──────────────────────────────────────────────</span></div>
-        <div class="ln"><span class="menu-hint">Style all 4 layers: scheme · PSReadLine · $PSStyle · prompt</span></div>
+        <div class="ln"><span class="menu-hint os-linux">Style all 4 layers: terminal · input · output · prompt</span><span class="menu-hint os-win">Style all 4 layers: scheme · PSReadLine · $PSStyle · prompt</span></div>
         <div class="ln">&nbsp;</div>
         <div class="ln"><span class="menu-mk">❯</span> <span class="menu-sel"> <span class="menu-key">[1]</span> <span class="menu-title">Simple mode</span>   <span class="menu-desc">Pick a full theme from a list </span></span></div>
         <div class="ln">   <span class="menu-key">[2]</span> <span class="menu-title">Detail mode</span>   <span class="menu-desc">Compose scheme, colors, prompt</span></div>
@@ -475,13 +515,18 @@
     <span class="kicker">Ship it</span>
     <h2>Style your shell in one command</h2>
     <div class="actions">
-      <div class="runpill">
+      <div class="runpill multi os-linux">
+        <span class="rp-cmd"><span class="pmt">$</span> <span class="cmd">git clone https://github.com/livlign/posh-palette</span><br><span class="pmt">$</span> <span class="cmd">posh-palette/linux/install.sh</span></span>
+        <button type="button" data-copy="git clone https://github.com/livlign/posh-palette &amp;&amp; posh-palette/linux/install.sh" aria-label="Copy Linux install commands"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
+      </div>
+      <div class="runpill os-win">
         <span class="rp-cmd"><span class="pmt">PS&gt;</span> <span class="cmd">Install-Module PoshPalette</span></span>
-        <button id="copyBtn2" type="button" aria-label="Copy install command"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
+        <button type="button" data-copy="Install-Module PoshPalette" aria-label="Copy install command"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span>copy</span></button>
       </div>
       <div class="ctas">
-        <a class="btn btn-primary" href="https://www.powershellgallery.com/packages/PoshPalette">Get it on the Gallery</a>
-        <a class="btn btn-ghost" href="https://github.com/livlign/posh-palette/blob/main/linux/README.md">On Linux? bash · zsh · fish</a>
+        <a class="btn btn-primary os-linux" href="https://github.com/livlign/posh-palette/blob/main/linux/README.md">Linux install guide</a>
+        <a class="btn btn-primary os-win" href="https://www.powershellgallery.com/packages/PoshPalette">Get it on the Gallery</a>
+        <a class="btn btn-ghost" href="themes.html">Browse 48 themes</a>
       </div>
     </div>
   </div>
@@ -496,19 +541,25 @@
     <a href="https://ohmyposh.dev">oh-my-posh</a>
     <a href="https://www.nerdfonts.com">Nerd Fonts</a>
   </div>
-  <div class="meta">built for the terminal · on the PowerShell Gallery · runs on Linux shells · MIT</div>
+  <div class="meta">built for the terminal · Linux shells &amp; the PowerShell Gallery · MIT</div>
 </footer>
 
 <script>
-  function copy(btn, text){
-    if(!btn) return;
+  document.querySelectorAll("[data-copy]").forEach(btn => {
     btn.addEventListener("click", async () => {
-      try{ await navigator.clipboard.writeText(text); const o = btn.textContent; btn.textContent = "copied ✓"; setTimeout(()=>btn.textContent=o,1400);}catch(e){}
+      try{ await navigator.clipboard.writeText(btn.dataset.copy); const o = btn.innerHTML; btn.textContent = "copied ✓"; setTimeout(()=>btn.innerHTML=o,1400);}catch(e){}
     });
-  }
-  copy(document.getElementById("copyBtn"), "Install-Module PoshPalette");
-  copy(document.getElementById("copyBtn2"), "Install-Module PoshPalette");
-  copy(document.getElementById("copyBtnLinux"), "git clone https://github.com/livlign/posh-palette && posh-palette/linux/install.sh");
+  });
+  const root = document.documentElement;
+  const pick = os => {
+    root.dataset.os = os;
+    document.querySelectorAll("[data-pick]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.pick === os)));
+  };
+  document.querySelectorAll("[data-pick]").forEach(b => b.addEventListener("click", () => {
+    pick(b.dataset.pick);
+    try{ localStorage.setItem("pp-os", b.dataset.pick); }catch(e){}
+  }));
+  pick(root.dataset.os);
 </script>
 </body>
 </html>
