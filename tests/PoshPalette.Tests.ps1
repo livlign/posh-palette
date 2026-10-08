@@ -220,3 +220,54 @@ Describe 'Version check' {
         (InModuleScope PoshPalette { Get-PoshPaletteUpdateAvailable }) | Should -BeNullOrEmpty
     }
 }
+
+Describe 'Nerd Font detection' {
+    # The doctor reads Windows font registry key names, which are the font *file*
+    # titles rather than the family - so the name matching is what decides whether
+    # an installed font is seen. Pure string logic, so it runs on every OS.
+
+    It 'recognises the squashed file titles a real install registers' {
+        $names = 'JetBrainsMonoNerdFont-Bold (TrueType)',
+                 'JetBrainsMonoNerdFontMono-Regular (TrueType)',
+                 'GeistMonoNFP-Regular (TrueType)',
+                 'CaskaydiaCoveNFM-BoldItalic (TrueType)'
+        foreach ($n in $names) {
+            InModuleScope PoshPalette -Parameters @{ n = $n } {
+                Test-PoshPaletteNerdFontName $n | Should -BeTrue -Because "'$n' is an installed Nerd Font"
+            }
+        }
+    }
+
+    It 'recognises the spaced family names some builds register' {
+        $names = 'FiraCode Nerd Font Mono (TrueType)',
+                 'JetBrainsMono NF (TrueType)',
+                 'CaskaydiaCove NFM Bold (TrueType)',
+                 'Hack NFP (TrueType)'
+        foreach ($n in $names) {
+            InModuleScope PoshPalette -Parameters @{ n = $n } {
+                Test-PoshPaletteNerdFontName $n | Should -BeTrue -Because "'$n' is an installed Nerd Font"
+            }
+        }
+    }
+
+    It 'does not mistake an ordinary font for a patched one' {
+        $names = 'Consolas (TrueType)',
+                 'Cascadia Code (TrueType)',
+                 'JetBrains Mono (TrueType)',          # the unpatched upstream font
+                 'MS Reference Sans Serif (TrueType)',
+                 'Franklin Gothic Medium Italic (TrueType)',
+                 'Nirmala UI Semilight (TrueType)'
+        foreach ($n in $names) {
+            InModuleScope PoshPalette -Parameters @{ n = $n } {
+                Test-PoshPaletteNerdFontName $n | Should -BeFalse -Because "'$n' carries no Nerd Font glyphs"
+            }
+        }
+    }
+
+    It 'reduces a key name to the family the doctor reports' {
+        InModuleScope PoshPalette {
+            Format-PoshPaletteFontFamily 'JetBrainsMonoNerdFont-Bold (TrueType)' | Should -Be 'JetBrainsMonoNerdFont'
+            Format-PoshPaletteFontFamily 'Hack NFP (OpenType)'                   | Should -Be 'Hack NFP'
+        }
+    }
+}
